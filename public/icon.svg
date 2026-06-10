@@ -1,8 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
-  <!-- Placeholder mark: open book with a leaf — replace with the final brand
-       before first release (see ROADMAP.md). -->
-  <rect width="96" height="96" rx="20" fill="#2e7d32"/>
-  <path d="M48 28c-6-5-16-7-24-6v40c8-1 18 1 24 6 6-5 16-7 24-6V22c-8-1-18 1-24 6z"
-        fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
-  <path d="M48 28v40" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Lukaisu brand mark: the LWT open-book logo (hiragana あ + Latin A) on a
+       white rounded square, matching the Android launcher icon. The white panel
+       keeps the navy mark legible on both light and dark connect screens. -->
+
+  <rect width="512" height="512" rx="104" fill="#FFFFFF"/>
+
+  <!-- Left page -->
+  <path d="M256 380
+           L256 115
+           C256 115 192 95 102 110
+           C90 112 82 122 82 134
+           L82 355
+           C82 367 90 377 102 375
+           C192 360 256 380 256 380 Z"
+        fill="#1565C0"/>
+
+  <!-- Right page -->
+  <path d="M256 380
+           L256 115
+           C256 115 320 95 410 110
+           C422 112 430 122 430 134
+           L430 355
+           C430 367 422 377 410 375
+           C320 360 256 380 256 380 Z"
+        fill="#0D47A1"/>
+
+  <!-- Hiragana あ on left page -->
+  <text x="170" y="275"
+        font-family="'Hiragino Kaku Gothic Pro', 'Yu Gothic', 'Noto Sans JP', sans-serif"
+        font-size="130"
+        font-weight="400"
+        fill="#FFFFFF"
+        text-anchor="middle">あ</text>
+
+  <!-- Latin A on right page -->
+  <text x="342" y="288"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="140"
+        font-weight="600"
+        fill="#FFFFFF"
+        text-anchor="middle">A</text>
 </svg>

@@ -7,8 +7,13 @@ android {
         applicationId "org.lukaisu.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        // Versioning scheme (keep in sync with package.json "version"):
+        //   versionName = semver "MAJOR.MINOR.PATCH"
+        //   versionCode = MAJOR*10000 + MINOR*100 + PATCH (monotonic; F-Droid
+        //                 and Play require it to strictly increase per release).
+        //   e.g. 0.2.0 -> 200, 0.2.1 -> 201, 1.0.0 -> 10000.
+        versionCode 200
+        versionName "0.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.

@@ -17,14 +17,24 @@ a configurable client, phases) lives in `lwt/ROADMAP.md` — read that first.
 
 - [x] **Lock the real brand + `applicationId`** — **Lukaisu** /
       `org.lukaisu.app` (lukaisu.org registered by the maintainer, 2026-06).
-- [ ] Real launcher icons (adaptive + maskable) from the final brand; replace
-      the placeholder `public/icon.svg` and default Capacitor mipmaps
-      (`@capacitor/assets` can generate from one 1024px source).
+- [x] Real launcher icons (adaptive + maskable) from the brand — the LWT
+      open-book mark (あ + A, navy on white). Source 1024px masters in `assets/`
+      (`icon-foreground`/`icon-background`/`icon-only`, `splash`/`splash-dark`),
+      generated into `android/res` with `@capacitor/assets generate --android`.
+      Replaced the placeholder `public/icon.svg` and the default Capacitor
+      mipmaps/teal-grid background. Regenerate: `npx @capacitor/assets generate
+      --android --iconBackgroundColor '#FFFFFF' --iconBackgroundColorDark
+      '#0D2440' --splashBackgroundColor '#FFFFFF' --splashBackgroundColorDark
+      '#0D2440'`.
 - [ ] On-device QA pass against a real server: login, registration, reading,
       review, audio playback, dictionary popups (`target=_blank` handling),
       Android back-button ergonomics inside the web app.
-- [ ] Splash screen polish (current: Capacitor default).
-- [ ] Decide `versionCode`/`versionName` scheme for releases.
+- [x] Splash screen polish — brand mark centered, light + dark (`drawable-night`)
+      variants, wired via the existing `AppTheme.NoActionBarLaunch` launch theme.
+- [x] Decide `versionCode`/`versionName` scheme — `versionName` = semver
+      "MAJOR.MINOR.PATCH"; `versionCode` = MAJOR*10000 + MINOR*100 + PATCH
+      (monotonic, F-Droid/Play-safe). Set to 0.2.0 / 200; documented in
+      `android/app/build.gradle` and kept in sync with `package.json`.
 
 ## v0.3 — release pipeline
 
