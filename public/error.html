@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Connection problem</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: Canvas;
+      color: CanvasText;
+      display: flex;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.5rem;
+    }
+    .box { max-width: 24rem; }
+    h1 { font-size: 1.3rem; }
+    p { opacity: 0.75; }
+    a.button {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: 10px;
+      background: #2e7d32;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Can't reach your LWT server</h1>
+    <p>The server didn't respond. Check your connection (or that the server is
+       up), then try again.</p>
+    <a class="button" href="/">Back to start</a>
+  </div>
+</body>
+</html>

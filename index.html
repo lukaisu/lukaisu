@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Language Reader</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="brand">
+      <img src="/icon.svg" alt="" class="brand-icon" width="72" height="72" />
+      <h1>Language Reader</h1>
+      <p class="tagline">Learn languages by reading — on your own LWT server.</p>
+    </header>
+
+    <!-- Server picker form -->
+    <form id="server-form" class="card" hidden>
+      <label for="server-input">LWT server address</label>
+      <input
+        id="server-input"
+        name="server"
+        type="url"
+        inputmode="url"
+        autocapitalize="off"
+        autocorrect="off"
+        spellcheck="false"
+        placeholder="https://lwt.example.org"
+        required
+      />
+      <p class="hint">
+        Your self-hosted <a href="https://github.com/HugoFara/lwt" target="_blank" rel="noopener">LWT</a>
+        server, or a public instance. You can type just a hostname — HTTPS is assumed.
+      </p>
+      <p id="form-error" class="error" role="alert" hidden></p>
+      <button id="connect-btn" type="submit">Connect</button>
+    </form>
+
+    <!-- Auto-connect status (saved server found at launch) -->
+    <section id="connecting" class="card" hidden>
+      <p class="status">
+        <span class="spinner" aria-hidden="true"></span>
+        Connecting to <strong id="connecting-server"></strong>…
+      </p>
+      <button id="change-server-btn" type="button" class="secondary">Change server</button>
+    </section>
+  </main>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

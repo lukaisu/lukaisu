@@ -1,0 +1,26 @@
+{
+  "name": "lwt-mobile",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Language Reader — a mobile client for self-hosted LWT (Learning with Texts) servers",
+  "license": "Unlicense",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
+    "sync": "npm run build && cap sync android",
+    "apk:debug": "npm run sync && cd android && ./gradlew assembleDebug",
+    "apk:release": "npm run sync && cd android && ./gradlew assembleRelease"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.4.0",
+    "@capacitor/core": "^8.4.0",
+    "@capacitor/preferences": "^8.0.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.4.0",
+    "typescript": "^5.6.0",
+    "vite": "^7.0.0"
+  }
+}
