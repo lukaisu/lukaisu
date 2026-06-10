@@ -15,8 +15,8 @@ a configurable client, phases) lives in `lwt/ROADMAP.md` — read that first.
 
 ## v0.2 — fit & finish (next)
 
-- [ ] **Lock the real brand + `applicationId`** — HARD GATE before any publish;
-      package name is permanent once released.
+- [x] **Lock the real brand + `applicationId`** — **Lukaisu** /
+      `org.lukaisu.app` (lukaisu.org registered by the maintainer, 2026-06).
 - [ ] Real launcher icons (adaptive + maskable) from the final brand; replace
       the placeholder `public/icon.svg` and default Capacitor mipmaps
       (`@capacitor/assets` can generate from one 1024px source).

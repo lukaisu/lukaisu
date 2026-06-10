@@ -1,8 +1,8 @@
-# Language Reader (lwt-mobile)
+# Lukaisu
 
-> **Codename.** "Language Reader" / `org.lwt_online.reader` are placeholders.
-> The Android `applicationId` is **permanent once published** to F-Droid/Play —
-> lock the final brand and package name **before the first release**.
+**Lukaisu** (Finnish: *a quick read-through*) — `org.lukaisu.app`, named after
+[lukaisu.org](https://lukaisu.org). The brand and `applicationId` are final
+(the Android package name is permanent once published).
 
 A mobile client for **[LWT — Learning with Texts](https://github.com/HugoFara/lwt)**,
 the self-hosted web app for learning languages by reading. Point the app at an

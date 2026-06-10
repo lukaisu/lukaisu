@@ -1,5 +1,5 @@
 /**
- * Connect shell for the Language Reader app.
+ * Connect shell for the Lukaisu app.
  *
  * The app is a thin Capacitor shell over the system WebView: this screen lets
  * the user pick an LWT server, validates it by probing the public

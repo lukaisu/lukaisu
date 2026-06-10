@@ -1,4 +1,4 @@
-package org.lwt_online.reader;
+package org.lukaisu.app;
 
 import com.getcapacitor.BridgeActivity;
 

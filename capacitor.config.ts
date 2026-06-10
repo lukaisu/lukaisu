@@ -1,14 +1,13 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 /**
- * ⚠️ appId is a PLACEHOLDER CODENAME. The Android applicationId is permanent
- * once published to F-Droid/Play — lock the final brand + package name BEFORE
- * the first release (see ROADMAP.md). Derived from lwt-online.org, which the
- * maintainer controls (hyphens are not valid in package names → underscore).
+ * appId is FINAL: reverse-DNS of lukaisu.org (registered by the maintainer,
+ * 2026-06). The Android applicationId is permanent once published to
+ * F-Droid/Play — do not change it.
  */
 const config: CapacitorConfig = {
-  appId: 'org.lwt_online.reader',
-  appName: 'Language Reader',
+  appId: 'org.lukaisu.app',
+  appName: 'Lukaisu',
   webDir: 'dist',
   server: {
     androidScheme: 'https',

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Language Reader</string>
-    <string name="title_activity_main">Language Reader</string>
-    <string name="package_name">org.lwt_online.reader</string>
-    <string name="custom_url_scheme">org.lwt_online.reader</string>
+    <string name="app_name">Lukaisu</string>
+    <string name="title_activity_main">Lukaisu</string>
+    <string name="package_name">org.lukaisu.app</string>
+    <string name="custom_url_scheme">org.lukaisu.app</string>
 </resources>
