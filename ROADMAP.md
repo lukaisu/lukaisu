@@ -1,4 +1,4 @@
-# lwt-mobile roadmap
+# Lukaisu roadmap
 
 Build-focused roadmap for the app. Ecosystem strategy (why F-Droid first, why
 a configurable client, phases) lives in `lwt/ROADMAP.md` — read that first.
