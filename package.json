@@ -11,7 +11,11 @@
     "typecheck": "tsc --noEmit",
     "sync": "npm run build && cap sync android",
     "apk:debug": "npm run sync && cd android && ./gradlew assembleDebug",
-    "apk:release": "npm run sync && cd android && ./gradlew assembleRelease"
+    "apk:release": "npm run sync && cd android && ./gradlew assembleRelease",
+    "build:webapp": "cd ../lwt && npm run build:app",
+    "pull:webapp": "node scripts/pull-webapp.mjs",
+    "sync:model-b": "npm run build:webapp && npm run pull:webapp && cap sync android",
+    "apk:debug:model-b": "npm run sync:model-b && cd android && ./gradlew assembleDebug"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.0",

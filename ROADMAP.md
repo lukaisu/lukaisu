@@ -39,14 +39,40 @@ a configurable client, phases) lives in `lwt/ROADMAP.md` — read that first.
 - [ ] Then: submission to the main F-Droid catalog (expect the "requires
       server" anti-feature note).
 
+## v0.4 — bundled client (Model B, in progress)
+
+The current shipping app (Model A) navigates the WebView to the remote server,
+so most pages are server-rendered. Model B instead **bundles the LWT frontend**
+(connect → library → reader) into the APK as static pages that boot against a
+remote `/api/v1` with no PHP in the loop. lwt Phase 1 (shell-free reader/library
++ client i18n) unblocked this.
+
+**How it's built** — the bundled pages are produced in the `lwt` repo (its
+`npm run build:app` → `lwt/dist-app/`, a new Vite "app" mode that prerenders the
+real PHP views into static HTML so the Alpine scaffolds never drift). This app
+consumes that output:
+
+```bash
+npm run sync:model-b        # build lwt's app, copy into dist/, cap sync
+npm run apk:debug:model-b   # …and assemble the debug APK
+# back to Model A: npm run build (rebuilds the connect shell into dist/)
+```
+
+- [x] First vertical slice: connect (login/register, bearer token) → library
+      (text list, language switcher) → reader (word grid, popups). Auth + server
+      URL persist in localStorage; in-app links route locally for bundled pages
+      and fall back to the remote server's web UI for everything else (edit,
+      review, imports).
+- [ ] **CORS is now mandatory** (was optional under Model A): the bundle's
+      origin is cross-origin to every server, so each server must set
+      `CORS_ALLOWED_ORIGINS=https://localhost` (the Android `https` scheme
+      origin). Surface this in the connect screen's error copy and onboarding.
+- [ ] Bundle the **review** surface (adds audio/sound assets + its config flow)
+      and a client-rendered global navbar (still PHP-rendered upstream).
+- [ ] On-device QA of the bundled slice against a real server.
+
 ## Later — toward a local-first client (blocked on lwt Phase 1)
 
-- [ ] Bundle the LWT frontend (reading + review surfaces) into the APK once
-      they run shell-free against `/api/v1` with client-side i18n
-      (`lwt/ROADMAP.md` Phase 1). The connect screen already mirrors the
-      server's `/connect` component (`client_auth.ts`) to ease that migration;
-      at that point API calls become cross-origin and servers must set
-      `CORS_ALLOWED_ORIGINS=https://localhost`.
 - [ ] Offline cache / sync — gated on `lwt` Phase 4 (conflict-resolution spike
       first; see the "sync is the underestimated monster" watch-out).
 - [ ] Play Store variant with a default public instance — gated on `lwt`
