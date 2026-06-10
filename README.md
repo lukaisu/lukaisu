@@ -10,7 +10,7 @@ LWT server — your own self-hosted instance, or a public one — and read and
 review on your phone. The same pattern as the Nextcloud mobile client: a free
 client for a self-hostable free server.
 
-Targets **F-Droid first**, Play Store later. Public domain ([Unlicense](LICENSE)).
+Targets **F-Droid first**, Play Store later. [MIT licensed](LICENSE).
 
 ## How it works
 

@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "description": "Language Reader — a mobile client for self-hosted LWT (Learning with Texts) servers",
-  "license": "Unlicense",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",

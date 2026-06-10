@@ -14,7 +14,7 @@
  * `fetch`, where the probe DOES need the server to allow this origin via
  * `CORS_ALLOWED_ORIGINS` — dev-only caveat.
  *
- * @license Unlicense <http://unlicense.org/>
+ * @license MIT
  */
 
 import { CapacitorHttp } from '@capacitor/core';
