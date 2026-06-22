@@ -26,9 +26,12 @@ a configurable client, phases) lives in `lwt/ROADMAP.md` — read that first.
       --android --iconBackgroundColor '#FFFFFF' --iconBackgroundColorDark
       '#0D2440' --splashBackgroundColor '#FFFFFF' --splashBackgroundColorDark
       '#0D2440'`.
-- [ ] On-device QA pass against a real server: login, registration, reading,
-      review, audio playback, dictionary popups (`target=_blank` handling),
-      Android back-button ergonomics inside the web app.
+- [x] On-device QA pass against a real server (2026-06-11): login, registration,
+      reading, review, audio playback, dictionary popups (`target=_blank`), and
+      Android back-button ergonomics all verified. Two blockers found + fixed
+      (word popover off-screen → lwt `bcd454520`; hardware Back → `0ed089b`).
+      One known follow-up: back at the *server root* still exits the app (the
+      connect-shell→server nav leaves no WebView back-entry).
 - [x] Splash screen polish — brand mark centered, light + dark (`drawable-night`)
       variants, wired via the existing `AppTheme.NoActionBarLaunch` launch theme.
 - [x] Decide `versionCode`/`versionName` scheme — `versionName` = semver
@@ -38,14 +41,20 @@ a configurable client, phases) lives in `lwt/ROADMAP.md` — read that first.
 
 ## v0.3 — release pipeline
 
-- [ ] Release signing config (keystore kept out of the repo).
-- [ ] Reproducible-build hygiene: pin Gradle/AGP/Node versions, document the
-      exact build environment (F-Droid needs `Builds:` metadata that rebuilds
-      bit-for-bit or at least deterministically).
-- [ ] Stand up **our own F-Droid repo** (fdroidserver, static hosting) and
-      publish a signed release there.
-- [ ] Fastlane metadata (`fastlane/metadata/android/`): description,
-      screenshots, changelogs — F-Droid reads these.
+See `FDROID.md` for the full runbook (exact commands).
+
+- [x] Release signing config wired (`android/app/build.gradle` reads a keystore
+      from `keystore.properties`/env, gitignored, with an unsigned fallback;
+      `keystore.properties.sample` documents it). **Remaining (manual):** create
+      + back up the actual release keystore (`keytool`), then `npm run apk:release`.
+- [x] Removed the unused Google Mobile Services plugin from the Gradle build
+      (no push notifications) — keeps the build fully FOSS for F-Droid's scanner.
+- [~] Reproducible-build hygiene: Gradle/AGP/Node/JDK/SDK versions are pinned and
+      documented (`FDROID.md`). Bit-for-bit verification still to confirm.
+- [ ] Stand up **our own F-Droid repo** (fdroidserver, static hosting on the VPS
+      Caddy — e.g. `fdroid.lukaisu.org`) and publish the signed release there.
+- [~] Fastlane metadata (`fastlane/metadata/android/en-US/`): title, descriptions,
+      changelog, and icon done. **Remaining:** phone screenshots.
 - [ ] Then: submission to the main F-Droid catalog (expect the "requires
       server" anti-feature note).
 

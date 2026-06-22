@@ -1,8 +1,33 @@
 apply plugin: 'com.android.application'
 
+// --- Release signing (keys kept out of the repo) ---
+// Credentials come from android/keystore.properties (gitignored) or, when that
+// file is absent, from environment variables (handy for CI). When neither is
+// present the release build is left unsigned, so debug builds and key-less
+// contributors still work. See keystore.properties.sample and FDROID.md.
+def keystorePropsFile = rootProject.file("keystore.properties")
+def keystoreProps = new Properties()
+if (keystorePropsFile.exists()) {
+    keystoreProps.load(new FileInputStream(keystorePropsFile))
+}
+ext.signingValue = { String propKey, String envKey ->
+    keystoreProps.getProperty(propKey) ?: System.getenv(envKey)
+}
+def releaseStorePath = signingValue('storeFile', 'LUKAISU_KEYSTORE_FILE')
+
 android {
     namespace = "org.lukaisu.app"
     compileSdk = rootProject.ext.compileSdkVersion
+    signingConfigs {
+        release {
+            if (releaseStorePath) {
+                storeFile file(releaseStorePath)
+                storePassword signingValue('storePassword', 'LUKAISU_KEYSTORE_PASSWORD')
+                keyAlias signingValue('keyAlias', 'LUKAISU_KEY_ALIAS')
+                keyPassword signingValue('keyPassword', 'LUKAISU_KEY_PASSWORD')
+            }
+        }
+    }
     defaultConfig {
         applicationId "org.lukaisu.app"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -23,6 +48,11 @@ android {
     }
     buildTypes {
         release {
+            // Only attach the signing config when a keystore was provided —
+            // otherwise assembleRelease still runs and emits an unsigned APK.
+            if (releaseStorePath) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -48,12 +78,3 @@ dependencies {
 }
 
 apply from: 'capacitor.build.gradle'
-
-try {
-    def servicesJSON = file('google-services.json')
-    if (servicesJSON.text) {
-        apply plugin: 'com.google.gms.google-services'
-    }
-} catch(Exception e) {
-    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
-}

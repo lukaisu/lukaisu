@@ -8,7 +8,9 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.13.0'
-        classpath 'com.google.gms:google-services:4.4.4'
+        // No Google Mobile Services: the app uses no push notifications and
+        // ships no google-services.json. Keeping the GMS plugin out of the
+        // build keeps it fully FOSS and avoids F-Droid's non-free-net flag.
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
