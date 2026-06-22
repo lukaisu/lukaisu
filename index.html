@@ -17,21 +17,36 @@
 
     <!-- Server picker form -->
     <form id="server-form" class="card" hidden>
-      <label for="server-input">LWT server address</label>
+      <div class="toggle-row">
+        <span class="toggle-label" id="official-label">Use the official server</span>
+        <label class="switch">
+          <input
+            type="checkbox"
+            id="official-toggle"
+            role="switch"
+            aria-labelledby="official-label"
+            checked
+          />
+          <span class="switch-track" aria-hidden="true"></span>
+        </label>
+      </div>
+
+      <label for="server-input">LWT server</label>
       <input
         id="server-input"
         name="server"
-        type="url"
+        type="text"
         inputmode="url"
         autocapitalize="off"
         autocorrect="off"
         spellcheck="false"
-        placeholder="https://lwt.example.org"
+        placeholder="lwt.example.org"
         required
+        readonly
       />
-      <p class="hint">
-        Your self-hosted <a href="https://github.com/HugoFara/lwt" target="_blank" rel="noopener">LWT</a>
-        server, or a public instance. You can type just a hostname — HTTPS is assumed.
+      <p class="hint" id="server-hint">
+        Connect to the public <a href="https://lwt-online.org" target="_blank" rel="noopener">LWT</a>
+        server at lwt-online.org.
       </p>
       <p id="form-error" class="error" role="alert" hidden></p>
       <button id="connect-btn" type="submit">Connect</button>

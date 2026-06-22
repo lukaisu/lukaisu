@@ -24,6 +24,18 @@ import { Preferences } from '@capacitor/preferences';
 const SERVER_KEY = 'serverUrl';
 
 /**
+ * The official public LWT server, suggested first. When the "Use the official
+ * server" switch is on, the address field shows this value read-only; turning
+ * the switch off makes the field editable for a self-hosted/custom server.
+ */
+const OFFICIAL_SERVER = 'https://lwt-online.org';
+
+const OFFICIAL_HINT = 'Connect to the public LWT server at lwt-online.org.';
+const CUSTOM_HINT =
+  'Your own self-hosted LWT server, or another public instance. '
+  + 'You can type just a hostname — HTTPS is assumed.';
+
+/**
  * Per-WebView-session guard: set just before navigating to the server, so
  * that backing out of the remote app into this shell does not immediately
  * auto-connect forward again (which would make "back" an infinite loop).
@@ -32,6 +44,8 @@ const AUTO_CONNECTED_FLAG = 'lwt.autoConnected';
 
 const form = document.getElementById('server-form') as HTMLFormElement;
 const input = document.getElementById('server-input') as HTMLInputElement;
+const officialToggle = document.getElementById('official-toggle') as HTMLInputElement;
+const serverHint = document.getElementById('server-hint') as HTMLParagraphElement;
 const connectBtn = document.getElementById('connect-btn') as HTMLButtonElement;
 const formError = document.getElementById('form-error') as HTMLParagraphElement;
 const connecting = document.getElementById('connecting') as HTMLElement;
@@ -39,6 +53,9 @@ const connectingServer = document.getElementById('connecting-server') as HTMLEle
 const changeServerBtn = document.getElementById('change-server-btn') as HTMLButtonElement;
 
 let autoConnectAborted = false;
+
+/** Last address typed in custom mode, restored when the switch is turned off. */
+let customDraft = '';
 
 /**
  * Trim, drop trailing slashes, and default the scheme to https so the user
@@ -92,14 +109,45 @@ async function enterServer(server: string): Promise<void> {
   window.location.href = server + '/';
 }
 
+/**
+ * Switch the form between official (field read-only, pinned to the official
+ * server) and custom (field editable, restored to the user's draft) modes.
+ */
+function setMode(official: boolean): void {
+  officialToggle.checked = official;
+  input.readOnly = official;
+  serverHint.textContent = official ? OFFICIAL_HINT : CUSTOM_HINT;
+  if (official) {
+    input.value = OFFICIAL_SERVER;
+  } else {
+    input.value = customDraft;
+    input.focus();
+  }
+  formError.hidden = true;
+}
+
+/** Show an inline error without disturbing the current mode or field value. */
+function showError(message: string): void {
+  formError.textContent = message;
+  formError.hidden = false;
+  connectBtn.disabled = false;
+}
+
 function showForm(prefill: string, error = ''): void {
   connecting.hidden = true;
   form.hidden = false;
-  input.value = prefill;
+  // An empty or official prefill defaults to the suggested official server;
+  // anything else is treated as a previously chosen custom server.
+  if (prefill === '' || prefill === OFFICIAL_SERVER) {
+    customDraft = '';
+    setMode(true);
+  } else {
+    customDraft = prefill;
+    setMode(false);
+  }
   formError.textContent = error;
   formError.hidden = error === '';
   connectBtn.disabled = false;
-  input.focus();
 }
 
 const UNREACHABLE =
@@ -110,10 +158,15 @@ async function submitForm(event: Event): Promise<void> {
   event.preventDefault();
   const server = normalizeServerUrl(input.value);
   if (server === '') {
-    showForm('', 'Please enter a server address.');
+    showError('Please enter a server address.');
+    input.focus();
     return;
   }
-  input.value = server;
+  // Reflect the normalized address (e.g. an added https://) back to the field
+  // in custom mode; official mode keeps its pinned, read-only value.
+  if (!officialToggle.checked) {
+    input.value = server;
+  }
   connectBtn.disabled = true;
   formError.hidden = true;
 
@@ -121,12 +174,21 @@ async function submitForm(event: Event): Promise<void> {
     await enterServer(server);
     return;
   }
-  showForm(server, UNREACHABLE);
+  showError(UNREACHABLE);
+  input.focus();
 }
 
 /** Launch: saved server → probe + auto-enter; otherwise show the picker. */
 async function start(): Promise<void> {
   form.addEventListener('submit', (e) => void submitForm(e));
+  officialToggle.addEventListener('change', () => {
+    // Preserve whatever was typed in custom mode before pinning the official
+    // server, so toggling back restores it.
+    if (officialToggle.checked) {
+      customDraft = input.value;
+    }
+    setMode(officialToggle.checked);
+  });
   changeServerBtn.addEventListener('click', () => {
     autoConnectAborted = true;
     showForm(connectingServer.textContent || '');

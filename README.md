@@ -17,9 +17,12 @@ Targets **F-Droid first**, Play Store later. [MIT licensed](LICENSE).
 The app is a thin [Capacitor](https://capacitorjs.com/) shell over the
 **system WebView** (no Chrome dependency — works on de-Googled phones):
 
-1. A small bundled **connect screen** asks for your LWT server address and
-   validates it by probing the public `GET /api/v1/version` endpoint over
-   native HTTP (so no CORS setup is needed on the server).
+1. A small bundled **connect screen** suggests the official public server
+   ([lwt-online.org](https://lwt-online.org)) by default; turning off the
+   "Use the official server" switch lets you type any other address (the
+   `https://` is optional). It validates the choice by probing the public
+   `GET /api/v1/version` endpoint over native HTTP (so no CORS setup is
+   needed on the server).
 2. The choice is persisted natively; the WebView then navigates to the server.
 3. From there you are using the LWT web app **same-origin on its own server**:
    login/registration (the server's `/connect` flow), bearer-token persistence,
