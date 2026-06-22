@@ -13,6 +13,12 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:background">@null</item>
+        <!-- Edge-to-edge: the WebView draws under the status bar, so the LWT
+             navbar's (light) background shows behind it. Use dark status-bar
+             icons in light mode for contrast; values-night flips this to light
+             icons over the dark navbar. DayNight picks the right one to match
+             the system theme, which LWT's web theme also follows. -->
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Night override of the app theme. Only the status-bar icon contrast
+         differs from values/styles.xml: in dark mode the LWT navbar behind the
+         (edge-to-edge) status bar is dark, so the status-bar icons must be
+         light. Everything else is inherited from the day theme. -->
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:background">@null</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+</resources>
