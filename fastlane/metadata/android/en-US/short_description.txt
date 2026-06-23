@@ -1,1 +1,1 @@
-Read and review languages on your phone from your own LWT server.
+Learn languages by reading. Fully offline; an LWT server is optional.

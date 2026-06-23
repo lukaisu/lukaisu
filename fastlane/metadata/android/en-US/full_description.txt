@@ -1,15 +1,21 @@
-Lukaisu (Finnish: "a quick read-through") is a mobile client for LWT — Learning with Texts, the self-hosted web app for learning languages by reading.
+Lukaisu (Finnish: "a quick read-through") is an app for learning languages by reading, in the tradition of LWT — Learning with Texts.
 
-Point the app at an LWT server — your own self-hosted instance, or a public one — and read and review on your phone. It is the same pattern as the Nextcloud mobile client: a free client for a self-hostable free server.
+Lukaisu is local-first: it works fully offline, with no account and no server. Add a language, paste in a text, and read it with every word colour-coded by how well you know it. Tap a word to save a translation, then practise your vocabulary with built-in spaced repetition. Everything is stored on your device.
 
-The app is a thin shell over your phone's system WebView (no Chrome dependency, so it works on de-Googled phones). A small bundled connect screen asks for your LWT server address and validates it before opening it. Your choice is remembered, so relaunching takes you straight back in.
+A fresh install comes with a few starter languages and sample texts, so you can begin reading straight away.
+
+Connecting an LWT server is optional. When you connect one, Lukaisu lights up server-powered extras: high-quality word splitting for Chinese and Japanese, text-to-speech, audio transcription, and discovering new texts to read online.
+
+The app is a thin shell over your phone's system WebView (no Chrome dependency), so it runs on de-Googled phones. No Google account, no Google Play Services, no tracking.
 
 FEATURES
-* Connect to any LWT server (3.x or newer) by URL.
-* Read texts with tap-to-look-up words and status colours.
-* Review your vocabulary.
-* Audio playback for texts that have it.
-* Works with plain-HTTP servers on your LAN.
+* Read texts with tap-to-look-up words and word-status colours.
+* Save words and review them with spaced repetition — fully offline.
+* Create your own languages, or start from a built-in preset.
+* Paste in your own texts; a few sample texts are included to start.
+* Right-to-left languages such as Arabic and Hebrew work offline.
+* Optional: connect an LWT server for Chinese/Japanese word splitting, text-to-speech, transcription and online text discovery.
+* Works with plain-HTTP LWT servers on your LAN.
 
 REQUIREMENTS
-You need access to an LWT server — this is a client, not a standalone app. LWT is free and self-hostable (see the LWT project). No Google account, no Google Play Services, no tracking.
+None. Lukaisu works on its own — no account, no server, no internet connection required. Connecting an LWT server (free and self-hostable) is optional and unlocks the extras above.
