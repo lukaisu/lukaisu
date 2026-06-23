@@ -2,12 +2,13 @@
  * Connect shell for the Lukaisu app.
  *
  * The app is a thin Capacitor shell over the system WebView: this screen lets
- * the user pick an LWT server, validates it by probing the public
+ * the user pick a Lukaisu Server, validates it by probing the public
  * `GET /api/v1/version` endpoint, persists the choice natively, then navigates
- * the WebView to the server itself. From that point the remote LWT web app is
- * same-origin with its own server — its `/connect` auth flow, bearer-token
- * persistence, proactive refresh, and `lwt:auth-expired` handling all apply
- * unchanged, and no CORS configuration is required on the server.
+ * the WebView to the server itself. From that point the remote Lukaisu Server
+ * web app is same-origin with its own server — its `/connect` auth flow,
+ * bearer-token persistence, proactive refresh, and `lukaisu:auth-expired`
+ * handling all apply unchanged, and no CORS configuration is required on the
+ * server.
  *
  * The probe uses CapacitorHttp (native transport), so it is not subject to
  * CORS either. In a plain browser (`npm run dev`) CapacitorHttp falls back to
@@ -24,15 +25,16 @@ import { Preferences } from '@capacitor/preferences';
 const SERVER_KEY = 'serverUrl';
 
 /**
- * The official public LWT server, suggested first. When the "Use the official
- * server" switch is on, the address field shows this value read-only; turning
- * the switch off makes the field editable for a self-hosted/custom server.
+ * The official public Lukaisu Server, suggested first. When the "Use the
+ * official server" switch is on, the address field shows this value read-only;
+ * turning the switch off makes the field editable for a self-hosted/custom
+ * server.
  */
-const OFFICIAL_SERVER = 'https://lwt-online.org';
+const OFFICIAL_SERVER = 'https://lukaisu.org';
 
-const OFFICIAL_HINT = 'Connect to the public LWT server at lwt-online.org.';
+const OFFICIAL_HINT = 'Connect to the public Lukaisu Server at lukaisu.org.';
 const CUSTOM_HINT =
-  'Your own self-hosted LWT server, or another public instance. '
+  'Your own self-hosted Lukaisu Server, or another public instance. '
   + 'You can type just a hostname — HTTPS is assumed.';
 
 /**
@@ -40,7 +42,7 @@ const CUSTOM_HINT =
  * that backing out of the remote app into this shell does not immediately
  * auto-connect forward again (which would make "back" an infinite loop).
  */
-const AUTO_CONNECTED_FLAG = 'lwt.autoConnected';
+const AUTO_CONNECTED_FLAG = 'lukaisu.autoConnected';
 
 const form = document.getElementById('server-form') as HTMLFormElement;
 const input = document.getElementById('server-input') as HTMLInputElement;
@@ -60,7 +62,7 @@ let customDraft = '';
 /**
  * Trim, drop trailing slashes, and default the scheme to https so the user
  * can type just a hostname. Same rules as the server-side `/connect` flow
- * (`client_auth.ts` in the lwt repo) — keep them in sync.
+ * (`client_auth.ts` in the lukaisu-server repo) — keep them in sync.
  */
 export function normalizeServerUrl(raw: string): string {
   let value = raw.trim().replace(/\/+$/, '');
@@ -75,8 +77,8 @@ interface VersionResponse {
 }
 
 /**
- * Probe `server/api/v1/version` to confirm the address is a reachable LWT
- * server. Native HTTP on device (no CORS); fetch fallback in a browser.
+ * Probe `server/api/v1/version` to confirm the address is a reachable Lukaisu
+ * Server. Native HTTP on device (no CORS); fetch fallback in a browser.
  */
 async function probeServer(server: string): Promise<boolean> {
   try {
@@ -151,8 +153,8 @@ function showForm(prefill: string, error = ''): void {
 }
 
 const UNREACHABLE =
-  'Could not reach an LWT server at that address. Check the URL and that the '
-  + 'server is online (LWT 3.x or newer).';
+  'Could not reach a Lukaisu Server at that address. Check the URL and that '
+  + 'the server is online.';
 
 async function submitForm(event: Event): Promise<void> {
   event.preventDefault();

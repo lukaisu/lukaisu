@@ -1,7 +1,8 @@
 # Lukaisu roadmap
 
 Build-focused roadmap for the app. Ecosystem strategy (why F-Droid first, why
-a configurable client, phases) lives in `lwt/ROADMAP.md` — read that first.
+a configurable client, phases) lives in the upstream `lwt/ROADMAP.md` — read
+that first.
 
 ## v0.1 — working shell (done)
 
@@ -17,7 +18,7 @@ a configurable client, phases) lives in `lwt/ROADMAP.md` — read that first.
 
 - [x] **Lock the real brand + `applicationId`** — **Lukaisu** /
       `org.lukaisu.app` (lukaisu.org registered by the maintainer, 2026-06).
-- [x] Real launcher icons (adaptive + maskable) from the brand — the LWT
+- [x] Real launcher icons (adaptive + maskable) from the brand — the Lukaisu
       open-book mark (あ + A, navy on white). Source 1024px masters in `assets/`
       (`icon-foreground`/`icon-background`/`icon-only`, `splash`/`splash-dark`),
       generated into `android/res` with `@capacitor/assets generate --android`.
@@ -61,18 +62,18 @@ See `FDROID.md` for the full runbook (exact commands).
 ## v0.4 — bundled client (Model B, in progress)
 
 The current shipping app (Model A) navigates the WebView to the remote server,
-so most pages are server-rendered. Model B instead **bundles the LWT frontend**
-(connect → library → reader) into the APK as static pages that boot against a
-remote `/api/v1` with no PHP in the loop. lwt Phase 1 (shell-free reader/library
-+ client i18n) unblocked this.
+so most pages are server-rendered. Model B instead **bundles the Lukaisu Server
+frontend** (connect → library → reader) into the APK as static pages that boot
+against a remote `/api/v1` with no PHP in the loop. The upstream lwt Phase 1
+(shell-free reader/library + client i18n) unblocked this.
 
-**How it's built** — the bundled pages are produced in the `lwt` repo (its
-`npm run build:app` → `lwt/dist-app/`, a new Vite "app" mode that prerenders the
-real PHP views into static HTML so the Alpine scaffolds never drift). This app
-consumes that output:
+**How it's built** — the bundled pages are produced in the `lukaisu-server` repo
+(its `npm run build:app` → `lukaisu-server/dist-app/`, a Vite "app" mode that
+prerenders the real PHP views into static HTML so the Alpine scaffolds never
+drift). This app consumes that output:
 
 ```bash
-npm run sync:model-b        # build lwt's app, copy into dist/, cap sync
+npm run sync:model-b        # build lukaisu-server's app, copy into dist/, cap sync
 npm run apk:debug:model-b   # …and assemble the debug APK
 # back to Model A: npm run build (rebuilds the connect shell into dist/)
 ```

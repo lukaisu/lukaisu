@@ -2,6 +2,6 @@ v0.2.0 — first F-Droid release.
 
 * Locked brand and package name (Lukaisu / org.lukaisu.app).
 * Brand launcher icons and splash screen (light and dark).
-* Connect screen: validate an LWT server by URL, then open it.
+* Connect screen: validate a Lukaisu Server by URL, then open it.
 * On-screen word popover and a left-drawer navbar tuned for phones.
 * Hardware Back navigates the in-app history.

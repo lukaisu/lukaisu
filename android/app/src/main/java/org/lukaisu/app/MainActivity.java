@@ -8,7 +8,7 @@ import com.getcapacitor.BridgeActivity;
 /**
  * Drive the hardware Back button off the WebView's own history.
  *
- * The remote LWT pages this app navigates to do not carry the Capacitor JS
+ * The remote Lukaisu Server pages this app navigates to do not carry the Capacitor JS
  * bridge, so Capacitor's own back handling cannot dispatch to the page and ends
  * up exiting the app even when the WebView has somewhere to go back to (an open
  * menu drawer, or the connect screen one step back).

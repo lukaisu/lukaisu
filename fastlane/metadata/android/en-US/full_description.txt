@@ -4,7 +4,7 @@ Lukaisu is local-first: it works fully offline, with no account and no server. A
 
 A fresh install comes with a few starter languages and sample texts, so you can begin reading straight away.
 
-Connecting an LWT server is optional. When you connect one, Lukaisu lights up server-powered extras: high-quality word splitting for Chinese and Japanese, text-to-speech, audio transcription, and discovering new texts to read online.
+Connecting a Lukaisu Server is optional. When you connect one, Lukaisu lights up server-powered extras: high-quality word splitting for Chinese and Japanese, text-to-speech, audio transcription, and discovering new texts to read online.
 
 The app is a thin shell over your phone's system WebView (no Chrome dependency), so it runs on de-Googled phones. No Google account, no Google Play Services, no tracking.
 
@@ -14,8 +14,8 @@ FEATURES
 * Create your own languages, or start from a built-in preset.
 * Paste in your own texts; a few sample texts are included to start.
 * Right-to-left languages such as Arabic and Hebrew work offline.
-* Optional: connect an LWT server for Chinese/Japanese word splitting, text-to-speech, transcription and online text discovery.
-* Works with plain-HTTP LWT servers on your LAN.
+* Optional: connect a Lukaisu Server for Chinese/Japanese word splitting, text-to-speech, transcription and online text discovery.
+* Works with plain-HTTP Lukaisu Server instances on your LAN.
 
 REQUIREMENTS
-None. Lukaisu works on its own — no account, no server, no internet connection required. Connecting an LWT server (free and self-hostable) is optional and unlocks the extras above.
+None. Lukaisu works on its own — no account, no server, no internet connection required. Connecting a Lukaisu Server (free and self-hostable) is optional and unlocks the extras above.

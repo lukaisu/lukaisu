@@ -1,1 +1,1 @@
-Learn languages by reading. Fully offline; an LWT server is optional.
+Learn languages by reading. Fully offline; a Lukaisu Server is optional.

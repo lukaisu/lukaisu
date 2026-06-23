@@ -4,9 +4,9 @@
 [lukaisu.org](https://lukaisu.org). The brand and `applicationId` are final
 (the Android package name is permanent once published).
 
-A mobile client for **[LWT — Learning with Texts](https://github.com/HugoFara/lwt)**,
-the self-hosted web app for learning languages by reading. Point the app at an
-LWT server — your own self-hosted instance, or a public one — and read and
+The official mobile client for **[Lukaisu Server](https://github.com/lukaisu/lukaisu-server)**,
+the self-hosted web app for learning languages by reading. Point the app at a
+Lukaisu Server — your own self-hosted instance, or a public one — and read and
 review on your phone. The same pattern as the Nextcloud mobile client: a free
 client for a self-hostable free server.
 
@@ -18,29 +18,30 @@ The app is a thin [Capacitor](https://capacitorjs.com/) shell over the
 **system WebView** (no Chrome dependency — works on de-Googled phones):
 
 1. A small bundled **connect screen** suggests the official public server
-   ([lwt-online.org](https://lwt-online.org)) by default; turning off the
+   ([lukaisu.org](https://lukaisu.org)) by default; turning off the
    "Use the official server" switch lets you type any other address (the
    `https://` is optional). It validates the choice by probing the public
    `GET /api/v1/version` endpoint over native HTTP (so no CORS setup is
    needed on the server).
 2. The choice is persisted natively; the WebView then navigates to the server.
-3. From there you are using the LWT web app **same-origin on its own server**:
+3. From there you are using the Lukaisu Server web app **same-origin on its own server**:
    login/registration (the server's `/connect` flow), bearer-token persistence,
    proactive token refresh, and session-expiry handling are all provided by the
    server's frontend. Relaunching the app skips straight back in.
 4. Backing all the way out of the web app returns to the connect screen, where
    you can switch servers.
 
-This is deliberately the "window to a server" model: LWT still renders most
-pages server-side, so a fully offline client is not possible yet. As the LWT
-frontend de-couples (Phase 1 in `lwt/ROADMAP.md`), this shell is positioned to
-grow into a bundled local-first app — the connect screen already mirrors the
-server's client-auth flow.
+This is deliberately the "window to a server" model: Lukaisu Server still
+renders most pages server-side, so a fully offline client is not possible yet.
+As the Lukaisu Server frontend de-couples (Phase 1 in the upstream
+`lwt/ROADMAP.md`), this shell is positioned to grow into a bundled local-first
+app — the connect screen already mirrors the server's client-auth flow.
 
 ## Server requirements
 
-- LWT **3.x or newer** (needs `/api/v1/version`; for multi-user login, the
-  `/connect` flow shipped in 3.1.x).
+- A **Lukaisu Server** (needs `/api/v1/version`; for multi-user login, the
+  `/connect` flow). The API originated in LWT 3.x, so compatible LWT 3.1+
+  servers also work.
 - **No CORS configuration needed** for this app today. (`CORS_ALLOWED_ORIGINS`
   on the server only becomes relevant when the app starts making cross-origin
   API calls from bundled pages — i.e. the future local-first model. The app's
@@ -71,9 +72,9 @@ Dev loop for the connect screen itself: `npm run dev` (note: in a plain
 browser the version probe is a normal `fetch`, so the target server must allow
 the dev origin via `CORS_ALLOWED_ORIGINS` — on-device builds don't need this).
 
-To test against a local LWT server: from `lwt/`, `docker compose up`
-(http://localhost:8010). For phone-on-LAN testing use the machine's LAN IP,
-and set `MULTI_USER_ENABLED=true` in `lwt/.env` to exercise the login flow.
+To test against a local Lukaisu Server: from `lukaisu-server/`, `docker compose up`
+(http://localhost:8010). For phone-on-LAN testing use the machine's LAN IP, and
+set `MULTI_USER_ENABLED=true` in `lukaisu-server/.env` to exercise the login flow.
 
 ## F-Droid
 
@@ -91,5 +92,5 @@ for clients of self-hostable services.
 - `android/` — the generated Capacitor Android project (committed, as is
   Capacitor convention; `local.properties` and build outputs are ignored).
 
-Ecosystem strategy lives in `lwt/ROADMAP.md`; this repo's ROADMAP.md tracks
-only the app/build side.
+Ecosystem strategy lives in the upstream `lwt/ROADMAP.md`; this repo's ROADMAP.md
+tracks only the app/build side.

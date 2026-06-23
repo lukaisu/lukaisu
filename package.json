@@ -2,7 +2,7 @@
   "name": "lukaisu",
   "private": true,
   "version": "0.2.0",
-  "description": "Lukaisu — a mobile client for self-hosted LWT (Learning with Texts) servers",
+  "description": "Lukaisu — the official mobile client for self-hosted Lukaisu Server instances",
   "license": "MIT",
   "type": "module",
   "scripts": {
