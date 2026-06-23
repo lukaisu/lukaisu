@@ -49,13 +49,13 @@ client⇄server seam are in [`BRIEFING.md`](BRIEFING.md).
 
 The shared reading frontend lives in the sibling **`lukaisu-server`** repo under
 `src/frontend/`; this app bundles its build (`dist-app`) via
-`npm run sync:model-b`. The local-first data layer (on-device Dexie DB, the
+`npm run sync`. The local-first data layer (on-device Dexie DB, the
 TypeScript parsers, repositories, and first-run seed content) is built there and
 consumed here — don't fork it (frontend relocation is a later, coordinated call).
 
 - [x] Bundle the shared frontend (connect → library → reader) from
       `lukaisu-server` instead of fetching server-rendered pages
-      (`npm run sync:model-b`).
+      (`npm run sync`).
 - [x] On-device DB + TypeScript parsers + repositories so the read/save/review
       loop runs offline for space-separated and RTL languages; first-run seeds
       language presets and sample texts. Verified end-to-end on an Android

@@ -1,14 +1,14 @@
 /**
- * Copy the bundled Lukaisu web app ("Model B") built in the sibling
- * `lukaisu-server` repo (`lukaisu-server/dist-app`, produced by
- * `npm run build:app` there) into this app's Capacitor `webDir` (`dist/`), so
- * `cap sync` ships it inside the APK.
+ * Copy the bundled Lukaisu web app built in the sibling `lukaisu-server` repo
+ * (`lukaisu-server/dist-app`, produced by `npm run build:app` there) into this
+ * app's Capacitor `webDir` (`dist/`), so `cap sync` ships it inside the APK.
  *
- * This replaces the Model A connect shell (`src/main.ts` → `dist/`) with the
- * bundled reader/library/connect pages. As of the local-first migration those
- * pages default to an on-device database and only talk to a remote `/api/v1`
- * when a server is connected. Re-run `npm run build` to go back to the Model A
- * shell.
+ * This is the default build (`npm run sync` / `apk:debug`): it replaces the
+ * legacy connect shell (`src/main.ts` → `dist/`) with the bundled
+ * reader/library/connect pages. As of the local-first migration those pages
+ * default to an on-device database and only talk to a remote `/api/v1` when a
+ * server is connected. Re-run `npm run sync:connect-shell` to go back to the
+ * connect shell.
  *
  * @license MIT
  */

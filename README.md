@@ -66,17 +66,17 @@ parsers) from the sibling **`lukaisu-server`** repo:
 
 ```bash
 npm install
-npm run apk:debug:model-b   # build lukaisu-server's frontend, bundle it, assemble the APK
+npm run apk:debug           # build lukaisu-server's frontend, bundle it, assemble the APK
 # → android/app/build/outputs/apk/debug/app-debug.apk
 ```
 
-`apk:debug:model-b` chains `build:webapp` (builds `lukaisu-server/dist-app`),
-`pull:webapp` (copies it into `dist/`), `cap sync`, and `gradlew assembleDebug`.
+`apk:debug` chains `sync` — `build:webapp` (builds `lukaisu-server/dist-app`),
+`pull:webapp` (copies it into `dist/`), `cap sync` — then `gradlew assembleDebug`.
 Expects `JAVA_HOME`/`sdk.dir` to be set up (`android/local.properties` holds
 `sdk.dir`).
 
-A standalone **connect shell** (the server-only screen, no bundled frontend) is
-still available as `npm run build` / `npm run apk:debug` — vanilla TS + Vite in
+The legacy **connect shell** (the server-only screen, no bundled frontend) is
+still available as `npm run apk:debug:connect-shell` — vanilla TS + Vite in
 `src/`, kept small for the server-connect path.
 
 Dev loop for the connect screen itself: `npm run dev` (in a plain browser the
