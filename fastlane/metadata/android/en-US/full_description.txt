@@ -1,14 +1,8 @@
-Lukaisu (Finnish: "a quick read-through") is a mobile client for LWT — Learning
-with Texts, the self-hosted web app for learning languages by reading.
+Lukaisu (Finnish: "a quick read-through") is a mobile client for LWT — Learning with Texts, the self-hosted web app for learning languages by reading.
 
-Point the app at an LWT server — your own self-hosted instance, or a public one
-— and read and review on your phone. It is the same pattern as the Nextcloud
-mobile client: a free client for a self-hostable free server.
+Point the app at an LWT server — your own self-hosted instance, or a public one — and read and review on your phone. It is the same pattern as the Nextcloud mobile client: a free client for a self-hostable free server.
 
-The app is a thin shell over your phone's system WebView (no Chrome dependency,
-so it works on de-Googled phones). A small bundled connect screen asks for your
-LWT server address and validates it before opening it. Your choice is remembered,
-so relaunching takes you straight back in.
+The app is a thin shell over your phone's system WebView (no Chrome dependency, so it works on de-Googled phones). A small bundled connect screen asks for your LWT server address and validates it before opening it. Your choice is remembered, so relaunching takes you straight back in.
 
 FEATURES
 * Connect to any LWT server (3.x or newer) by URL.
@@ -18,6 +12,4 @@ FEATURES
 * Works with plain-HTTP servers on your LAN.
 
 REQUIREMENTS
-You need access to an LWT server — this is a client, not a standalone app. LWT
-is free and self-hostable (see the LWT project). No Google account, no Google
-Play Services, no tracking.
+You need access to an LWT server — this is a client, not a standalone app. LWT is free and self-hostable (see the LWT project). No Google account, no Google Play Services, no tracking.
