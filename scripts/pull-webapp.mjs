@@ -1,11 +1,14 @@
 /**
- * Copy the bundled LWT web app ("Model B") built in the sibling `lwt` repo
- * (`lwt/dist-app`, produced by `npm run build:app` there) into this app's
- * Capacitor `webDir` (`dist/`), so `cap sync` ships it inside the APK.
+ * Copy the bundled Lukaisu web app ("Model B") built in the sibling
+ * `lukaisu-server` repo (`lukaisu-server/dist-app`, produced by
+ * `npm run build:app` there) into this app's Capacitor `webDir` (`dist/`), so
+ * `cap sync` ships it inside the APK.
  *
  * This replaces the Model A connect shell (`src/main.ts` → `dist/`) with the
- * bundled reader/library/connect pages that boot against a remote `/api/v1`.
- * Re-run `npm run build` to go back to the Model A shell.
+ * bundled reader/library/connect pages. As of the local-first migration those
+ * pages default to an on-device database and only talk to a remote `/api/v1`
+ * when a server is connected. Re-run `npm run build` to go back to the Model A
+ * shell.
  *
  * @license MIT
  */
@@ -16,13 +19,13 @@ import { fileURLToPath } from 'url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, '..');
-const source = resolve(repoRoot, '../lwt/dist-app');
+const source = resolve(repoRoot, '../lukaisu-server/dist-app');
 const dest = resolve(repoRoot, 'dist');
 
 if (!existsSync(source)) {
   console.error(
     `[pull-webapp] Not found: ${source}\n` +
-      `Build it first in the lwt repo:  (cd ../lwt && npm run build:app)`
+      `Build it first in the lukaisu-server repo:  (cd ../lukaisu-server && npm run build:app)`
   );
   process.exit(1);
 }
