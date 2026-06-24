@@ -107,3 +107,8 @@ optional.
   Capacitor convention; `local.properties` and build outputs are ignored).
 - `BRIEFING.md` — the local-first migration plan; `ROADMAP.md` — the app/build
   roadmap; `FDROID.md` — the release runbook.
+
+## Support
+
+Lukaisu is free and non-profit. If you'd like to support its development, you can
+donate on [Open Collective](https://opencollective.com/lukaisu).
