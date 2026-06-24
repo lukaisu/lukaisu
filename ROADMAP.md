@@ -38,6 +38,12 @@ See [`FDROID.md`](FDROID.md) for the full runbook.
 - [ ] Create + back up the release keystore (`keytool`), then `npm run apk:release`.
 - [ ] Stand up our own F-Droid repo (fdroidserver, static hosting — e.g.
       `fdroid.lukaisu.org`) and publish the signed release there.
+- [ ] Wire the bundled frontend into the main-catalog build. The default build
+      bundles `lukaisu-server`'s frontend, but the F-Droid buildserver checks out
+      only this repo, so a plain `npm run build` there would ship the legacy
+      connect shell. Recommended fix: a git submodule of `lukaisu-server`
+      (`submodules: true`) — documented but not yet wired (see [`FDROID.md`](FDROID.md)
+      Step 5). The own-repo release path is unaffected.
 - [ ] Submit to the main F-Droid catalog (expect the "requires server"
       anti-feature note — weaker now the app is local-first).
 

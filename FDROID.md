@@ -5,8 +5,23 @@ de-risk the toolchain, then apply to the main F-Droid catalog. This file is the
 runbook for both.
 
 The build is already fully FOSS: Gradle + Capacitor + androidx, no Google Play
-Services, no proprietary blobs. The web assets are built from source (`src/` via
-Vite into `dist/`), and the GMS plugin has been removed from the Gradle build.
+Services, no proprietary blobs. The web assets are built from source, and the GMS
+plugin has been removed from the Gradle build.
+
+> **Heads-up — the default build bundles a sibling repo.** Since the local-first
+> migration, `npm run apk:debug` / `apk:release` build the shared reading frontend
+> from the sibling **`lukaisu-server`** repo (`npm run build:app` → `dist-app`),
+> copy it into this app's `dist/` (`npm run pull:webapp`), then `cap sync`. So a
+> release build needs `lukaisu-server` checked out alongside this repo. The
+> **legacy connect shell** (`src/` only, no sibling needed) still builds via
+> `npm run apk:debug:connect-shell`, but it is no longer the app we ship.
+>
+> This has one consequence for the **main F-Droid catalog** (Step 5): its
+> buildserver checks out only this repo, so a plain `npm run build` there would
+> produce the *connect shell*, not the local-first app. Closing that gap (a git
+> submodule of `lukaisu-server`) is documented in Step 5 but **not yet wired** —
+> the own-repo path below (Steps 1–4) is unaffected because you build locally with
+> the sibling present.
 
 ---
 
@@ -14,7 +29,7 @@ Vite into `dist/`), and the GMS plugin has been removed from the Gradle build.
 
 | Tool        | Version            | Notes                                  |
 |-------------|--------------------|----------------------------------------|
-| Node        | 20+                | builds the web bundle (`npm run build`)|
+| Node        | 20+                | builds the bundled frontend (`build:app` in `lukaisu-server`) |
 | JDK         | **21**             | Gradle 8.14 won't run on Java 25       |
 | Gradle      | 8.14.3 (wrapper)   | `android/gradle/wrapper`               |
 | AGP         | 8.13.0             | `android/build.gradle`                 |
@@ -55,8 +70,11 @@ password for the key, set both to the same value.
 
 ## Step 2 — Build and verify a signed release APK
 
-`apk:release` runs `./gradlew` without setting `JAVA_HOME`, so export JDK 21
-first (Gradle 8.14 / AGP 8.13 do **not** run on the system's Java 25):
+`apk:release` first builds and bundles the shared frontend, so check out
+**`lukaisu-server`** as a sibling of this repo (`../lukaisu-server`) — the script
+runs `npm run build:app` there. It then runs `./gradlew` without setting
+`JAVA_HOME`, so export JDK 21 first (Gradle 8.14 / AGP 8.13 do **not** run on the
+system's Java 25):
 
 ```bash
 export JAVA_HOME=~/.jdks/jdk-21.0.11+10
@@ -130,11 +148,22 @@ fingerprint from Step 3.
 Once the own-repo flow is proven:
 
 1. Fork `https://gitlab.com/fdroid/fdroiddata`.
-2. Add `metadata/org.lukaisu.app.yml` with a `Builds:` recipe that:
-   - sets `sudo`/`gradle` and the SDK,
-   - runs the web build + cap sync as `prebuild`/`build` steps:
-     `npm ci && npm run build && npx cap sync android`,
+2. Add `metadata/org.lukaisu.app.yml` with a `Builds:` recipe. **The catalog
+   buildserver checks out only this repo**, so it must also obtain the shared
+   frontend from `lukaisu-server` to build the local-first app — a plain
+   `npm run build` would ship the *legacy connect shell*. The recommended fix is a
+   **git submodule** of `lukaisu-server` pinned to a commit (F-Droid supports
+   `submodules: true`); the recipe then:
+   - sets `submodules: true`, `sudo`/`gradle`, and the SDK,
+   - `prebuild`/`build`: `npm ci`, then in the submodule `npm ci && npm run
+     build:app`, then `npm run pull:webapp` (point its source path at the
+     submodule's `dist-app`) and `npx cap sync android`,
    - then `gradle: [assembleRelease]`.
+
+   **This submodule wiring is not yet in the repo** — it is the plan for when the
+   catalog submission happens. Until then, releases go through our own repo
+   (Steps 1–4), where `apk:release` builds the bundle locally from the sibling
+   checkout. Tracked in `ROADMAP.md` v0.4.
 3. Set `AutoUpdateMode: Version` and `UpdateCheckMode: Tags` (hence the git tag).
 4. Expect the **"requires a server"** anti-feature note (`NonFreeNet`-adjacent) —
    the accepted pattern for clients of self-hostable services, same as Nextcloud.
