@@ -28,7 +28,7 @@ they are *not* part of the no-server milestone.
 
 | Bucket | Owner after migration | Examples |
 |---|---|---|
-| **Rendering** | **Client** (already TS) | reader, review surface, word popups, navbar, i18n — already in the bundled frontend ("Model B") |
+| **Rendering** | **Client** (already TS) | reader, review surface, word popups, navbar, i18n — already in the bundled frontend |
 | **Data / DB** | **Client** (on-device DB) | languages, texts, words/terms, sentences, word-occurrences, tags, settings, review scheduling |
 | **NLP** | **Optional server (Python)** | CJK parse (MeCab/jieba), lemmatization (spaCy), TTS (Piper), Whisper transcription |
 | **Outbound / network** | **Optional server (Python)** | Gutenberg, Global Digital Library, Internet Archive, RSS feeds, YouTube transcripts, arbitrary web/EPUB URL extraction |
@@ -40,27 +40,41 @@ up. The app must never *block* on the server.
 
 ## Where you are today (start here)
 
-- **Model A (shipping):** a vanilla-TS connect shell (`src/main.ts`) that probes
-  `GET /api/v1/version`, stores the server URL in Capacitor **Preferences**, then
-  points the WebView at the remote server. No offline capability beyond the
-  connect screen.
-- **Model B (in progress, v0.4):** bundles the server's frontend (connect →
-  library → reader) as static pages in the APK, rendered client-side against
-  `/api/v1`. **Rendering is already client-side** — the reader, word
-  interactions, and (soon) review surface are TS, not server HTML.
-- **No on-device database.** The only persisted state is the server URL (and an
-  auth token). All real data still lives on the server and is fetched per-request.
+- **The bundled local-first build is the default and shipping.** `npm run
+  apk:debug` / `apk:release` build the server's frontend (connect → library →
+  reader) from the sibling `lukaisu-server` repo, bundle it into the APK, and run
+  it client-side against an **on-device database**. Rendering, the
+  read/save/review loop, and the parsers all run with no network for
+  space-separated and right-to-left languages.
+- **The connect shell is now a legacy fallback.** The original vanilla-TS shell
+  (`src/main.ts`) — which only probes `GET /api/v1/version`, stores the server URL
+  in Capacitor **Preferences**, and points the WebView at a remote server — is
+  still available behind `npm run apk:debug:connect-shell`, but it is no longer
+  the default build.
+- **On-device database is live.** A Dexie/IndexedDB store holds languages, texts,
+  words, sentences, word-occurrences, tags, settings, and review scheduling;
+  first run seeds language presets and sample texts. Verified end-to-end on an
+  Android emulator (offline: seed → library → reader → save word → review). It
+  keeps per-row timestamps + a pending-op store so sync stays addable later.
 - **The frontend TS you bundle lives in the `lukaisu-server` repo** under
-  `src/frontend/` and is built into this app. Treat that as the shared frontend
-  for now (don't fork it). It already contains a **prototype offline layer** you
-  should build on: `src/frontend/js/shared/offline/` (Dexie/IndexedDB —
-  `db.ts`, `offline-text-reader.ts`, sync-metadata + pending-op stores). It was
-  scaffolded for exactly this and never wired up.
+  `src/frontend/` and is built into this app (`dist-app`, via `npm run build:app`
+  there). Treat that as the shared frontend for now (don't fork it); the
+  on-device layer lives there under `src/frontend/js/shared/offline/`
+  (Dexie/IndexedDB — `db.ts`, the text/word/language stores, sync-metadata +
+  pending-op queue).
+- **Remaining for the milestone:** make the local library the first-run landing
+  (demote "connect a server" to an optional Settings action — keep the existing
+  server-probe flow, just no longer mandatory), QA the full offline slice on
+  physical hardware, and surface the CORS requirement
+  (`CORS_ALLOWED_ORIGINS=https://localhost`) in the connect screen's error copy.
 
 ## Your scope (this repo + the shared frontend)
 
 The crux: **the rendering already exists; invert the data layer from
-"fetch `/api/v1`" to "read a local DB, optionally sync."** Sequence:
+"fetch `/api/v1`" to "read a local DB, optionally sync."** Sequence below —
+**status:** steps 1–4 and 6 are done and verified on emulator; what remains is
+step 5 (first-run-local default) plus physical QA (see *Where you are today* and
+`ROADMAP.md` v0.4).
 
 1. **On-device database.** Pick the store and model it on the server schema.
    - Recommended start: **reuse the existing Dexie/IndexedDB prototype**
@@ -116,7 +130,7 @@ The crux: **the rendering already exists; invert the data layer from
 - **Parsers to port:** `lukaisu-server/src/Modules/Language/Infrastructure/Parser/`.
 - **Language presets:** the server's `languages/definitions` endpoint data.
 - **App shell & config:** this repo's `src/main.ts`, `capacitor.config.ts`,
-  `README.md`, `ROADMAP.md` (v0.4 Model B status, offline gates).
+  `README.md`, `ROADMAP.md` (v0.4 local-first status, offline gates).
 
 ## Out of scope (for the F-Droid milestone)
 
