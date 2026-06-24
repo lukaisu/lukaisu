@@ -18,10 +18,14 @@ plugin has been removed from the Gradle build.
 >
 > This has one consequence for the **main F-Droid catalog** (Step 5): its
 > buildserver checks out only this repo, so a plain `npm run build` there would
-> produce the *connect shell*, not the local-first app. Closing that gap (a git
-> submodule of `lukaisu-server`) is documented in Step 5 but **not yet wired** —
-> the own-repo path below (Steps 1–4) is unaffected because you build locally with
-> the sibling present.
+> produce the *connect shell*, not the local-first app. The interim fix (a git
+> submodule of `lukaisu-server`) is documented in Step 5 but **not yet wired**.
+> As of the frontend's *Piece 1* decoupling, `build:app` reads only
+> `lukaisu-server/src/frontend/` — no PHP views, partials, or locale — so that
+> submodule build is now pure Node. The clean fix is *Piece 2*: relocating
+> `src/frontend/` into this repo, after which no submodule is needed (see
+> `lukaisu-server/BRIEFING.md` → *Rendering hollow-out*). The own-repo path below
+> (Steps 1–4) is unaffected — you build locally with the sibling present.
 
 ---
 
@@ -151,19 +155,22 @@ Once the own-repo flow is proven:
 2. Add `metadata/org.lukaisu.app.yml` with a `Builds:` recipe. **The catalog
    buildserver checks out only this repo**, so it must also obtain the shared
    frontend from `lukaisu-server` to build the local-first app — a plain
-   `npm run build` would ship the *legacy connect shell*. The recommended fix is a
+   `npm run build` would ship the *legacy connect shell*. The interim fix is a
    **git submodule** of `lukaisu-server` pinned to a commit (F-Droid supports
    `submodules: true`); the recipe then:
    - sets `submodules: true`, `sudo`/`gradle`, and the SDK,
    - `prebuild`/`build`: `npm ci`, then in the submodule `npm ci && npm run
-     build:app`, then `npm run pull:webapp` (point its source path at the
-     submodule's `dist-app`) and `npx cap sync android`,
+     build:app` — **pure Node since the *Piece 1* decoupling** (no PHP view or
+     locale read at build time) — then `npm run pull:webapp` (point its source
+     path at the submodule's `dist-app`) and `npx cap sync android`,
    - then `gradle: [assembleRelease]`.
 
-   **This submodule wiring is not yet in the repo** — it is the plan for when the
-   catalog submission happens. Until then, releases go through our own repo
-   (Steps 1–4), where `apk:release` builds the bundle locally from the sibling
-   checkout. Tracked in `ROADMAP.md` v0.4.
+   **Neither the submodule nor this recipe is wired yet.** The clean end state is
+   *Piece 2* — relocating `lukaisu-server/src/frontend/` into this repo — after
+   which the recipe is a single-repo `npm ci && … && cap sync` with **no
+   submodule** (see `lukaisu-server/BRIEFING.md` → *Rendering hollow-out*). Until
+   either lands, releases go through our own repo (Steps 1–4), where `apk:release`
+   builds the bundle locally from the sibling checkout. Tracked in `ROADMAP.md`.
 3. Set `AutoUpdateMode: Version` and `UpdateCheckMode: Tags` (hence the git tag).
 4. Expect the **"requires a server"** anti-feature note (`NonFreeNet`-adjacent) —
    the accepted pattern for clients of self-hostable services, same as Nextcloud.
