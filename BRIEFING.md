@@ -62,19 +62,25 @@ up. The app must never *block* on the server.
   on-device layer lives there under `src/frontend/js/shared/offline/`
   (Dexie/IndexedDB — `db.ts`, the text/word/language stores, sync-metadata +
   pending-op queue).
-- **Remaining for the milestone:** make the local library the first-run landing
-  (demote "connect a server" to an optional Settings action — keep the existing
-  server-probe flow, just no longer mandatory), QA the full offline slice on
-  physical hardware, and surface the CORS requirement
-  (`CORS_ALLOWED_ORIGINS=https://localhost`) in the connect screen's error copy.
+- **The F-Droid milestone is complete (2026-06-26).** The last three items are
+  done and QA'd on physical hardware (Pixel 8a): the app **opens to the local
+  library** (the launch page shows a neutral splash while the on-device DB seeds,
+  then redirects — no connect-form flash); **"connect a server" is demoted to an
+  optional Preferences → Server action** (with "Disconnect" once connected); and a
+  failed server-step connect **surfaces the CORS requirement**
+  (`CORS_ALLOWED_ORIGINS=https://localhost`) in a help block. A first-time user can
+  install from F-Droid and, fully offline, create a language → paste a text → read
+  with highlighting → save words → review. What's left now is **beyond the
+  milestone**: F-Droid catalog plumbing (v0.3), Job B server-enhanced surfaces, and
+  sync (see `ROADMAP.md`).
 
 ## Your scope (this repo + the shared frontend)
 
 The crux: **the rendering already exists; invert the data layer from
 "fetch `/api/v1`" to "read a local DB, optionally sync."** Sequence below —
-**status:** steps 1–4 and 6 are done and verified on emulator; what remains is
-step 5 (first-run-local default) plus physical QA (see *Where you are today* and
-`ROADMAP.md` v0.4).
+**status: all steps (1–7) are done; the offline slice is QA'd on physical
+hardware (Pixel 8a, 2026-06-26).** The milestone is met (see *Where you are
+today* and `ROADMAP.md` v0.4).
 
 1. **On-device database.** Pick the store and model it on the server schema.
    - Recommended start: **reuse the existing Dexie/IndexedDB prototype**
@@ -107,11 +113,12 @@ step 5 (first-run-local default) plus physical QA (see *Where you are today* and
    `languages/definitions` data already exists server-side) and **a few sample
    texts** (public-domain) seeded into the local DB on first run.
 
-5. **First-run UX = local, not connect.** The app should open to a **local
-   library**, not a server-picker. "Connect a server" becomes an **optional**
-   action in Settings that unlocks CJK tokenization, lemmatization, TTS,
-   transcription, content discovery, and (future) sync. Keep the existing
-   server-probe flow, but demote it from mandatory to optional.
+5. **First-run UX = local, not connect. — DONE (2026-06-26).** The app opens to
+   the **local library** (a neutral launch splash covers the first-run seed, then
+   redirects — no connect-form flash), and "connect a server" is an **optional**
+   Preferences → Server action (with "Disconnect" once connected), unlocking CJK
+   tokenization, lemmatization, TTS, transcription, content discovery, and (future)
+   sync. The existing server-probe flow is kept, just no longer mandatory.
 
 6. **Local review + settings.** Review scheduling (the `WoTodayScore` /
    `WoTomorrowScore` logic) and settings/theme/locale must run against the local
