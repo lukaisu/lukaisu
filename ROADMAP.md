@@ -35,9 +35,14 @@ See [`FDROID.md`](FDROID.md) for the full runbook.
       documented; bit-for-bit verification still to confirm.
 - [~] Fastlane metadata (`fastlane/metadata/android/en-US/`): title, descriptions,
       changelog, and icon done. **Remaining:** phone screenshots.
-- [ ] Create + back up the release keystore (`keytool`), then `npm run apk:release`.
-- [ ] Stand up our own F-Droid repo (fdroidserver, static hosting — e.g.
-      `fdroid.lukaisu.org`) and publish the signed release there.
+- [x] Create + back up the release keystore (`keytool`), then `npm run apk:release`.
+      Permanent key at `~/keys/lukaisu-release.jks` (passwords in the maintainer's
+      password manager, SHA-256 fingerprint recorded); signed `app-release.apk`
+      built and verified.
+- [x] Stand up our own F-Droid repo (fdroidserver, static hosting) and publish the
+      signed release there — **live at `https://fdroid.lukaisu.org/repo`** (served by
+      the VPS Caddy; per-release = `rsync` the `repo/` dir). _Remaining:_ back up the
+      repo index-signing key.
 - [ ] Wire the bundled frontend into the main-catalog build. The default build
       bundles `lukaisu-server`'s frontend, but the F-Droid buildserver checks out
       only this repo, so a plain `npm run build` there would ship the legacy
@@ -66,9 +71,13 @@ consumed here — don't fork it (frontend relocation is a later, coordinated cal
       loop runs offline for space-separated and RTL languages; first-run seeds
       language presets and sample texts. Verified end-to-end on an Android
       emulator (offline: seed → library → reader → save word → review).
-- [ ] Make the bundled local-first build the default: open to the local library,
-      and demote "connect a server" to an optional Settings action (keep the
-      existing server-probe flow, just no longer mandatory).
+- [x] Make the bundled local-first build the default build (`apk:debug` /
+      `apk:release` bundle the local-first frontend, not the legacy connect shell).
+- [x] First-run UX: open to the local library and demote "connect a server" to an
+      optional Settings action. The launch page shows a neutral splash while the
+      on-device DB seeds (no connect-form flash), then opens the library; the
+      connect/auth UI shows only via Preferences → Server ("Connect a server"),
+      which also offers "Disconnect" once connected.
 - [ ] On-device QA of the full offline slice on physical hardware.
 - [ ] CORS onboarding for the optional server path: the bundle is cross-origin,
       so a connected server must set `CORS_ALLOWED_ORIGINS=https://localhost` —
