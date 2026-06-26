@@ -42,13 +42,14 @@ chose the **Hybrid** option, so this bucket now splits:
 
 - **Client (CORS-free via `CapacitorHttp`):** Gutendex (Project Gutenberg) and
   Global Digital Library browse/search, difficulty tiers + reader-level computed
-  against on-device vocabulary, and Gutenberg **plain-text** import (fetch →
-  strip boilerplate → parse on-device). Implemented in the shared frontend under
-  `shared/offline/local/content/` and surfaced behind the home "Discover books"
-  toggle.
+  against on-device vocabulary, Gutenberg **plain-text** import (fetch → strip
+  boilerplate → parse on-device), and the **coverage preview** for Gutenberg
+  books. Implemented in the shared frontend under `shared/offline/local/content/`
+  and surfaced behind the home "Discover books" toggle.
 - **Optional server (Python), unchanged:** Internet Archive, RSS feeds, YouTube
-  transcripts, **arbitrary web-URL** extraction, **EPUB** parsing/import, and the
-  coverage **preview**. These keep the SSRF guard and stay "enhanced-when-connected."
+  transcripts, **arbitrary web-URL** extraction (incl. coverage preview for
+  non-Gutenberg URLs), and **EPUB** parsing/import. These keep the SSRF guard and
+  stay "enhanced-when-connected."
 
 **Degradation rule:** with no server, CJK languages fall back to
 character-by-character parsing (functional, lower quality). When a server is
