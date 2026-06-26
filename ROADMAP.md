@@ -79,9 +79,11 @@ consumed here — don't fork it (frontend relocation is a later, coordinated cal
       connect/auth UI shows only via Preferences → Server ("Connect a server"),
       which also offers "Disconnect" once connected.
 - [ ] On-device QA of the full offline slice on physical hardware.
-- [ ] CORS onboarding for the optional server path: the bundle is cross-origin,
-      so a connected server must set `CORS_ALLOWED_ORIGINS=https://localhost` —
-      surface this in the connect screen's error copy.
+- [x] CORS onboarding for the optional server path: the bundle is cross-origin,
+      so a connected server must set `CORS_ALLOWED_ORIGINS=https://localhost`. A
+      failed connect on the server step now shows a help block with that exact
+      env line (the server already honours `CORS_ALLOWED_ORIGINS`; `.env.example`
+      documents the app's `https://localhost` origin).
 
 ## Later
 
