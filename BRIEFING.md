@@ -31,7 +31,24 @@ they are *not* part of the no-server milestone.
 | **Rendering** | **Client** (already TS) | reader, review surface, word popups, navbar, i18n — already in the bundled frontend |
 | **Data / DB** | **Client** (on-device DB) | languages, texts, words/terms, sentences, word-occurrences, tags, settings, review scheduling |
 | **NLP** | **Optional server (Python)** | CJK parse (MeCab/jieba), lemmatization (spaCy), TTS (Piper), Whisper transcription |
-| **Outbound / network** | **Optional server (Python)** | Gutenberg, Global Digital Library, Internet Archive, RSS feeds, YouTube transcripts, arbitrary web/EPUB URL extraction |
+| **Outbound / network** | **Hybrid (revised 2026-06-26)** — see below | structured catalog *browse* on the **client**; everything else **optional server (Python)** |
+
+**Outbound split (2026-06-26).** The original seam put *all* outbound work on the
+optional server because "a phone can't make arbitrary cross-origin requests
+safely." That holds for arbitrary URLs, but not for the structured, fixed-host
+catalogs: the bundled app runs in a Capacitor WebView with `CapacitorHttp`, which
+is CORS-free, so low-SSRF-risk catalog browse can run client-side. The maintainer
+chose the **Hybrid** option, so this bucket now splits:
+
+- **Client (CORS-free via `CapacitorHttp`):** Gutendex (Project Gutenberg) and
+  Global Digital Library browse/search, difficulty tiers + reader-level computed
+  against on-device vocabulary, and Gutenberg **plain-text** import (fetch →
+  strip boilerplate → parse on-device). Implemented in the shared frontend under
+  `shared/offline/local/content/` and surfaced behind the home "Discover books"
+  toggle.
+- **Optional server (Python), unchanged:** Internet Archive, RSS feeds, YouTube
+  transcripts, **arbitrary web-URL** extraction, **EPUB** parsing/import, and the
+  coverage **preview**. These keep the SSRF guard and stay "enhanced-when-connected."
 
 **Degradation rule:** with no server, CJK languages fall back to
 character-by-character parsing (functional, lower quality). When a server is
