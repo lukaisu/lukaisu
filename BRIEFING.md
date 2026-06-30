@@ -39,8 +39,10 @@ for. Svelte 5 gives real reactivity/components and is CSP-clean (no
 `unsafe-eval`). Migration is **incremental** — Svelte islands coexist with Alpine
 (Alpine owns only `x-data` nodes), highest-pain screens first; jQuery is dropped
 as screens move, Bulma stays. End-to-end spike through to the F-Droid APK landed
-on `spike/svelte-word-list` (in `lukaisu-server`). Rationale: the server brief's
-seam / `lukaisu-server/docs-src/server/local-first.md`.
+on `spike/svelte-word-list` (in `lukaisu-server`). **First screen migrated:** the
+bundled `words.html` now mounts a Svelte `WordList` island (full parity with the
+old Alpine page) — so the APK you build already ships Svelte for the terms list.
+Rationale: the server brief's seam / `lukaisu-server/docs-src/server/local-first.md`.
 
 **Outbound split (2026-06-26).** The original seam put *all* outbound work on the
 optional server because "a phone can't make arbitrary cross-origin requests
