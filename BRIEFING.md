@@ -74,27 +74,26 @@ up. The app must never *block* on the server.
 ## Where you are today (start here)
 
 - **The bundled local-first build is the default and shipping.** `npm run
-  apk:debug` / `apk:release` build the server's frontend (connect → library →
-  reader) from the sibling `lukaisu-server` repo, bundle it into the APK, and run
-  it client-side against an **on-device database**. Rendering, the
+  apk:debug` / `apk:release` build the frontend (connect → library → reader)
+  from this repo's own `webapp/`, bundle it into the APK, and run it
+  client-side against an **on-device database**. Rendering, the
   read/save/review loop, and the parsers all run with no network for
   space-separated and right-to-left languages.
-- **The connect shell is now a legacy fallback.** The original vanilla-TS shell
-  (`src/main.ts`) — which only probes `GET /api/v1/version`, stores the server URL
-  in Capacitor **Preferences**, and points the WebView at a remote server — is
-  still available behind `npm run apk:debug:connect-shell`, but it is no longer
-  the default build.
+- **The legacy connect shell is gone.** The original vanilla-TS shell
+  (`src/main.ts`) — which only probed `GET /api/v1/version`, stored the server
+  URL in Capacitor **Preferences**, and pointed the WebView at a remote server —
+  was deleted once the bundled local-first build became the sole ship target
+  (Phase M, 2026-07).
 - **On-device database is live.** A Dexie/IndexedDB store holds languages, texts,
   words, sentences, word-occurrences, tags, settings, and review scheduling;
   first run seeds language presets and sample texts. Verified end-to-end on an
   Android emulator (offline: seed → library → reader → save word → review). It
   keeps per-row timestamps + a pending-op store so sync stays addable later.
-- **The frontend TS you bundle lives in the `lukaisu-server` repo** under
-  `src/frontend/` and is built into this app (`dist-app`, via `npm run build:app`
-  there). Treat that as the shared frontend for now (don't fork it); the
-  on-device layer lives there under `src/frontend/js/shared/offline/`
-  (Dexie/IndexedDB — `db.ts`, the text/word/language stores, sync-metadata +
-  pending-op queue).
+- **The frontend TS lives in this repo**, under `webapp/` (moved from
+  `lukaisu-server/src/frontend/` in Phase M, 2026-07 — see
+  `lukaisu-server/docs-src/server/frontend-relocation.md`). The on-device layer
+  is `webapp/js/shared/offline/` (Dexie/IndexedDB — `db.ts`, the text/word/
+  language stores, sync-metadata + pending-op queue).
 - **The F-Droid milestone is complete (2026-06-26).** The last three items are
   done and QA'd on physical hardware (Pixel 8a): the app **opens to the local
   library** (the launch page shows a neutral splash while the on-device DB seeds,
@@ -127,7 +126,7 @@ today* and `ROADMAP.md` v0.4).
 
 2. **Local data-access layer.** Put a repository interface between the rendering
    modules and the data. Today they call the API client
-   (`src/frontend/js/shared/api/client.ts`, hitting `/api/v1`). Make the
+   (`webapp/js/shared/api/client.ts`, hitting `/api/v1`). Make the
    **local DB the default source**, and the remote API an **optional** secondary
    (for sync / server-enhanced features). Rendering code should not know whether
    a server exists.
@@ -164,13 +163,14 @@ today* and `ROADMAP.md` v0.4).
 
 ## Reuse map
 
-- **Offline DB prototype:** `lukaisu-server/src/frontend/js/shared/offline/`
-  (Dexie schema, text/words/language stores, sync-metadata, pending-op queue).
-- **API client to wrap/demote:** `lukaisu-server/src/frontend/js/shared/api/client.ts`.
-- **Parsers to port:** `lukaisu-server/src/Modules/Language/Infrastructure/Parser/`.
+- **Offline DB:** `webapp/js/shared/offline/` (Dexie schema, text/words/
+  language stores, sync-metadata, pending-op queue) — this repo, since Phase M.
+- **API client:** `webapp/js/shared/api/client.ts` — this repo, since Phase M.
+- **Parsers to port (still server-side):**
+  `lukaisu-server/src/Modules/Language/Infrastructure/Parser/`.
 - **Language presets:** the server's `languages/definitions` endpoint data.
-- **App shell & config:** this repo's `src/main.ts`, `capacitor.config.ts`,
-  `README.md`, `ROADMAP.md` (v0.4 local-first status, offline gates).
+- **App shell & config:** this repo's `capacitor.config.ts`, `README.md`,
+  `ROADMAP.md` (v0.4 local-first status, offline gates).
 
 ## Out of scope (for the F-Droid milestone)
 
@@ -187,9 +187,10 @@ today* and `ROADMAP.md` v0.4).
 - **Storage tech:** IndexedDB/Dexie (reuse, zero native deps) vs SQLite plugin
   (more robust, native dependency). Default to reusing Dexie; revisit only on
   real limits.
-- **Frontend home:** the rendering TS currently lives in `lukaisu-server`. Don't
-  fork it into this repo for the milestone — bundle the shared frontend.
-  Relocating it into `lukaisu` is a later, coordinated decision.
+- **Frontend home — RESOLVED (Phase M, 2026-07).** The rendering TS now lives
+  here, in `webapp/`. It moved from `lukaisu-server` once that repo's headless
+  cut made this app its only real consumer; see
+  `lukaisu-server/docs-src/server/frontend-relocation.md`.
 - **Sync-readiness vs scope:** design the local schema so sync is *addable*
   (timestamps, tombstones, pending ops) without committing to a sync model now.
 - **APK size:** bundling content + any WASM tokenizer affects size; keep starter

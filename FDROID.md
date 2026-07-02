@@ -8,24 +8,12 @@ The build is already fully FOSS: Gradle + Capacitor + androidx, no Google Play
 Services, no proprietary blobs. The web assets are built from source, and the GMS
 plugin has been removed from the Gradle build.
 
-> **Heads-up — the default build bundles a sibling repo.** Since the local-first
-> migration, `npm run apk:debug` / `apk:release` build the shared reading frontend
-> from the sibling **`lukaisu-server`** repo (`npm run build:app` → `dist-app`),
-> copy it into this app's `dist/` (`npm run pull:webapp`), then `cap sync`. So a
-> release build needs `lukaisu-server` checked out alongside this repo. The
-> **legacy connect shell** (`src/` only, no sibling needed) still builds via
-> `npm run apk:debug:connect-shell`, but it is no longer the app we ship.
->
-> This has one consequence for the **main F-Droid catalog** (Step 5): its
-> buildserver checks out only this repo, so a plain `npm run build` there would
-> produce the *connect shell*, not the local-first app. The interim fix (a git
-> submodule of `lukaisu-server`) is documented in Step 5 but **not yet wired**.
-> As of the frontend's *Piece 1* decoupling, `build:app` reads only
-> `lukaisu-server/src/frontend/` — no PHP views, partials, or locale — so that
-> submodule build is now pure Node. The clean fix is *Piece 2*: relocating
-> `src/frontend/` into this repo, after which no submodule is needed (see
-> `lukaisu-server/BRIEFING.md` → *Rendering hollow-out*). The own-repo path below
-> (Steps 1–4) is unaffected — you build locally with the sibling present.
+> **Single-repo build (2026-07).** This app owns its frontend outright
+> (`webapp/` — moved from `lukaisu-server` in *Piece 2* of that repo's
+> `docs-src/server/frontend-relocation.md`). `npm run apk:debug` / `apk:release`
+> build and bundle it from this checkout alone — no sibling repo, no submodule.
+> This resolved the one blocker the main F-Droid catalog build (Step 5) used to
+> have: its buildserver checks out only this repo, and now that's sufficient.
 
 ---
 
@@ -33,7 +21,7 @@ plugin has been removed from the Gradle build.
 
 | Tool        | Version            | Notes                                  |
 |-------------|--------------------|----------------------------------------|
-| Node        | 20+                | builds the bundled frontend (`build:app` in `lukaisu-server`) |
+| Node        | 20+                | builds the app (`webapp/`, via `webapp.vite.config.ts`) |
 | JDK         | **21**             | Gradle 8.14 won't run on Java 25       |
 | Gradle      | 8.14.3 (wrapper)   | `android/gradle/wrapper`               |
 | AGP         | 8.13.0             | `android/build.gradle`                 |
@@ -74,11 +62,9 @@ password for the key, set both to the same value.
 
 ## Step 2 — Build and verify a signed release APK
 
-`apk:release` first builds and bundles the shared frontend, so check out
-**`lukaisu-server`** as a sibling of this repo (`../lukaisu-server`) — the script
-runs `npm run build:app` there. It then runs `./gradlew` without setting
-`JAVA_HOME`, so export JDK 21 first (Gradle 8.14 / AGP 8.13 do **not** run on the
-system's Java 25):
+`apk:release` builds and bundles the app from this checkout alone. It runs
+`./gradlew` without setting `JAVA_HOME`, so export JDK 21 first (Gradle 8.14 /
+AGP 8.13 do **not** run on the system's Java 25):
 
 ```bash
 export JAVA_HOME=~/.jdks/jdk-21.0.11+10
@@ -152,25 +138,17 @@ fingerprint from Step 3.
 Once the own-repo flow is proven:
 
 1. Fork `https://gitlab.com/fdroid/fdroiddata`.
-2. Add `metadata/org.lukaisu.app.yml` with a `Builds:` recipe. **The catalog
-   buildserver checks out only this repo**, so it must also obtain the shared
-   frontend from `lukaisu-server` to build the local-first app — a plain
-   `npm run build` would ship the *legacy connect shell*. The interim fix is a
-   **git submodule** of `lukaisu-server` pinned to a commit (F-Droid supports
-   `submodules: true`); the recipe then:
-   - sets `submodules: true`, `sudo`/`gradle`, and the SDK,
-   - `prebuild`/`build`: `npm ci`, then in the submodule `npm ci && npm run
-     build:app` — **pure Node since the *Piece 1* decoupling** (no PHP view or
-     locale read at build time) — then `npm run pull:webapp` (point its source
-     path at the submodule's `dist-app`) and `npx cap sync android`,
+2. Add `metadata/org.lukaisu.app.yml` with a `Builds:` recipe. **This app owns
+   its frontend outright now** (`webapp/`, no sibling repo), so the catalog
+   buildserver checking out only this repo is sufficient — no submodule, no
+   two-repo build. The recipe is a plain single-repo build:
+   - sets `sudo`/`gradle` and the SDK (no `submodules:`),
+   - `prebuild`/`build`: `npm ci`, `npm run build`, `npm run build:themes`,
+     `npx cap sync android` (i.e. what `npm run sync` chains),
    - then `gradle: [assembleRelease]`.
 
-   **Neither the submodule nor this recipe is wired yet.** The clean end state is
-   *Piece 2* — relocating `lukaisu-server/src/frontend/` into this repo — after
-   which the recipe is a single-repo `npm ci && … && cap sync` with **no
-   submodule** (see `lukaisu-server/BRIEFING.md` → *Rendering hollow-out*). Until
-   either lands, releases go through our own repo (Steps 1–4), where `apk:release`
-   builds the bundle locally from the sibling checkout. Tracked in `ROADMAP.md`.
+   **Not yet submitted.** Releases currently go through our own repo (Steps
+   1–4). Tracked in `ROADMAP.md`.
 3. Set `AutoUpdateMode: Version` and `UpdateCheckMode: Tags` (hence the git tag).
 4. Expect the **"requires a server"** anti-feature note (`NonFreeNet`-adjacent) —
    the accepted pattern for clients of self-hostable services, same as Nextcloud.

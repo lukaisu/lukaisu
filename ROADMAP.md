@@ -43,12 +43,10 @@ See [`FDROID.md`](FDROID.md) for the full runbook.
       signed release there — **live at `https://fdroid.lukaisu.org/repo`** (served by
       the VPS Caddy; per-release = `rsync` the `repo/` dir). _Remaining:_ back up the
       repo index-signing key.
-- [ ] Wire the bundled frontend into the main-catalog build. The default build
-      bundles `lukaisu-server`'s frontend, but the F-Droid buildserver checks out
-      only this repo, so a plain `npm run build` there would ship the legacy
-      connect shell. Recommended fix: a git submodule of `lukaisu-server`
-      (`submodules: true`) — documented but not yet wired (see [`FDROID.md`](FDROID.md)
-      Step 5). The own-repo release path is unaffected.
+- [x] Wire the bundled frontend into the main-catalog build. **Resolved by the
+      frontend relocation (Phase M, 2026-07):** this app now owns `webapp/`
+      outright, so the F-Droid buildserver checking out only this repo is
+      sufficient — no submodule needed. See [`FDROID.md`](FDROID.md) Step 5.
 - [ ] Submit to the main F-Droid catalog (expect the "requires server"
       anti-feature note — weaker now the app is local-first).
 
@@ -58,15 +56,14 @@ Turn Lukaisu from a thin client that requires a server into a local-first app
 that works fully offline, where connecting a server is optional. The plan and the
 client⇄server seam are in [`BRIEFING.md`](BRIEFING.md).
 
-The shared reading frontend lives in the sibling **`lukaisu-server`** repo under
-`src/frontend/`; this app bundles its build (`dist-app`) via
-`npm run sync`. The local-first data layer (on-device Dexie DB, the
-TypeScript parsers, repositories, and first-run seed content) is built there and
-consumed here — don't fork it (frontend relocation is a later, coordinated call).
+The reading frontend lives in this repo, under `webapp/` (moved from
+`lukaisu-server/src/frontend/` in Phase M, 2026-07 — see
+`lukaisu-server/docs-src/server/frontend-relocation.md`). The local-first data
+layer (on-device Dexie DB, the TypeScript parsers, repositories, and first-run
+seed content) is built and consumed here too.
 
-- [x] Bundle the shared frontend (connect → library → reader) from
-      `lukaisu-server` instead of fetching server-rendered pages
-      (`npm run sync`).
+- [x] Bundle the frontend (connect → library → reader) instead of fetching
+      server-rendered pages (`npm run sync`).
 - [x] On-device DB + TypeScript parsers + repositories so the read/save/review
       loop runs offline for space-separated and RTL languages; first-run seeds
       language presets and sample texts. Verified end-to-end on an Android

@@ -61,31 +61,27 @@ A server is only needed for the enhanced features above. When you connect one:
 Requirements: Node 20+, JDK **21** (Gradle 8.14 does not run on Java 25),
 Android SDK (platform 36).
 
-The app bundles the shared reading frontend (reader, library, on-device DB,
-parsers) from the sibling **`lukaisu-server`** repo:
+This repo owns the reading frontend outright (`webapp/` — reader, library,
+on-device DB, parsers). No other checkout is involved:
 
 ```bash
 npm install
-npm run apk:debug           # build lukaisu-server's frontend, bundle it, assemble the APK
+npm run apk:debug           # build the app, bundle it, assemble the APK
 # → android/app/build/outputs/apk/debug/app-debug.apk
 ```
 
-`apk:debug` chains `sync` — `build:webapp` (builds `lukaisu-server/dist-app`),
-`pull:webapp` (copies it into `dist/`), `cap sync` — then `gradlew assembleDebug`.
-Expects `JAVA_HOME`/`sdk.dir` to be set up (`android/local.properties` holds
-`sdk.dir`).
+`apk:debug` chains `sync` — `build` (`vite build --config webapp.vite.config.ts`
+→ `dist/`), `build:themes` (theme CSS the dark-mode toggle loads at runtime),
+`cap sync` — then `gradlew assembleDebug`. Expects `JAVA_HOME`/`sdk.dir` to be
+set up (`android/local.properties` holds `sdk.dir`).
 
-The legacy **connect shell** (the server-only screen, no bundled frontend) is
-still available as `npm run apk:debug:connect-shell` — vanilla TS + Vite in
-`src/`, kept small for the server-connect path.
+Dev loop: `npm run dev` (Vite HMR against `webapp/`). `npm test` runs the
+frontend's vitest suite; `npm run typecheck`/`npm run lint` cover TS + Svelte.
 
-Dev loop for the connect screen itself: `npm run dev` (in a plain browser the
-version probe is a normal `fetch`, so a target server must allow the dev origin
-via `CORS_ALLOWED_ORIGINS`; on-device builds don't need this).
-
-To test against a local Lukaisu Server: from `lukaisu-server/`, `docker compose up`
-(http://localhost:8010); set `MULTI_USER_ENABLED=true` in `lukaisu-server/.env`
-to exercise the login flow. For phone-on-LAN testing use the machine's LAN IP.
+To test against a local Lukaisu Server: from a `lukaisu-server` checkout,
+`docker compose up` (http://localhost:8010); set `MULTI_USER_ENABLED=true` in
+its `.env` to exercise the login flow. For phone-on-LAN testing use the
+machine's LAN IP.
 
 ## F-Droid
 
@@ -98,10 +94,15 @@ optional.
 
 ## Repository layout
 
-- `src/`, `index.html`, `public/` — the bundled **connect shell** (vanilla
-  TypeScript + Vite; the optional server-connect screen).
-- `scripts/pull-webapp.mjs` — copies the built shared frontend from
-  `../lukaisu-server/dist-app` into `dist/` for the bundled build.
+- `webapp/` — the reading frontend (TypeScript, Svelte 5, CSS themes): reader,
+  library, on-device DB, parsers. Owned here outright; `webapp.vite.config.ts`
+  builds it, `webapp-tests/` tests it. Moved from `lukaisu-server` in 2026-07
+  (Phase M of that repo's `docs-src/server/frontend-relocation.md`).
+- `locale/en/` — a frozen duplicate of `lukaisu-server`'s English strings,
+  bundled at build time as the offline i18n fallback
+  (`webapp/js/shared/offline/local/i18n.ts`) for when no server is connected.
+- `public/` — static WebView chrome (`error.html`, the app icon) copied into
+  `dist/` at build time.
 - `capacitor.config.ts` — app id/name, WebView navigation policy, cleartext.
 - `android/` — the generated Capacitor Android project (committed, as is
   Capacitor convention; `local.properties` and build outputs are ignored).
