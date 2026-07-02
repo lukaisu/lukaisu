@@ -294,7 +294,7 @@
         <span class="icon has-text-primary">
           <i data-lucide="book-open"></i>
         </span>
-        <span>Lukaisu Server</span>
+        <span>Lukaisu</span>
       </span>
     </h1>
     <p class="subtitle is-6 has-text-grey">Connect to your server</p>
@@ -354,7 +354,7 @@
             <i data-lucide="server"></i>
           </span>
         </div>
-        <p class="help">The address of the Lukaisu Server server you want to read from.</p>
+        <p class="help">The address of the Lukaisu Server you want to read from.</p>
       </div>
 
       <div class="field">

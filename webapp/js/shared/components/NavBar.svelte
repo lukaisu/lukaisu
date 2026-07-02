@@ -206,8 +206,8 @@
 <nav class="navbar is-light" aria-label={t('navbar.main_navigation')} bind:this={navEl}>
   <div class="navbar-brand">
     <a class="navbar-item" href="{base}/">
-      <img src={data.logoUrl} alt="Lukaisu Server" width="28" height="28" />
-      <span class="ml-2 has-text-weight-semibold">Lukaisu Server</span>
+      <img src={data.logoUrl} alt="Lukaisu" width="28" height="28" />
+      <span class="ml-2 has-text-weight-semibold">Lukaisu</span>
     </a>
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_missing_attribute -->
     <a

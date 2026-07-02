@@ -214,7 +214,7 @@
       <h1 class="title is-3">
         <span class="icon-text">
           <span class="icon has-text-primary"><i data-lucide="book-open"></i></span>
-          <span>Lukaisu Server</span>
+          <span>Lukaisu</span>
         </span>
       </h1>
       <p class="subtitle is-6 has-text-grey">{t('user.register.subtitle')}</p>

@@ -201,7 +201,7 @@
         <span class="icon has-text-primary">
           <i data-lucide="book-open"></i>
         </span>
-        <span>Lukaisu Server</span>
+        <span>Lukaisu</span>
       </span>
     </h1>
     <p class="subtitle is-6 has-text-grey">{t('user.app_subtitle')}</p>

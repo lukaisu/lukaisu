@@ -102,7 +102,7 @@
     } catch {
       // If we can't even try, assume cookies are disabled.
       cookiesWarning.message =
-        'Cookies are not enabled! Please enable them for Lukaisu Server to work properly.';
+        'Cookies are not enabled! Please enable them for Lukaisu to work properly.';
       cookiesWarning.visible = true;
     }
   }

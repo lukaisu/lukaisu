@@ -24,7 +24,7 @@
     "empty_text_card": "Add a text or import a book to start reading",
     "version_label": "Lukaisu Server Version",
     "wp_logout": "LOGOUT (from WordPress and Lukaisu Server)",
-    "warning_cookies_disabled": "Cookies are not enabled! Please enable them for Lukaisu Server to work properly.",
+    "warning_cookies_disabled": "Cookies are not enabled! Please enable them for Lukaisu to work properly.",
     "warning_php_outdated": "Your PHP version is {phpVersion}, but version {minVersion} is required. Please update PHP.",
     "warning_update_available": "An update for Lukaisu Server is available: {latestVersion} (your version: {currentVersion}).",
     "download": "Download",
