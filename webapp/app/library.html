@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Library</title>
+  <meta name="lukaisu-modules" content="text,vocabulary" />
+  <style>[x-cloak]{display:none !important}</style>
+</head>
+<body>
+  <!-- Real navbar, hydrated from GET /api/v1/navbar (mountNavbar in main.ts).
+       The navbar's language switcher replaces the old per-page #app-lang-select. -->
+  <div id="navbar-root" data-navbar-root data-current-page="texts"></div>
+  <section class="section pt-4">
+    <!-- Svelte 5 text-list island (mounted by library.ts). Replaces the Alpine
+         `textsGroupedApp` x-data region (incl. the per-card `dropdownToggle`
+         nodes) — the Alpine→Svelte migration of the library / active-texts list.
+         The Alpine component (texts_grouped_app.ts) still loads via the page's
+         module meta but no-ops here with no `x-data` node, and stays as the PWA's
+         renderer until the server UI retires. -->
+    <div id="text-list-root"></div>
+
+    <!-- Config kept for the Alpine PWA renderer; the Svelte island reads the
+         active language from a prop resolved in library.ts. -->
+    <script type="application/json" id="texts-grouped-config">{}</script>
+  </section>
+  <script type="module" src="./library.ts"></script>
+</body>
+</html>

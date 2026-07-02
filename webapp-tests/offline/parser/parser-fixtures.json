@@ -1,0 +1,1145 @@
+{
+    "english_basic": {
+        "parser": "regex",
+        "text": "The quick brown fox jumps. The lazy dog sleeps!",
+        "result": {
+            "sentences": [
+                "The quick brown fox jumps.",
+                " The lazy dog sleeps!"
+            ],
+            "tokens": [
+                {
+                    "text": "The",
+                    "s": 0,
+                    "o": 0,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 1,
+                    "w": false
+                },
+                {
+                    "text": "quick",
+                    "s": 0,
+                    "o": 2,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 3,
+                    "w": false
+                },
+                {
+                    "text": "brown",
+                    "s": 0,
+                    "o": 4,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 5,
+                    "w": false
+                },
+                {
+                    "text": "fox",
+                    "s": 0,
+                    "o": 6,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 7,
+                    "w": false
+                },
+                {
+                    "text": "jumps",
+                    "s": 0,
+                    "o": 8,
+                    "w": true
+                },
+                {
+                    "text": ".",
+                    "s": 0,
+                    "o": 9,
+                    "w": false
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 0,
+                    "w": false
+                },
+                {
+                    "text": "The",
+                    "s": 1,
+                    "o": 1,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 2,
+                    "w": false
+                },
+                {
+                    "text": "lazy",
+                    "s": 1,
+                    "o": 3,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 4,
+                    "w": false
+                },
+                {
+                    "text": "dog",
+                    "s": 1,
+                    "o": 5,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 6,
+                    "w": false
+                },
+                {
+                    "text": "sleeps",
+                    "s": 1,
+                    "o": 7,
+                    "w": true
+                },
+                {
+                    "text": "!",
+                    "s": 1,
+                    "o": 8,
+                    "w": false
+                }
+            ]
+        }
+    },
+    "english_abbrev": {
+        "parser": "regex",
+        "text": "Mr. Smith met Dr. Jones. They talked for hours!",
+        "result": {
+            "sentences": [
+                "Mr. Smith met Dr. Jones.",
+                " They talked for hours!"
+            ],
+            "tokens": [
+                {
+                    "text": "Mr.",
+                    "s": 0,
+                    "o": 0,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 1,
+                    "w": false
+                },
+                {
+                    "text": "Smith",
+                    "s": 0,
+                    "o": 2,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 3,
+                    "w": false
+                },
+                {
+                    "text": "met",
+                    "s": 0,
+                    "o": 4,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 5,
+                    "w": false
+                },
+                {
+                    "text": "Dr.",
+                    "s": 0,
+                    "o": 6,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 7,
+                    "w": false
+                },
+                {
+                    "text": "Jones",
+                    "s": 0,
+                    "o": 8,
+                    "w": true
+                },
+                {
+                    "text": ".",
+                    "s": 0,
+                    "o": 9,
+                    "w": false
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 0,
+                    "w": false
+                },
+                {
+                    "text": "They",
+                    "s": 1,
+                    "o": 1,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 2,
+                    "w": false
+                },
+                {
+                    "text": "talked",
+                    "s": 1,
+                    "o": 3,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 4,
+                    "w": false
+                },
+                {
+                    "text": "for",
+                    "s": 1,
+                    "o": 5,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 6,
+                    "w": false
+                },
+                {
+                    "text": "hours",
+                    "s": 1,
+                    "o": 7,
+                    "w": true
+                },
+                {
+                    "text": "!",
+                    "s": 1,
+                    "o": 8,
+                    "w": false
+                }
+            ]
+        }
+    },
+    "english_paragraphs": {
+        "parser": "regex",
+        "text": "First line here.\nSecond paragraph follows? Yes indeed.",
+        "result": {
+            "sentences": [
+                "First line here.",
+                "¶",
+                "Second paragraph follows?",
+                " Yes indeed."
+            ],
+            "tokens": [
+                {
+                    "text": "First",
+                    "s": 0,
+                    "o": 0,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 1,
+                    "w": false
+                },
+                {
+                    "text": "line",
+                    "s": 0,
+                    "o": 2,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 3,
+                    "w": false
+                },
+                {
+                    "text": "here",
+                    "s": 0,
+                    "o": 4,
+                    "w": true
+                },
+                {
+                    "text": ".",
+                    "s": 0,
+                    "o": 5,
+                    "w": false
+                },
+                {
+                    "text": "¶",
+                    "s": 1,
+                    "o": 0,
+                    "w": false
+                },
+                {
+                    "text": "Second",
+                    "s": 2,
+                    "o": 0,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 2,
+                    "o": 1,
+                    "w": false
+                },
+                {
+                    "text": "paragraph",
+                    "s": 2,
+                    "o": 2,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 2,
+                    "o": 3,
+                    "w": false
+                },
+                {
+                    "text": "follows",
+                    "s": 2,
+                    "o": 4,
+                    "w": true
+                },
+                {
+                    "text": "?",
+                    "s": 2,
+                    "o": 5,
+                    "w": false
+                },
+                {
+                    "text": " ",
+                    "s": 3,
+                    "o": 0,
+                    "w": false
+                },
+                {
+                    "text": "Yes",
+                    "s": 3,
+                    "o": 1,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 3,
+                    "o": 2,
+                    "w": false
+                },
+                {
+                    "text": "indeed",
+                    "s": 3,
+                    "o": 3,
+                    "w": true
+                },
+                {
+                    "text": ".",
+                    "s": 3,
+                    "o": 4,
+                    "w": false
+                }
+            ]
+        }
+    },
+    "english_quotes": {
+        "parser": "regex",
+        "text": "She said, \"Hello there.\" Then she left.",
+        "result": {
+            "sentences": [
+                "She said, \"Hello there.\"",
+                " Then she left."
+            ],
+            "tokens": [
+                {
+                    "text": "She",
+                    "s": 0,
+                    "o": 0,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 1,
+                    "w": false
+                },
+                {
+                    "text": "said",
+                    "s": 0,
+                    "o": 2,
+                    "w": true
+                },
+                {
+                    "text": ", \"",
+                    "s": 0,
+                    "o": 3,
+                    "w": false
+                },
+                {
+                    "text": "Hello",
+                    "s": 0,
+                    "o": 4,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 5,
+                    "w": false
+                },
+                {
+                    "text": "there",
+                    "s": 0,
+                    "o": 6,
+                    "w": true
+                },
+                {
+                    "text": ".\"",
+                    "s": 0,
+                    "o": 7,
+                    "w": false
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 0,
+                    "w": false
+                },
+                {
+                    "text": "Then",
+                    "s": 1,
+                    "o": 1,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 2,
+                    "w": false
+                },
+                {
+                    "text": "she",
+                    "s": 1,
+                    "o": 3,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 4,
+                    "w": false
+                },
+                {
+                    "text": "left",
+                    "s": 1,
+                    "o": 5,
+                    "w": true
+                },
+                {
+                    "text": ".",
+                    "s": 1,
+                    "o": 6,
+                    "w": false
+                }
+            ]
+        }
+    },
+    "french_basic": {
+        "parser": "regex",
+        "text": "Bonjour, comment ça va? Je vais très bien.",
+        "result": {
+            "sentences": [
+                "Bonjour, comment ça va?",
+                " Je vais très bien."
+            ],
+            "tokens": [
+                {
+                    "text": "Bonjour",
+                    "s": 0,
+                    "o": 0,
+                    "w": true
+                },
+                {
+                    "text": ", ",
+                    "s": 0,
+                    "o": 1,
+                    "w": false
+                },
+                {
+                    "text": "comment",
+                    "s": 0,
+                    "o": 2,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 3,
+                    "w": false
+                },
+                {
+                    "text": "ça",
+                    "s": 0,
+                    "o": 4,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 5,
+                    "w": false
+                },
+                {
+                    "text": "va",
+                    "s": 0,
+                    "o": 6,
+                    "w": true
+                },
+                {
+                    "text": "?",
+                    "s": 0,
+                    "o": 7,
+                    "w": false
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 0,
+                    "w": false
+                },
+                {
+                    "text": "Je",
+                    "s": 1,
+                    "o": 1,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 2,
+                    "w": false
+                },
+                {
+                    "text": "vais",
+                    "s": 1,
+                    "o": 3,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 4,
+                    "w": false
+                },
+                {
+                    "text": "très",
+                    "s": 1,
+                    "o": 5,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 6,
+                    "w": false
+                },
+                {
+                    "text": "bien",
+                    "s": 1,
+                    "o": 7,
+                    "w": true
+                },
+                {
+                    "text": ".",
+                    "s": 1,
+                    "o": 8,
+                    "w": false
+                }
+            ]
+        }
+    },
+    "german_basic": {
+        "parser": "regex",
+        "text": "Herr Müller ist hier. Wie geht es Ihnen?",
+        "result": {
+            "sentences": [
+                "Herr Müller ist hier.",
+                " Wie geht es Ihnen?"
+            ],
+            "tokens": [
+                {
+                    "text": "Herr",
+                    "s": 0,
+                    "o": 0,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 1,
+                    "w": false
+                },
+                {
+                    "text": "Müller",
+                    "s": 0,
+                    "o": 2,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 3,
+                    "w": false
+                },
+                {
+                    "text": "ist",
+                    "s": 0,
+                    "o": 4,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 5,
+                    "w": false
+                },
+                {
+                    "text": "hier",
+                    "s": 0,
+                    "o": 6,
+                    "w": true
+                },
+                {
+                    "text": ".",
+                    "s": 0,
+                    "o": 7,
+                    "w": false
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 0,
+                    "w": false
+                },
+                {
+                    "text": "Wie",
+                    "s": 1,
+                    "o": 1,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 2,
+                    "w": false
+                },
+                {
+                    "text": "geht",
+                    "s": 1,
+                    "o": 3,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 4,
+                    "w": false
+                },
+                {
+                    "text": "es",
+                    "s": 1,
+                    "o": 5,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 6,
+                    "w": false
+                },
+                {
+                    "text": "Ihnen",
+                    "s": 1,
+                    "o": 7,
+                    "w": true
+                },
+                {
+                    "text": "?",
+                    "s": 1,
+                    "o": 8,
+                    "w": false
+                }
+            ]
+        }
+    },
+    "hebrew_rtl": {
+        "parser": "regex",
+        "text": "שלום עולם. מה שלומך?",
+        "result": {
+            "sentences": [
+                "שלום עולם.",
+                " מה שלומך?"
+            ],
+            "tokens": [
+                {
+                    "text": "שלום",
+                    "s": 0,
+                    "o": 0,
+                    "w": false
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 1,
+                    "w": false
+                },
+                {
+                    "text": "עולם",
+                    "s": 0,
+                    "o": 2,
+                    "w": false
+                },
+                {
+                    "text": ".",
+                    "s": 0,
+                    "o": 3,
+                    "w": false
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 0,
+                    "w": false
+                },
+                {
+                    "text": "מה",
+                    "s": 1,
+                    "o": 1,
+                    "w": false
+                },
+                {
+                    "text": " ",
+                    "s": 1,
+                    "o": 2,
+                    "w": false
+                },
+                {
+                    "text": "שלומך",
+                    "s": 1,
+                    "o": 3,
+                    "w": false
+                },
+                {
+                    "text": "?",
+                    "s": 1,
+                    "o": 4,
+                    "w": false
+                }
+            ]
+        }
+    },
+    "chinese_char": {
+        "parser": "character",
+        "text": "你好世界。我爱学习。",
+        "result": {
+            "sentences": [
+                "你好世界。",
+                "我爱学习。",
+                "1"
+            ],
+            "tokens": [
+                {
+                    "text": "你",
+                    "s": 0,
+                    "o": 0,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 0,
+                    "o": 1,
+                    "w": true
+                },
+                {
+                    "text": "好",
+                    "s": 0,
+                    "o": 2,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 0,
+                    "o": 3,
+                    "w": true
+                },
+                {
+                    "text": "世",
+                    "s": 0,
+                    "o": 4,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 0,
+                    "o": 5,
+                    "w": true
+                },
+                {
+                    "text": "界",
+                    "s": 0,
+                    "o": 6,
+                    "w": true
+                },
+                {
+                    "text": "。",
+                    "s": 0,
+                    "o": 7,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 1,
+                    "o": 0,
+                    "w": true
+                },
+                {
+                    "text": "我",
+                    "s": 1,
+                    "o": 1,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 1,
+                    "o": 2,
+                    "w": true
+                },
+                {
+                    "text": "爱",
+                    "s": 1,
+                    "o": 3,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 1,
+                    "o": 4,
+                    "w": true
+                },
+                {
+                    "text": "学",
+                    "s": 1,
+                    "o": 5,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 1,
+                    "o": 6,
+                    "w": true
+                },
+                {
+                    "text": "习",
+                    "s": 1,
+                    "o": 7,
+                    "w": true
+                },
+                {
+                    "text": "。",
+                    "s": 1,
+                    "o": 8,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 2,
+                    "o": 0,
+                    "w": true
+                },
+                {
+                    "text": "1",
+                    "s": 2,
+                    "o": 1,
+                    "w": false
+                }
+            ]
+        }
+    },
+    "japanese_char": {
+        "parser": "character",
+        "text": "日本語を話します。はい、少し。",
+        "result": {
+            "sentences": [
+                "日本語を話します。",
+                "はい、少し。",
+                "1"
+            ],
+            "tokens": [
+                {
+                    "text": "日",
+                    "s": 0,
+                    "o": 0,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 0,
+                    "o": 1,
+                    "w": true
+                },
+                {
+                    "text": "本",
+                    "s": 0,
+                    "o": 2,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 0,
+                    "o": 3,
+                    "w": true
+                },
+                {
+                    "text": "語",
+                    "s": 0,
+                    "o": 4,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 0,
+                    "o": 5,
+                    "w": true
+                },
+                {
+                    "text": "を",
+                    "s": 0,
+                    "o": 6,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 0,
+                    "o": 7,
+                    "w": true
+                },
+                {
+                    "text": "話",
+                    "s": 0,
+                    "o": 8,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 0,
+                    "o": 9,
+                    "w": true
+                },
+                {
+                    "text": "し",
+                    "s": 0,
+                    "o": 10,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 0,
+                    "o": 11,
+                    "w": true
+                },
+                {
+                    "text": "ま",
+                    "s": 0,
+                    "o": 12,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 0,
+                    "o": 13,
+                    "w": true
+                },
+                {
+                    "text": "す",
+                    "s": 0,
+                    "o": 14,
+                    "w": true
+                },
+                {
+                    "text": "。",
+                    "s": 0,
+                    "o": 15,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 1,
+                    "o": 0,
+                    "w": true
+                },
+                {
+                    "text": "は",
+                    "s": 1,
+                    "o": 1,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 1,
+                    "o": 2,
+                    "w": true
+                },
+                {
+                    "text": "い",
+                    "s": 1,
+                    "o": 3,
+                    "w": true
+                },
+                {
+                    "text": "、",
+                    "s": 1,
+                    "o": 4,
+                    "w": true
+                },
+                {
+                    "text": "少",
+                    "s": 1,
+                    "o": 5,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 1,
+                    "o": 6,
+                    "w": true
+                },
+                {
+                    "text": "し",
+                    "s": 1,
+                    "o": 7,
+                    "w": true
+                },
+                {
+                    "text": "。",
+                    "s": 1,
+                    "o": 8,
+                    "w": true
+                },
+                {
+                    "text": "",
+                    "s": 2,
+                    "o": 0,
+                    "w": true
+                },
+                {
+                    "text": "1",
+                    "s": 2,
+                    "o": 1,
+                    "w": false
+                }
+            ]
+        }
+    },
+    "numbers_mixed": {
+        "parser": "regex",
+        "text": "I have 3 apples and 12 oranges.",
+        "result": {
+            "sentences": [
+                "I have 3 apples and 12 oranges."
+            ],
+            "tokens": [
+                {
+                    "text": "I",
+                    "s": 0,
+                    "o": 0,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 1,
+                    "w": false
+                },
+                {
+                    "text": "have",
+                    "s": 0,
+                    "o": 2,
+                    "w": true
+                },
+                {
+                    "text": " 3 ",
+                    "s": 0,
+                    "o": 3,
+                    "w": true
+                },
+                {
+                    "text": "apples",
+                    "s": 0,
+                    "o": 4,
+                    "w": true
+                },
+                {
+                    "text": " ",
+                    "s": 0,
+                    "o": 5,
+                    "w": false
+                },
+                {
+                    "text": "and",
+                    "s": 0,
+                    "o": 6,
+                    "w": true
+                },
+                {
+                    "text": " 12 ",
+                    "s": 0,
+                    "o": 7,
+                    "w": true
+                },
+                {
+                    "text": "oranges",
+                    "s": 0,
+                    "o": 8,
+                    "w": true
+                },
+                {
+                    "text": ".",
+                    "s": 0,
+                    "o": 9,
+                    "w": false
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Terms</title>
+  <meta name="lukaisu-modules" content="vocabulary,language" />
+</head>
+<body>
+  <!-- Real navbar, hydrated from GET /api/v1/navbar (mountNavbar in main.ts). -->
+  <div id="navbar-root" data-navbar-root data-current-page="terms"></div>
+  <section class="section pt-4">
+    <h1 class="title is-4">Terms</h1>
+
+    <!-- Static action card (the dynamic list below is the Svelte island). -->
+    <div class="card action-card mb-4">
+      <div class="card-content">
+        <div class="buttons is-centered">
+          <a href="/words/new" class="button is-light is-primary">
+            <span class="icon"><i data-lucide="circle-plus" class="icon" aria-label="Import Single Term" style="width:16px;height:16px"></i></span>
+            <span>Import Single Term</span>
+          </a>
+          <a href="/word/upload" class="button is-light">
+            <span class="icon"><i data-lucide="file-up" class="icon" aria-label="Import Terms" style="width:16px;height:16px"></i></span>
+            <span>Import Terms</span>
+          </a>
+          <a href="/word/tags" class="button is-light">
+            <span class="icon"><i data-lucide="tags" class="icon" aria-label="Term Tags" style="width:16px;height:16px"></i></span>
+            <span>Term Tags</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Svelte 5 word-list island (mounted by words.ts). Replaces the Alpine
+         `wordListApp` x-data region — the first Alpine→Svelte screen migration.
+         The Alpine component (word_list_app.ts) still loads via the page's
+         module meta but no-ops here with no `x-data` node, and stays as the
+         PWA's renderer until the server UI retires. -->
+    <div id="word-list-root"></div>
+  </section>
+  <script type="module" src="./words.ts"></script>
+</body>
+</html>

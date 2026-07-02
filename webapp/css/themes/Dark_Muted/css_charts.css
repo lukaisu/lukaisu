@@ -1,0 +1,18 @@
+/**
+ * Dark Muted theme chart overrides.
+ * Colors are handled by CSS custom properties. Only structural differences here.
+ */
+
+/* Dark charts: slightly higher base opacity on bars */
+.barchart li {
+  opacity: .9;
+}
+
+.barchart li:hover {
+  opacity: 1;
+}
+
+/* Dark charts: remove box-shadow on hover span */
+.barchart li:hover span {
+  box-shadow: none;
+}

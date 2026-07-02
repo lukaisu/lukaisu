@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Bulk Translate</title>
+  <!-- Mounts the Svelte BulkTranslate island (the Alpine→Svelte port of the
+       reader's "Lookup New Words" flow). Server-gated (Job-B-style): the
+       unknown-word query + the save POST + the Google Translate widget all need a
+       connected server, so bulk-translate.ts reveals the notice below and does
+       NOT mount the island when local-first. No `lukaisu-modules` meta: the
+       Svelte island is the sole renderer — the Alpine `bulk_translate.ts` /
+       `bulk_translate_form.php` view was retired, and /word/bulk-translate 302s
+       here. -->
+  <style>[x-cloak]{display:none !important}[hidden]{display:none !important}</style>
+</head>
+<body>
+  <!-- Real navbar, hydrated from GET /api/v1/navbar (mountNavbar in main.ts). -->
+  <div id="navbar-root" data-navbar-root data-current-page="texts"></div>
+  <section class="section pt-4">
+    <!-- No-server placeholder. bulk-translate.ts un-hides this (and skips mounting
+         the island) when local-first; hidden in server-backed / same-origin modes. -->
+    <div id="bulk-translate-offline" class="notification is-info is-light" hidden>
+      <h2 class="title is-5">
+        <span class="icon"><i data-lucide="languages"></i></span>
+        Bulk translate needs a connected server
+      </h2>
+      <p class="block">
+        Looking up your unknown words and translating them in bulk is done by a
+        Lukaisu Server, so this page lights up once you connect one.
+      </p>
+      <p class="block">
+        Everything else — reading, saving words and reviewing — keeps working
+        offline, with no server.
+      </p>
+      <button id="bulk-translate-connect" type="button" class="button is-primary">
+        <span class="icon"><i data-lucide="server"></i></span>
+        <span>Connect a server</span>
+      </button>
+    </div>
+
+    <!-- Svelte BulkTranslate island mount point. bulk-translate.ts mounts here only
+         when a server is connected; offline it stays empty and the notice above is
+         revealed instead. -->
+    <div id="bulk-translate-root"></div>
+  </section>
+  <script type="module" src="./bulk-translate.ts"></script>
+</body>
+</html>

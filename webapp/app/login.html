@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Log in</title>
+  <!-- Mounts the Svelte `LoginPage` island (login.ts), the same-origin PWA login
+       screen. It authenticates against `POST /api/v1/auth/login` (token API) and
+       replaces the retired server-rendered `login.php` session form; the server's
+       GET /login 302s here. No `lukaisu-modules` meta: the island is the sole
+       renderer. Guest layout — no authed navbar (login is pre-auth). The CSRF
+       token + runtime config are injected into <head> by BundleController when it
+       serves this shell same-origin. -->
+  <meta name="lukaisu-modules" content="" />
+  <style>[x-cloak]{display:none !important}[hidden]{display:none !important}</style>
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-6-tablet is-5-desktop">
+          <!-- Svelte 5 login island mount point (mounted by login.ts). -->
+          <div id="login-root"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script type="module" src="./login.ts"></script>
+</body>
+</html>

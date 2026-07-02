@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Import dictionary</title>
+  <!-- Mounts the Svelte dictionary-import island (DictionaryImportPage), the
+       Alpine->Svelte port of import.php. Server-enhanced (Job B, surface 3):
+       imported dictionaries are stored + parsed by a connected Lukaisu Server, so
+       this page is gated. Offline (local-first, no server) dictionary-import.ts
+       reveals the notice below and does NOT mount the island, so no
+       /api/v1/local-dictionaries* calls fire. No `lukaisu-modules` meta: the
+       Svelte island replaces the Alpine dictionary module on the bundled app. -->
+  <style>[x-cloak]{display:none !important}[hidden]{display:none !important}</style>
+</head>
+<body>
+  <!-- Real navbar, hydrated from GET /api/v1/navbar (mountNavbar in main.ts). -->
+  <div id="navbar-root" data-navbar-root data-current-page="languages"></div>
+  <section class="section pt-4">
+    <div class="container" style="max-width: 52rem;">
+      <h1 class="title is-4">Import dictionary</h1>
+
+      <!-- No-server placeholder. dictionary-import.ts un-hides this (and skips
+           mounting the island) when local-first; hidden in server-backed modes. -->
+      <div id="dict-import-offline" class="notification is-info is-light" hidden>
+        <h2 class="title is-5">
+          <span class="icon"><i data-lucide="book-text"></i></span>
+          Dictionary import needs a connected server
+        </h2>
+        <p class="block">
+          Dictionaries are downloaded, parsed and stored on a Lukaisu Server, so
+          this page lights up once you connect one. Offline, the reader still
+          looks words up with your configured online dictionaries.
+        </p>
+        <button id="dict-import-connect" type="button" class="button is-primary">
+          <span class="icon"><i data-lucide="server"></i></span>
+          <span>Connect a server</span>
+        </button>
+      </div>
+
+      <!-- Svelte dictionary-import island mount point (DictionaryImportPage).
+           dictionary-import.ts mounts here only when a server is connected;
+           offline it stays empty and #dict-import-offline is revealed instead. -->
+      <div id="dictionary-import-root"></div>
+    </div>
+  </section>
+  <script type="module" src="./dictionary-import.ts"></script>
+</body>
+</html>

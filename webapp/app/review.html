@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Review</title>
+  <meta name="lukaisu-modules" content="review,vocabulary,text,language" />
+  <style>
+    [x-cloak]{display:none !important}
+    .app-bar{display:flex;align-items:center;gap:.75rem;padding:.5rem 1rem;border-bottom:1px solid #dbdbdb}
+  </style>
+</head>
+<body>
+  <nav class="app-bar">
+    <a class="button is-small is-light" href="/texts">&larr; Library</a>
+  </nav>
+  <!-- Body prerendered at build time from the server's review view
+       (#review-app container + feedback audio elements). -->
+  <!-- Main navigation -->
+<div id="navbar-root" data-navbar-root data-current-page=""></div>
+
+<!-- Svelte 5 review island (mounted by review.ts). Replaces the Alpine
+     `reviewApp` / `tableReview` region; the Alpine review_view.ts stays as the
+     PWA's renderer until the server UI retires. -->
+<div id="review-app"></div>
+
+<!-- Audio elements for feedback -->
+<audio id="success_sound" preload="auto">
+  <source src="./sounds/success.mp3" type="audio/mpeg" />
+</audio>
+<audio id="failure_sound" preload="auto">
+  <source src="./sounds/failure.mp3" type="audio/mpeg" />
+</audio>
+
+<!-- Review configuration -->
+<script type="application/json" id="review-config">{}</script>
+  <script type="module" src="./review.ts"></script>
+</body>
+</html>

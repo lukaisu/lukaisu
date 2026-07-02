@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Languages</title>
+  <meta name="lukaisu-modules" content="language" />
+  <style>[x-cloak]{display:none !important}</style>
+</head>
+<body>
+  <!-- Real navbar, hydrated from GET /api/v1/navbar (mountNavbar in main.ts). -->
+  <div id="navbar-root" data-navbar-root data-current-page="languages"></div>
+  <section class="section pt-4">
+    <h1 class="title is-4">Languages</h1>
+    <!-- Svelte 5 island mount point (LanguageList.svelte), mounted by languages.ts.
+         Replaces the former Alpine `x-data="languageList"` region; the Alpine
+         component stays as the PWA renderer until cut-over. -->
+    <div id="language-list-root"></div>
+  </section>
+  <script type="module" src="./languages.ts"></script>
+</body>
+</html>

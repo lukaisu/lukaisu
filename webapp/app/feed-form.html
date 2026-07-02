@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Feed</title>
+  <!-- Mounts the Svelte FeedFormPage island (the Alpine→Svelte port of
+       Modules/Feed/Views/new.php + edit.php): the new/edit form for a feed. A
+       `?feed=<id>` switches it to edit mode. Server-enhanced (Job B): creating /
+       editing a feed goes through /api/v1/feeds (no local-first arm), so this page
+       is gated like feeds — offline (local-first, no server) feed-form.ts reveals
+       the notice below and does NOT mount the island. The kept POST /feeds/new and
+       POST /feeds/{id}/edit handlers stay as the native-submit fallback. No
+       `lukaisu-modules` meta: the Svelte island is the sole renderer here. -->
+  <style>[x-cloak]{display:none !important}[hidden]{display:none !important}</style>
+</head>
+<body>
+  <!-- Real navbar, hydrated from GET /api/v1/navbar (mountNavbar in main.ts). -->
+  <div id="navbar-root" data-navbar-root data-current-page="feeds"></div>
+  <section class="section pt-4">
+    <!-- No-server placeholder. feed-form.ts un-hides this (and skips mounting the
+         island) when local-first; hidden in server-backed / same-origin modes. -->
+    <div id="feed-form-offline" class="notification is-info is-light" hidden>
+      <h2 class="title is-5">
+        <span class="icon"><i data-lucide="rss"></i></span>
+        Editing feeds needs a connected server
+      </h2>
+      <p class="block">
+        Feeds are created and edited on a Lukaisu Server, which fetches and parses
+        RSS &amp; Atom sources, so this form lights up once you connect one.
+      </p>
+      <button id="feed-form-connect" type="button" class="button is-primary">
+        <span class="icon"><i data-lucide="server"></i></span>
+        <span>Connect a server</span>
+      </button>
+    </div>
+
+    <!-- Svelte FeedFormPage island mount point. feed-form.ts mounts here only when
+         a server is connected; offline it stays empty and the notice above shows. -->
+    <div id="feed-form-root"></div>
+  </section>
+  <script type="module" src="./feed-form.ts"></script>
+</body>
+</html>

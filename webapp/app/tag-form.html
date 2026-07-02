@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Tag</title>
+  <!-- Mounts the Svelte TagForm island (the Alpine→Svelte port of
+       Modules/Tags/Views/tag_form.php): the new/edit form for a term tag
+       (?kind=term) or a text tag (?kind=text); an ?id= switches it to edit mode.
+       Server-only: creating/editing a tag goes through /api/v1/tags/{term,text}
+       (there is no local-first router arm), so this page is gated like feeds —
+       offline (local-first, no server) tag-form.ts reveals the notice below and
+       does NOT mount the island. The server-rendered tag_form.php stays only as
+       the POST-fallback renderer. No `lukaisu-modules` meta: the Svelte island is
+       the sole renderer here. -->
+  <style>[x-cloak]{display:none !important}[hidden]{display:none !important}</style>
+</head>
+<body>
+  <!-- Real navbar, hydrated from GET /api/v1/navbar (mountNavbar in main.ts). -->
+  <div id="navbar-root" data-navbar-root data-current-page="term-tags"></div>
+  <section class="section pt-4">
+    <!-- No-server placeholder. tag-form.ts un-hides this (and skips mounting the
+         island) when local-first; hidden in server-backed / same-origin modes. -->
+    <div id="tag-form-offline" class="notification is-info is-light" hidden>
+      <h2 class="title is-5">
+        <span class="icon"><i data-lucide="tag"></i></span>
+        Editing tags needs a connected server
+      </h2>
+      <p class="block">
+        Tags are created and edited on a Lukaisu Server, so this form lights up
+        once you connect one. The tags you have already applied to terms and
+        texts keep working offline.
+      </p>
+      <button id="tag-form-connect" type="button" class="button is-primary">
+        <span class="icon"><i data-lucide="server"></i></span>
+        <span>Connect a server</span>
+      </button>
+    </div>
+
+    <!-- Svelte TagForm island mount point. tag-form.ts mounts here only when a
+         server is connected; offline it stays empty and the notice above shows. -->
+    <div id="tag-form-root"></div>
+  </section>
+  <script type="module" src="./tag-form.ts"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Add a text</title>
+  <!-- Navbar + i18n only. No legacy feature module: the server-rendered text
+       form does a native POST and bundles same-origin-only importers; this page
+       drives the API client directly. Server-enhanced importers (web page,
+       YouTube) are bundle-native (api client -> the connected server) and gated;
+       file/subtitle import parses on-device and works offline. -->
+  <meta name="lukaisu-modules" content="" />
+  <style>[x-cloak]{display:none !important}[hidden]{display:none !important}</style>
+</head>
+<body>
+  <div id="navbar-root" data-navbar-root data-current-page="texts"></div>
+  <section class="section">
+    <div class="container" style="max-width: 48rem;">
+      <h1 class="title is-4">Add a text</h1>
+
+      <!-- Shown when there is no language yet: a text needs one to parse into. -->
+      <div id="nt-no-lang" class="notification is-info" style="display:none">
+        You need a language first.
+        <a href="/languages/new">Add a language</a> to start reading.
+      </div>
+
+      <form id="new-text-form" novalidate>
+        <div class="field">
+          <label class="label" for="nt-lang">Language</label>
+          <div class="control">
+            <div class="select is-fullwidth">
+              <select id="nt-lang"></select>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="nt-title">Title</label>
+          <div class="control">
+            <input id="nt-title" class="input" type="text" required placeholder="Give your text a title" />
+          </div>
+        </div>
+        <!-- Import source (optional) — fills Title + Text below. The web-page and
+             YouTube panels need a connected server, so they're hidden until
+             text.ts un-hides them in server-backed / same-origin mode; file and
+             subtitle import parse on-device and stay available offline. -->
+        <div class="field" id="nt-import">
+          <label class="label">
+            Import from
+            <span class="has-text-weight-normal has-text-grey is-size-7">— optional, fills the fields below</span>
+          </label>
+          <div class="buttons has-addons mb-2">
+            <button type="button" class="button is-small" data-import="file">
+              <span class="icon is-small"><i data-lucide="file-up"></i></span><span>File</span>
+            </button>
+            <button type="button" class="button is-small" data-import="url" hidden>
+              <span class="icon is-small"><i data-lucide="globe"></i></span><span>Web page</span>
+            </button>
+            <button type="button" class="button is-small" data-import="youtube" hidden>
+              <span class="icon is-small"><i data-lucide="video"></i></span><span>YouTube</span>
+            </button>
+          </div>
+
+          <div data-import-panel="file" class="box p-3" hidden>
+            <div class="control">
+              <input id="nt-file" class="input" type="file"
+                     accept=".txt,.srt,.vtt,.epub,text/plain,text/vtt,application/x-subrip,application/epub+zip" />
+            </div>
+            <p class="help">
+              Plain text (.txt), subtitles (.srt/.vtt) or an EPUB book (.epub). Parsed on your
+              device — no server needed; an EPUB imports as one text per chapter.
+            </p>
+            <p id="nt-file-status" class="help"></p>
+          </div>
+
+          <div data-import-panel="url" class="box p-3" hidden>
+            <div class="field has-addons mb-1">
+              <div class="control is-expanded">
+                <input id="nt-url" class="input" type="url" placeholder="https://example.com/article" />
+              </div>
+              <div class="control">
+                <button id="nt-url-fetch" type="button" class="button is-link">Fetch</button>
+              </div>
+            </div>
+            <p id="nt-url-status" class="help"></p>
+          </div>
+
+          <div data-import-panel="youtube" class="box p-3" hidden>
+            <div class="field has-addons mb-1">
+              <div class="control is-expanded">
+                <input id="nt-yt" class="input" type="text" placeholder="YouTube URL or video ID" />
+              </div>
+              <div class="control">
+                <button id="nt-yt-fetch" type="button" class="button is-link">Fetch</button>
+              </div>
+            </div>
+            <p id="nt-yt-status" class="help">Needs the server's <code>YT_API_KEY</code> configured.</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="nt-text">Text</label>
+          <div class="control">
+            <textarea id="nt-text" class="textarea" rows="10" required
+                      placeholder="Paste or type the text you want to read…"></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="nt-tags">Tags <span class="has-text-grey">(optional, comma-separated)</span></label>
+          <div class="control">
+            <input id="nt-tags" class="input" type="text" placeholder="e.g. news, beginner" />
+          </div>
+        </div>
+        <p id="nt-error" class="help is-danger" style="display:none"></p>
+        <div class="field is-grouped mt-4">
+          <div class="control">
+            <button id="nt-submit" class="button is-primary" type="submit">Create &amp; read</button>
+          </div>
+          <div class="control">
+            <a class="button is-light" href="/texts">Cancel</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+  <script type="module" src="./text.ts"></script>
+</body>
+</html>

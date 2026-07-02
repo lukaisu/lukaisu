@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Archived Texts</title>
+  <meta name="lukaisu-modules" content="text" />
+  <style>[x-cloak]{display:none !important}</style>
+</head>
+<body>
+  <!-- Real navbar, hydrated from GET /api/v1/navbar (mountNavbar in main.ts). -->
+  <div id="navbar-root" data-navbar-root data-current-page="texts"></div>
+  <section class="section pt-4">
+    <h1 class="title is-4">Archived Texts</h1>
+    <!-- Body prerendered from src/Modules/Text/Views/archived_list.php.
+         Regenerate: php build/prerender-app-view.php -->
+    <div class="card action-card mb-4">
+        <div class="card-content">
+            <div class="buttons is-centered">
+                                <a href="/texts/new" class="button is-light is-primary">
+                        <span class="icon"><i data-lucide="circle-plus" class="icon" aria-label="New Text" style="width:16px;height:16px"></i></span>
+                        <span>New Text</span>
+                    </a>                <a href="/texts?query=&amp;page=1" class="button is-light">
+                        <span class="icon"><i data-lucide="book-open" class="icon" aria-label="Active Texts" style="width:16px;height:16px"></i></span>
+                        <span>Active Texts</span>
+                    </a>
+            </div>
+        </div>
+    </div>
+    <!-- Svelte 5 archived-texts island (mounted by texts.ts). Replaces the Alpine
+         `archivedTextsGroupedApp` x-data region (grouped collapsible language
+         sections, lazy per-language load, per-section pagination + bulk actions)
+         — the Alpine→Svelte migration of the archived-texts list. The Alpine
+         component (archived_texts_grouped_app.ts) still loads via the page's
+         module meta but no-ops here with no `x-data` node, and stays as the PWA's
+         renderer until the server UI retires. -->
+    <div id="archived-texts-root"></div>
+
+    <!-- Config kept for the Alpine PWA renderer; the Svelte island reads the
+         active language from a prop resolved in texts.ts. -->
+    <script type="application/json" id="archived-texts-grouped-config">{"activeLanguageId":0}</script>
+  </section>
+  <script type="module" src="./texts.ts"></script>
+</body>
+</html>

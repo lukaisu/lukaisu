@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Preferences</title>
+  <!-- Navbar + i18n only. The server-rendered preferences form (Modules/User/
+       Views/preferences.php) POSTs natively to /profile/preferences; this drives
+       the API client directly so the preferences the bundle honours persist
+       on-device offline. -->
+  <meta name="lukaisu-modules" content="" />
+  <style>[x-cloak]{display:none !important}</style>
+</head>
+<body>
+  <div id="navbar-root" data-navbar-root data-current-page="preferences"></div>
+  <section class="section">
+    <div class="container" style="max-width: 42rem;">
+      <h1 class="title is-4">Preferences</h1>
+
+      <!-- Shown while the languages load. -->
+      <div id="st-loading" class="notification is-info is-light">Loading preferences…</div>
+
+      <form id="settings-form" novalidate style="display:none">
+        <!-- Reading -->
+        <h2 class="title is-5">Reading</h2>
+        <div class="field">
+          <label class="label" for="st-default-lang">Default language</label>
+          <div class="control">
+            <div class="select is-fullwidth">
+              <select id="st-default-lang"></select>
+            </div>
+          </div>
+          <p class="help">The language the library and "add a text" pages open to.</p>
+        </div>
+
+        <hr class="my-5" />
+
+        <!-- Appearance -->
+        <h2 class="title is-5">Appearance</h2>
+        <div class="field">
+          <label class="label" for="st-locale">Interface language</label>
+          <div class="control">
+            <div class="select is-fullwidth">
+              <select id="st-locale"></select>
+            </div>
+          </div>
+          <p id="st-locale-note" class="help is-warning" style="display:none">
+            Only English is bundled offline. Connect a server to use other
+            interface languages.
+          </p>
+        </div>
+
+        <!-- Server (optional). Lukaisu is local-first; connecting a server is an
+             opt-in that unlocks server-enhanced extras. Hidden when the bundle is
+             served by a Lukaisu Server as its own UI (same-origin mode). -->
+        <section id="st-server-section" style="display:none">
+          <hr class="my-5" />
+          <h2 class="title is-5">Server</h2>
+
+          <!-- Local-first: no server connected. -->
+          <div id="st-server-disconnected" style="display:none">
+            <p class="help mb-3">
+              Lukaisu works fully on this device with no account. Connecting a
+              Lukaisu Server is optional — it adds high-quality parsing for
+              Japanese and Chinese, text-to-speech, transcription, and content
+              discovery.
+            </p>
+            <button id="st-connect-server" class="button is-link is-light" type="button">
+              Connect a server
+            </button>
+          </div>
+
+          <!-- A remote server is connected. -->
+          <div id="st-server-connected" style="display:none">
+            <p class="help mb-3">
+              Connected to <strong id="st-server-addr"></strong>. Your library is
+              served from this device; the server adds the enhanced features.
+            </p>
+            <button id="st-disconnect-server" class="button is-light" type="button">
+              Disconnect
+            </button>
+          </div>
+
+          <!-- Language processing (NLP) endpoint — optional override. Defaults
+               to the connected server; point it elsewhere to use a separate NLP
+               service. -->
+          <div class="field mt-4">
+            <label class="label" for="st-nlp-server">Language processing service (optional)</label>
+            <div class="control">
+              <input id="st-nlp-server" class="input" type="url" inputmode="url"
+                     placeholder="https://nlp.example:8000" autocomplete="off"
+                     autocapitalize="none" autocorrect="off" spellcheck="false" />
+            </div>
+            <p class="help">
+              Adds high-quality Korean and CJK word splitting and dictionary
+              lemmas. Leave blank to use your connected server; set it to point at
+              a separate NLP service you run.
+            </p>
+          </div>
+        </section>
+
+        <p id="st-error" class="help is-danger" style="display:none"></p>
+        <div id="st-success" class="notification is-success is-light mt-4" style="display:none">
+          Preferences saved.
+        </div>
+
+        <div class="field is-grouped mt-5">
+          <div class="control">
+            <button id="st-submit" class="button is-primary" type="submit">Save preferences</button>
+          </div>
+          <div class="control">
+            <a class="button is-light" href="/texts">Cancel</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+  <script type="module" src="./settings.ts"></script>
+</body>
+</html>

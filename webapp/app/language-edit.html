@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Edit language</title>
+  <!-- Navbar + i18n only. The server-rendered language form (Modules/Language/
+       Views/form.php) does a native POST; this drives the API client directly so
+       it edits the on-device language store offline. -->
+  <meta name="lukaisu-modules" content="" />
+  <style>[x-cloak]{display:none !important}</style>
+</head>
+<body>
+  <div id="navbar-root" data-navbar-root data-current-page="language-edit"></div>
+  <section class="section">
+    <div class="container" style="max-width: 48rem;">
+      <h1 class="title is-4">Edit language: <span id="le-name-title" class="has-text-weight-normal"></span></h1>
+
+      <!-- Shown while the language loads, or if it can't be found. -->
+      <div id="le-loading" class="notification is-info is-light">Loading language…</div>
+      <div id="le-notfound" class="notification is-warning" style="display:none">
+        Language not found. <a href="/languages">Back to the languages list</a>.
+      </div>
+
+      <form id="language-edit-form" novalidate style="display:none">
+        <article class="message is-warning mb-4">
+          <div class="message-body">
+            <strong>Heads up:</strong>
+            changing parsing settings (word characters, sentence splitting, character
+            substitutions…) re-parses every text in this language.
+          </div>
+        </article>
+
+        <!-- Name (always visible) -->
+        <div class="field">
+          <label class="label" for="le-name">Display name</label>
+          <div class="control">
+            <input id="le-name" class="input" type="text" maxlength="40" required
+                   placeholder="e.g. French" />
+          </div>
+        </div>
+
+        <hr class="my-5" />
+
+        <!-- Dictionaries & translation -->
+        <h2 class="title is-5">Dictionaries &amp; translation</h2>
+
+        <!-- Imported (local) dictionaries are server-enhanced (Job B); the link is
+             revealed by language-edit.ts only when a server is connected. -->
+        <p id="le-local-dicts-wrap" class="block" hidden>
+          <a id="le-local-dicts" class="button is-small is-link is-light" href="#">
+            <span class="icon"><i data-lucide="book-text"></i></span>
+            <span>Manage local dictionaries</span>
+          </a>
+        </p>
+
+        <div class="field">
+          <label class="label" for="le-dict1-uri">Dictionary 1 URI</label>
+          <div class="control">
+            <input id="le-dict1-uri" class="input" type="url" maxlength="200"
+                   placeholder="https://…/lukaisu_term" />
+          </div>
+          <label class="checkbox mt-2">
+            <input id="le-dict1-popup" type="checkbox" /> Open in popup
+          </label>
+        </div>
+
+        <div class="field">
+          <label class="label" for="le-dict2-uri">Dictionary 2 URI</label>
+          <div class="control">
+            <input id="le-dict2-uri" class="input" type="url" maxlength="200"
+                   placeholder="https://…/lukaisu_term" />
+          </div>
+          <label class="checkbox mt-2">
+            <input id="le-dict2-popup" type="checkbox" /> Open in popup
+          </label>
+        </div>
+
+        <div class="field">
+          <label class="label" for="le-translator-uri">Sentence translator URI</label>
+          <div class="control">
+            <input id="le-translator-uri" class="input" type="url" maxlength="200"
+                   placeholder="https://translate.google.com/?…&amp;text=lukaisu_term" />
+          </div>
+          <label class="checkbox mt-2">
+            <input id="le-translator-popup" type="checkbox" /> Open in popup
+          </label>
+        </div>
+
+        <div class="columns">
+          <div class="column">
+            <div class="field">
+              <label class="label" for="le-source-lang">Source language code</label>
+              <div class="control">
+                <input id="le-source-lang" class="input" type="text" maxlength="10"
+                       placeholder="e.g. de, ja, zh" />
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label class="label" for="le-target-lang">Target language code</label>
+              <div class="control">
+                <input id="le-target-lang" class="input" type="text" maxlength="10"
+                       placeholder="e.g. en" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-5" />
+
+        <!-- Display -->
+        <h2 class="title is-5">Display</h2>
+
+        <div class="field">
+          <label class="label" for="le-text-size">Text size (%)</label>
+          <div class="control">
+            <input id="le-text-size" class="input" type="number" min="100" max="250" step="50"
+                   style="max-width: 120px;" />
+          </div>
+          <div class="control mt-2">
+            <input id="le-text-size-example" class="input" type="text" readonly
+                   value="The quick brown fox" />
+          </div>
+        </div>
+
+        <hr class="my-5" />
+
+        <!-- Text processing -->
+        <h2 class="title is-5">Text processing</h2>
+
+        <div class="field">
+          <label class="label" for="le-char-subst">Character substitutions</label>
+          <div class="control">
+            <input id="le-char-subst" class="input" type="text" maxlength="500" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="le-regexp-split">RegExp split sentences</label>
+          <div class="control">
+            <input id="le-regexp-split" class="input" type="text" maxlength="500" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="le-exceptions-split">Exceptions split sentences</label>
+          <div class="control">
+            <input id="le-exceptions-split" class="input" type="text" maxlength="500" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="le-regexp-wordchar">RegExp word characters</label>
+          <div class="control">
+            <input id="le-regexp-wordchar" class="input" type="text" maxlength="500" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="checkbox">
+            <input id="le-split-each-char" type="checkbox" />
+            <strong>Split each character as a word</strong>
+          </label>
+        </div>
+        <div class="field">
+          <label class="checkbox">
+            <input id="le-remove-spaces" type="checkbox" />
+            <strong>Remove spaces</strong>
+          </label>
+        </div>
+        <div class="field">
+          <label class="checkbox">
+            <input id="le-rtl" type="checkbox" />
+            <strong>Right-to-left script</strong>
+          </label>
+        </div>
+        <div class="field">
+          <label class="checkbox">
+            <input id="le-show-romanization" type="checkbox" />
+            <strong>Show romanization</strong>
+          </label>
+        </div>
+
+        <hr class="my-5" />
+
+        <!-- Export & speech -->
+        <h2 class="title is-5">Export &amp; speech</h2>
+
+        <div class="field">
+          <label class="label" for="le-export-template">Export template</label>
+          <div class="control">
+            <input id="le-export-template" class="input" type="text" maxlength="1000" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="le-tts-voice-api">Third-party text-to-speech API <span class="has-text-grey">(JSON, optional)</span></label>
+          <div class="control">
+            <textarea id="le-tts-voice-api" class="textarea" rows="4" maxlength="2048"></textarea>
+          </div>
+        </div>
+
+        <p id="le-error" class="help is-danger" style="display:none"></p>
+
+        <div class="field is-grouped mt-5">
+          <div class="control">
+            <button id="le-submit" class="button is-primary" type="submit">Save changes</button>
+          </div>
+          <div class="control">
+            <a class="button is-light" href="/languages">Cancel</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+  <script type="module" src="./language-edit.ts"></script>
+</body>
+</html>

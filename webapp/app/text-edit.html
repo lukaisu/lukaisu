@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Edit text</title>
+  <!-- Navbar + i18n only. The server-rendered text edit form (Modules/Text/Views/
+       edit_form.php) does a native POST; this drives the API client directly so it
+       edits the on-device text store offline. -->
+  <meta name="lukaisu-modules" content="" />
+  <style>[x-cloak]{display:none !important}</style>
+</head>
+<body>
+  <div id="navbar-root" data-navbar-root data-current-page="texts"></div>
+  <section class="section">
+    <div class="container" style="max-width: 48rem;">
+      <h1 class="title is-4">Edit text</h1>
+
+      <!-- Shown while the text loads, or if it can't be found. -->
+      <div id="te-loading" class="notification is-info is-light">Loading text…</div>
+      <div id="te-notfound" class="notification is-warning" style="display:none">
+        Text not found. <a href="/texts">Back to the texts list</a>.
+      </div>
+
+      <form id="text-edit-form" novalidate style="display:none">
+        <article class="message is-warning mb-4">
+          <div class="message-body">
+            <strong>Heads up:</strong>
+            editing the text body (or changing its language) re-parses the text, so
+            the reader reflects your changes. Saved word statuses are kept.
+          </div>
+        </article>
+
+        <div class="field">
+          <label class="label" for="te-title">Title</label>
+          <div class="control">
+            <input id="te-title" class="input" type="text" maxlength="200" required
+                   placeholder="A title for this text" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="te-language">Language</label>
+          <div class="control">
+            <div class="select is-fullwidth">
+              <select id="te-language"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="te-text">Text</label>
+          <div class="control">
+            <textarea id="te-text" class="textarea" rows="12"
+                      placeholder="The text to read"></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="te-source-uri">Source URL <span class="has-text-grey">(optional)</span></label>
+          <div class="control">
+            <input id="te-source-uri" class="input" type="url" maxlength="1000"
+                   placeholder="https://…" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="te-audio-uri">Audio URL <span class="has-text-grey">(optional)</span></label>
+          <div class="control">
+            <input id="te-audio-uri" class="input" type="url" maxlength="1000"
+                   placeholder="https://… or ./media/…" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="te-tags">Tags <span class="has-text-grey">(optional, comma-separated)</span></label>
+          <div class="control">
+            <input id="te-tags" class="input" type="text" placeholder="e.g. news, chapter-1" />
+          </div>
+        </div>
+
+        <p id="te-error" class="help is-danger" style="display:none"></p>
+
+        <div class="field is-grouped mt-5">
+          <div class="control">
+            <button id="te-submit" class="button is-primary" type="submit">Save changes</button>
+          </div>
+          <div class="control">
+            <a id="te-cancel" class="button is-light" href="/texts">Cancel</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+  <script type="module" src="./text-edit.ts"></script>
+</body>
+</html>

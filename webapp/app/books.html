@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Books</title>
+  <!-- Mounts the Svelte BooksListPage island. Server-enhanced: book entities live
+       on a connected Lukaisu Server, so this page is gated. Offline (local-first,
+       no server) books.ts reveals the notice below and does NOT mount the island.
+       /books 302s here. -->
+  <style>[x-cloak]{display:none !important}[hidden]{display:none !important}</style>
+</head>
+<body>
+  <!-- Real navbar, hydrated from GET /api/v1/navbar. -->
+  <div id="navbar-root" data-navbar-root data-current-page="books"></div>
+  <section class="section pt-4">
+    <h1 class="title is-4">Books</h1>
+
+    <!-- No-server placeholder. books.ts un-hides this (and skips mounting the
+         island) when local-first; hidden in server-backed modes. -->
+    <div id="books-offline" class="notification is-info is-light" hidden>
+      <h2 class="title is-5">
+        <span class="icon"><i data-lucide="library"></i></span>
+        Books need a connected server
+      </h2>
+      <p class="block">
+        Imported books and their chapters live on a Lukaisu Server, so this page
+        lights up once you connect one. Reading, saving words and reviewing keep
+        working offline.
+      </p>
+      <button id="books-connect" type="button" class="button is-primary">
+        <span class="icon"><i data-lucide="server"></i></span>
+        <span>Connect a server</span>
+      </button>
+    </div>
+
+    <!-- Svelte BooksListPage island mount point. -->
+    <div id="books-root"></div>
+  </section>
+  <script type="module" src="./books.ts"></script>
+</body>
+</html>

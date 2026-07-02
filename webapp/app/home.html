@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Home</title>
+  <!-- Mounts the Svelte 5 home dashboard island (HomePage.svelte) into
+       #home-root. The boot entry (home.ts) assembles its config
+       (continue-reading text + counts) on-device. Catalog discovery
+       (Gutenberg/GDL browse, on-device Gutenberg + GDL-EPUB import, Gutenberg +
+       GDL coverage preview) runs client-side behind the "Discover books" toggle;
+       RSS and arbitrary-URL import stay server-enhanced. The Alpine home module
+       still loads (PWA renderer) but binds no nodes here. -->
+  <meta name="lukaisu-modules" content="home" />
+  <style>[x-cloak]{display:none !important}</style>
+</head>
+<body>
+  <div id="navbar-root" data-navbar-root data-current-page=""></div>
+  <section class="section">
+    <div class="container">
+
+      <!-- Welcome -->
+      <section class="hero is-small is-primary is-bold mb-5">
+        <div class="hero-body py-4">
+          <p class="title is-4 has-text-centered">Welcome to Lukaisu</p>
+        </div>
+      </section>
+
+      <!-- No languages yet: send the user to add one. Toggled by the boot entry
+           (offline the DB is always seeded, so this is the empty-install guard). -->
+      <div id="home-no-languages" class="has-text-centered" style="display:none">
+        <a href="/languages/new" class="button is-large is-primary">
+          <span class="icon"><i data-lucide="languages"></i></span>
+          <span>Add your first language</span>
+        </a>
+      </div>
+
+      <!-- Svelte 5 home dashboard island (mounted by home.ts). Replaces the
+           Alpine `homeApp` x-data region (incl. the nested `discoverBooks`,
+           `gutenbergSuggestions` and `gdlSuggestions` x-data) — the
+           Alpine→Svelte migration of the home page. The Alpine components
+           (home_app.ts etc.) still load via the page's module meta but no-op
+           here with no `x-data` node, and stay as the PWA's renderer until the
+           server UI retires. home.ts mounts this only after it resolves the
+           current language + continue-reading text and injects the config. -->
+      <div id="home-root"></div>
+
+    </div>
+  </section>
+  <script type="module" src="./home.ts"></script>
+</body>
+</html>

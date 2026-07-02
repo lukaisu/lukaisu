@@ -10,7 +10,19 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "isolatedModules": true,
-    "noEmit": true
+    "esModuleInterop": true,
+    "allowJs": false,
+    "declaration": false,
+    "noEmit": true,
+    "paths": {
+      "@/*": ["./webapp/js/*"],
+      "@shared/*": ["./webapp/js/shared/*"],
+      "@modules/*": ["./webapp/js/modules/*"],
+      "@css/*": ["./webapp/css/base/*"],
+      "@themes/*": ["./webapp/css/themes/*"]
+    },
+    "types": ["vite/client", "node"]
   },
-  "include": ["src", "capacitor.config.ts", "vite.config.ts"]
+  "include": ["webapp/js/**/*", "webapp/app/**/*", "capacitor.config.ts", "webapp.vite.config.ts"],
+  "exclude": ["node_modules", "assets", "android"]
 }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Add a language</title>
+  <!-- Navbar + i18n only. No legacy feature module: this form drives the API
+       client directly (the server-rendered language form does a native POST and
+       cannot work offline). -->
+  <meta name="lukaisu-modules" content="" />
+  <style>[x-cloak]{display:none !important}</style>
+</head>
+<body>
+  <div id="navbar-root" data-navbar-root data-current-page="languages"></div>
+  <section class="section">
+    <div class="container" style="max-width: 40rem;">
+      <h1 class="title is-4">Add a language</h1>
+      <p class="subtitle is-6">
+        Start from a ready-made preset (dictionaries and parsing rules included),
+        then adjust the name if you like.
+      </p>
+      <form id="new-language-form" novalidate>
+        <div class="field">
+          <label class="label" for="nl-preset">Language</label>
+          <div class="control">
+            <div class="select is-fullwidth">
+              <select id="nl-preset"></select>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="nl-name">Name</label>
+          <div class="control">
+            <input id="nl-name" class="input" type="text" required placeholder="e.g. French" />
+          </div>
+        </div>
+        <p id="nl-error" class="help is-danger" style="display:none"></p>
+        <div class="field is-grouped mt-4">
+          <div class="control">
+            <button id="nl-submit" class="button is-primary" type="submit">Create language</button>
+          </div>
+          <div class="control">
+            <a class="button is-light" href="/texts">Cancel</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+  <script type="module" src="./language.ts"></script>
+</body>
+</html>

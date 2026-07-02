@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Tags</title>
+  <!-- Navbar + i18n only. The server-rendered tag list/form (Modules/Tags/Views)
+       use native navigation + POSTs; this drives the API client directly so it
+       manages the on-device tag store offline. -->
+  <meta name="lukaisu-modules" content="" />
+  <style>[x-cloak]{display:none !important}</style>
+</head>
+<body>
+  <div id="navbar-root" data-navbar-root data-current-page="term-tags"></div>
+  <section class="section">
+    <div class="container" style="max-width: 44rem;">
+      <h1 class="title is-4">Tags</h1>
+      <p class="subtitle is-6">
+        Rename or remove the tags you've applied to terms and texts. New tags are
+        created automatically when you tag a term or a text.
+      </p>
+
+      <div id="tg-loading" class="notification is-info is-light">Loading tags…</div>
+      <div id="tg-notice" class="notification" style="display:none"></div>
+
+      <div id="tg-content" style="display:none">
+        <!-- Term tags -->
+        <h2 class="title is-5 mt-5">Term tags</h2>
+        <table class="table is-fullwidth is-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th style="width: 5rem;">Uses</th>
+              <th style="width: 11rem;"></th>
+            </tr>
+          </thead>
+          <tbody id="tg-term-body"></tbody>
+        </table>
+        <p id="tg-term-empty" class="has-text-grey" style="display:none">
+          No term tags yet — tag a term to create one.
+        </p>
+
+        <!-- Text tags -->
+        <h2 class="title is-5 mt-5">Text tags</h2>
+        <table class="table is-fullwidth is-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th style="width: 5rem;">Uses</th>
+              <th style="width: 11rem;"></th>
+            </tr>
+          </thead>
+          <tbody id="tg-text-body"></tbody>
+        </table>
+        <p id="tg-text-empty" class="has-text-grey" style="display:none">
+          No text tags yet — tag a text to create one.
+        </p>
+      </div>
+    </div>
+  </section>
+  <script type="module" src="./tags.ts"></script>
+</body>
+</html>

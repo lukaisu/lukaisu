@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Admin Settings</title>
+  <!-- Mounts the Svelte AdminSettingsPage island. Server-enhanced: server-wide
+       admin settings (feed limits + multi-user flags) live on and configure a
+       connected Lukaisu Server, so this page is gated. Offline (local-first, no
+       server) admin-settings.ts reveals the notice below and does NOT mount the
+       island. /admin/settings 302s here. -->
+  <style>[x-cloak]{display:none !important}[hidden]{display:none !important}</style>
+</head>
+<body>
+  <!-- Real navbar, hydrated from GET /api/v1/navbar. -->
+  <div id="navbar-root" data-navbar-root data-current-page="admin"></div>
+  <section class="section pt-4">
+    <!-- No-server placeholder. admin-settings.ts un-hides this (and skips
+         mounting the island) when local-first; hidden in server-backed modes. -->
+    <div id="admin-settings-offline" class="notification is-info is-light" hidden>
+      <h2 class="title is-5">
+        <span class="icon"><i data-lucide="server"></i></span>
+        Admin settings need a connected server
+      </h2>
+      <p class="block">
+        These settings configure a Lukaisu Server (newsfeed limits, registration),
+        so this page lights up once you connect one.
+      </p>
+      <button id="admin-settings-connect" type="button" class="button is-primary">
+        <span class="icon"><i data-lucide="server"></i></span>
+        <span>Connect a server</span>
+      </button>
+    </div>
+
+    <!-- Svelte AdminSettingsPage island mount point. -->
+    <div id="admin-settings-root"></div>
+  </section>
+  <script type="module" src="./admin-settings.ts"></script>
+</body>
+</html>

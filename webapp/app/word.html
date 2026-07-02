@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Edit term</title>
+  <!-- Navbar + i18n only. The server-rendered term form (Vocabulary/Views/
+       form_edit_*.php) does a native POST; this drives the API client directly so
+       it edits the on-device term store offline. -->
+  <meta name="lukaisu-modules" content="" />
+  <style>[x-cloak]{display:none !important}</style>
+</head>
+<body>
+  <div id="navbar-root" data-navbar-root data-current-page="terms"></div>
+  <section class="section">
+    <div class="container" style="max-width: 48rem;">
+      <h1 class="title is-4">Edit term: <span id="we-term" class="has-text-weight-normal"></span></h1>
+
+      <!-- Shown while the term loads, or if it can't be found. -->
+      <div id="we-loading" class="notification is-info is-light">Loading term…</div>
+      <div id="we-notfound" class="notification is-warning" style="display:none">
+        Term not found. <a href="/words">Back to the terms list</a>.
+      </div>
+
+      <form id="word-edit-form" novalidate style="display:none">
+        <div class="field">
+          <label class="label" for="we-status">Status</label>
+          <div class="control">
+            <div class="select is-fullwidth">
+              <select id="we-status">
+                <option value="1">1 – Learning (new)</option>
+                <option value="2">2 – Learning</option>
+                <option value="3">3 – Learning</option>
+                <option value="4">4 – Learning</option>
+                <option value="5">5 – Learned</option>
+                <option value="99">Well-known</option>
+                <option value="98">Ignored</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="we-translation">Translation</label>
+          <div class="control">
+            <textarea id="we-translation" class="textarea" rows="2"
+                      placeholder="Meaning in your language"></textarea>
+          </div>
+        </div>
+        <div class="field" id="we-romanization-field">
+          <label class="label" for="we-romanization">Romanization</label>
+          <div class="control">
+            <input id="we-romanization" class="input" type="text"
+                   placeholder="Reading / pronunciation" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="we-lemma">Lemma <span class="has-text-grey">(optional)</span></label>
+          <div class="control">
+            <input id="we-lemma" class="input" type="text"
+                   placeholder="Dictionary / base form" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="we-sentence">Example sentence <span class="has-text-grey">(optional)</span></label>
+          <div class="control">
+            <textarea id="we-sentence" class="textarea" rows="2"
+                      placeholder="A sentence using this term"></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="we-notes">Notes <span class="has-text-grey">(optional)</span></label>
+          <div class="control">
+            <textarea id="we-notes" class="textarea" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="we-tags">Tags <span class="has-text-grey">(optional, comma-separated)</span></label>
+          <div class="control">
+            <input id="we-tags" class="input" type="text" placeholder="e.g. verb, chapter-1" />
+          </div>
+        </div>
+        <p id="we-error" class="help is-danger" style="display:none"></p>
+        <div class="level mt-4">
+          <div class="level-left">
+            <div class="field is-grouped">
+              <div class="control">
+                <button id="we-submit" class="button is-primary" type="submit">Save changes</button>
+              </div>
+              <div class="control">
+                <a class="button is-light" href="/words">Cancel</a>
+              </div>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="control">
+              <button id="we-delete" class="button is-danger is-outlined" type="button">Delete term</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+  <script type="module" src="./word.ts"></script>
+</body>
+</html>

@@ -1,0 +1,3261 @@
+/**
+ * \file
+ * \brief Main stylesheet for the default theme.
+ */
+
+/* Alpine.js cloak - hide elements until Alpine initializes */
+[x-cloak] {
+  display: none !important;
+}
+
+/* Screen reader only - visually hidden but accessible to assistive technology */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only-focusable:focus,
+.sr-only-focusable:active {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: inherit;
+}
+
+/* ==========================================================================
+   CSS Custom Properties - Themeable Colors
+   ========================================================================== */
+
+:root {
+  color-scheme: light dark;
+
+  /* Force Bulma light scheme */
+  --bulma-scheme-brightness: light;
+
+  /* Scheme lightness values for light mode */
+  --bulma-scheme-main-l: 100%;
+  --bulma-scheme-main-bis-l: 98%;
+  --bulma-scheme-main-ter-l: 96%;
+  --bulma-scheme-invert-l: 4%;
+  --bulma-scheme-invert-bis-l: 7%;
+  --bulma-scheme-invert-ter-l: 14%;
+
+  /* Background lightness */
+  --bulma-background-l: 96%;
+
+  /* Text lightness values */
+  --bulma-text-l: 29%;
+  --bulma-text-strong-l: 21%;
+  --bulma-text-weak-l: 48%;
+
+  /* Border lightness */
+  --bulma-border-l: 86%;
+
+  /* Button lightness */
+  --bulma-button-background-l: var(--bulma-scheme-main-l);
+  --bulma-button-color-l: var(--bulma-text-strong-l);
+
+  /* Navbar item lightness */
+  --bulma-navbar-item-background-l: var(--bulma-scheme-main-l);
+  --bulma-navbar-item-color-l: var(--bulma-text-l);
+
+  /* Core surfaces */
+  --lukaisu-body-bg: #FFFFFF;
+  --lukaisu-body-fg: #000000;
+  --lukaisu-heading-color: #363636;
+  --lukaisu-heading-border: #485fc7;
+
+  /* Form elements */
+  --lukaisu-input-bg: white;
+  --lukaisu-input-fg: #363636;
+  --lukaisu-input-border: #dbdbdb;
+  --lukaisu-input-border-hover: #b5b5b5;
+  --lukaisu-input-focus-border: #485fc7;
+  --lukaisu-input-focus-shadow: rgba(72,95,199,0.25);
+  --lukaisu-input-disabled-bg: #f5f5f5;
+  --lukaisu-input-disabled-fg: #7a7a7a;
+  --lukaisu-checkbox-accent: #485fc7;
+
+  /* Buttons */
+  --lukaisu-button-bg: white;
+  --lukaisu-button-fg: #363636;
+  --lukaisu-button-border: #dbdbdb;
+  --lukaisu-submit-bg: #485fc7;
+  --lukaisu-submit-bg-hover: #3e56c4;
+  --lukaisu-submit-fg: white;
+
+  /* Status colors (word highlighting) */
+  --lukaisu-status-fg: #000000;
+  --lukaisu-status0: #5ABAFF;
+  --lukaisu-status1: #E85A3C;
+  --lukaisu-status2: #E8893C;
+  --lukaisu-status3: #E8B83C;
+  --lukaisu-status4: #E8E23C;
+  --lukaisu-status5: #66CC66;
+  --lukaisu-status98: #888888;
+  --lukaisu-status99: #CCFFCC;
+
+  /* Test results */
+  --lukaisu-todo-bg: #F5E1A9;
+  --lukaisu-doneok-bg: #A9F5A9;
+  --lukaisu-donewrong-bg: #F5B8A9;
+  --lukaisu-status5stat-bg: #BBFFBB;
+  --lukaisu-status5stat-fg: #000000;
+
+  /* Tables */
+  --lukaisu-table-bg: #f8f8f8;
+  --lukaisu-table-border: #808080;
+  --lukaisu-th-bg: #DDDDDD;
+
+  /* Links / interactive */
+  --lukaisu-link-color: inherit;
+  --lukaisu-click-color: #C00000;
+
+  /* Annotations */
+  --lukaisu-annterm-border: #CCCCCC;
+  --lukaisu-anntermruby-border: #FFFFFF;
+  --lukaisu-annrom-fg: #999999;
+  --lukaisu-annromruby-fg: #000000;
+  --lukaisu-anntrans-fg: #0099CC;
+
+  /* Footer */
+  --lukaisu-footer-bg: white;
+  --lukaisu-footer-border: #000000;
+  --lukaisu-footer-test-bg: #DDDDDD;
+
+  /* Layout borders */
+  --lukaisu-borderleft-bg: #EEEEEE;
+  --lukaisu-borderleft-border: black;
+  --lukaisu-floatdiv-border: gray;
+
+  /* Word reading */
+  --lukaisu-wsty-fg: #000000;
+
+  /* Feed wizard */
+  --lukaisu-panel-bg: #fcfcfc;
+
+  /* Modern Bulma components */
+  --lukaisu-card-bg: white;
+  --lukaisu-navbar-bg: #f5f5f5;
+  --lukaisu-stat-item-bg: #f5f5f5;
+  --lukaisu-stat-label-fg: #666;
+  --lukaisu-stat-value-fg: #363636;
+  --lukaisu-popover-bg: white;
+  --lukaisu-popover-border: #dbdbdb;
+  --lukaisu-settings-header-bg: #f5f5f5;
+  --lukaisu-settings-header-hover-bg: #eeeeee;
+  --lukaisu-settings-header-border: #dbdbdb;
+  --lukaisu-audio-bg: #f5f5f5;
+  --lukaisu-progress-track-bg: #dbdbdb;
+  --lukaisu-ss-trigger-bg: white;
+  --lukaisu-ss-dropdown-bg: white;
+  --lukaisu-ss-hover-bg: #f5f5f5;
+  --lukaisu-ss-selected-bg: #eff5fb;
+  --lukaisu-ss-selected-fg: #485fc7;
+  --lukaisu-ss-selected-hover-bg: #e8f0fc;
+  --lukaisu-label-fg: #363636;
+  --lukaisu-stats-chart-bg: #fff;
+  --lukaisu-stats-chart-border: #ddd;
+}
+
+/* Auto-detect dark mode from OS preference (only when no explicit theme is set) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bulma-scheme-brightness: dark;
+    --bulma-scheme-main-l: 9%;
+    --bulma-scheme-main-bis-l: 11%;
+    --bulma-scheme-main-ter-l: 14%;
+    --bulma-scheme-invert-l: 96%;
+    --bulma-scheme-invert-bis-l: 93%;
+    --bulma-scheme-invert-ter-l: 86%;
+    --bulma-background-l: 14%;
+    --bulma-text-l: 71%;
+    --bulma-text-strong-l: 93%;
+    --bulma-text-weak-l: 53%;
+    --bulma-border-l: 27%;
+
+    --lukaisu-body-bg: #000000;
+    --lukaisu-body-fg: #FFFFFF;
+    --lukaisu-heading-color: #EEEEEE;
+    --lukaisu-heading-border: #485fc7;
+
+    --lukaisu-input-bg: #111111;
+    --lukaisu-input-fg: #EEEEEE;
+    --lukaisu-input-border: #404040;
+    --lukaisu-input-border-hover: #555555;
+    --lukaisu-input-focus-border: #6677bb;
+    --lukaisu-input-focus-shadow: rgba(102,119,187,0.35);
+    --lukaisu-input-disabled-bg: #1a1a1a;
+    --lukaisu-input-disabled-fg: #777777;
+    --lukaisu-checkbox-accent: #6677bb;
+
+    --lukaisu-button-bg: #222222;
+    --lukaisu-button-fg: #F3F3F3;
+    --lukaisu-button-border: #404040;
+    --lukaisu-submit-bg: #485fc7;
+    --lukaisu-submit-bg-hover: #3e56c4;
+    --lukaisu-submit-fg: white;
+
+    --lukaisu-status-fg: #FFFFFF;
+    --lukaisu-status0: #7D8FEA;
+    --lukaisu-status1: #F57869;
+    --lukaisu-status2: #F5B08B;
+    --lukaisu-status3: #F5E1A9;
+    --lukaisu-status4: #F5F388;
+    --lukaisu-status5: #88FF88;
+    --lukaisu-status98: #888888;
+    --lukaisu-status99: #446644;
+
+    --lukaisu-todo-bg: #fbdb89;
+    --lukaisu-doneok-bg: #64e56a;
+    --lukaisu-donewrong-bg: #f99689;
+    --lukaisu-status5stat-bg: #88FF88;
+    --lukaisu-status5stat-fg: #000000;
+
+    --lukaisu-table-bg: #080808;
+    --lukaisu-table-border: #404040;
+    --lukaisu-th-bg: #222222;
+
+    --lukaisu-link-color: #E00000;
+    --lukaisu-click-color: #C00000;
+
+    --lukaisu-annterm-border: #222222;
+    --lukaisu-anntermruby-border: #000000;
+    --lukaisu-annrom-fg: #999999;
+    --lukaisu-annromruby-fg: #FFFFFF;
+    --lukaisu-anntrans-fg: #0099CC;
+
+    --lukaisu-footer-bg: #222222;
+    --lukaisu-footer-border: #404040;
+    --lukaisu-footer-test-bg: #222222;
+
+    --lukaisu-borderleft-bg: #111111;
+    --lukaisu-borderleft-border: #404040;
+    --lukaisu-floatdiv-border: #222222;
+
+    --lukaisu-wsty-fg: #FFFFFF;
+
+    --lukaisu-panel-bg: #111111;
+
+    --lukaisu-card-bg: #1a1a1a;
+    --lukaisu-navbar-bg: #1a1a1a;
+    --lukaisu-stat-item-bg: #222222;
+    --lukaisu-stat-label-fg: #999;
+    --lukaisu-stat-value-fg: #EEEEEE;
+    --lukaisu-popover-bg: #1a1a1a;
+    --lukaisu-popover-border: #404040;
+    --lukaisu-settings-header-bg: #1a1a1a;
+    --lukaisu-settings-header-hover-bg: #252525;
+    --lukaisu-settings-header-border: #404040;
+    --lukaisu-audio-bg: #1a1a1a;
+    --lukaisu-progress-track-bg: #333333;
+    --lukaisu-ss-trigger-bg: #1a1a1a;
+    --lukaisu-ss-dropdown-bg: #1a1a1a;
+    --lukaisu-ss-hover-bg: #222222;
+    --lukaisu-ss-selected-bg: #1a2744;
+    --lukaisu-ss-selected-fg: #8da4e0;
+    --lukaisu-ss-selected-hover-bg: #1f2e4d;
+    --lukaisu-label-fg: #EEEEEE;
+    --lukaisu-stats-chart-bg: #1a1a1a;
+    --lukaisu-stats-chart-border: #404040;
+  }
+}
+
+/* Explicit dark theme selection */
+:root[data-theme="dark"] {
+  --bulma-scheme-brightness: dark;
+  --bulma-scheme-main-l: 9%;
+  --bulma-scheme-main-bis-l: 11%;
+  --bulma-scheme-main-ter-l: 14%;
+  --bulma-scheme-invert-l: 96%;
+  --bulma-scheme-invert-bis-l: 93%;
+  --bulma-scheme-invert-ter-l: 86%;
+  --bulma-background-l: 14%;
+  --bulma-text-l: 71%;
+  --bulma-text-strong-l: 93%;
+  --bulma-text-weak-l: 53%;
+  --bulma-border-l: 27%;
+
+  --lukaisu-body-bg: #000000;
+  --lukaisu-body-fg: #FFFFFF;
+  --lukaisu-heading-color: #EEEEEE;
+  --lukaisu-heading-border: #485fc7;
+
+  --lukaisu-input-bg: #111111;
+  --lukaisu-input-fg: #EEEEEE;
+  --lukaisu-input-border: #404040;
+  --lukaisu-input-border-hover: #555555;
+  --lukaisu-input-focus-border: #6677bb;
+  --lukaisu-input-focus-shadow: rgba(102,119,187,0.35);
+  --lukaisu-input-disabled-bg: #1a1a1a;
+  --lukaisu-input-disabled-fg: #777777;
+  --lukaisu-checkbox-accent: #6677bb;
+
+  --lukaisu-button-bg: #222222;
+  --lukaisu-button-fg: #F3F3F3;
+  --lukaisu-button-border: #404040;
+  --lukaisu-submit-bg: #485fc7;
+  --lukaisu-submit-bg-hover: #3e56c4;
+  --lukaisu-submit-fg: white;
+
+  --lukaisu-status-fg: #FFFFFF;
+  --lukaisu-status0: #7D8FEA;
+  --lukaisu-status1: #F57869;
+  --lukaisu-status2: #F5B08B;
+  --lukaisu-status3: #F5E1A9;
+  --lukaisu-status4: #F5F388;
+  --lukaisu-status5: #88FF88;
+  --lukaisu-status98: #888888;
+  --lukaisu-status99: #446644;
+
+  --lukaisu-todo-bg: #fbdb89;
+  --lukaisu-doneok-bg: #64e56a;
+  --lukaisu-donewrong-bg: #f99689;
+  --lukaisu-status5stat-bg: #88FF88;
+  --lukaisu-status5stat-fg: #000000;
+
+  --lukaisu-table-bg: #080808;
+  --lukaisu-table-border: #404040;
+  --lukaisu-th-bg: #222222;
+
+  --lukaisu-link-color: #E00000;
+  --lukaisu-click-color: #C00000;
+
+  --lukaisu-annterm-border: #222222;
+  --lukaisu-anntermruby-border: #000000;
+  --lukaisu-annrom-fg: #999999;
+  --lukaisu-annromruby-fg: #FFFFFF;
+  --lukaisu-anntrans-fg: #0099CC;
+
+  --lukaisu-footer-bg: #222222;
+  --lukaisu-footer-border: #404040;
+  --lukaisu-footer-test-bg: #222222;
+
+  --lukaisu-borderleft-bg: #111111;
+  --lukaisu-borderleft-border: #404040;
+  --lukaisu-floatdiv-border: #222222;
+
+  --lukaisu-wsty-fg: #FFFFFF;
+
+  --lukaisu-panel-bg: #111111;
+
+  --lukaisu-card-bg: #1a1a1a;
+  --lukaisu-navbar-bg: #1a1a1a;
+  --lukaisu-stat-item-bg: #222222;
+  --lukaisu-stat-label-fg: #999;
+  --lukaisu-stat-value-fg: #EEEEEE;
+  --lukaisu-popover-bg: #1a1a1a;
+  --lukaisu-popover-border: #404040;
+  --lukaisu-settings-header-bg: #1a1a1a;
+  --lukaisu-settings-header-hover-bg: #252525;
+  --lukaisu-settings-header-border: #404040;
+  --lukaisu-audio-bg: #1a1a1a;
+  --lukaisu-progress-track-bg: #333333;
+  --lukaisu-ss-trigger-bg: #1a1a1a;
+  --lukaisu-ss-dropdown-bg: #1a1a1a;
+  --lukaisu-ss-hover-bg: #222222;
+  --lukaisu-ss-selected-bg: #1a2744;
+  --lukaisu-ss-selected-fg: #8da4e0;
+  --lukaisu-ss-selected-hover-bg: #1f2e4d;
+  --lukaisu-label-fg: #EEEEEE;
+  --lukaisu-stats-chart-bg: #1a1a1a;
+  --lukaisu-stats-chart-border: #404040;
+}
+
+/* Dark select arrow override (SVG can't use CSS variables inside url()) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236677bb' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  }
+}
+:root[data-theme="dark"] select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236677bb' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+   Base Styles
+   ========================================================================== */
+
+body
+{
+  background-color: var(--lukaisu-body-bg);
+  color: var(--lukaisu-body-fg);
+  font: 100%/1.25 "Lucida Grande",Arial,STHeiti,"Arial Unicode MS",MingLiu,sans-serif;
+  margin: 0;
+  padding: 0px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#main-content
+{
+  flex: 1;
+  padding: 20px;
+}
+
+/* Full-width body for test and read pages */
+body.full-width
+{
+  max-width: 100%;
+}
+
+/* ==========================================================================
+   Bulma Form Element Integration
+   Apply Bulma-like styling to all form elements automatically
+   ========================================================================== */
+
+/* Text inputs - apply Bulma .input styles */
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+input[type=search],
+input[type=url],
+input[type=tel]
+{
+  font: 85% "Lucida Grande",Arial,STHeiti,"Arial Unicode MS",MingLiu,sans-serif;
+  /* Bulma .input styles */
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  align-items: center;
+  border: 1px solid var(--lukaisu-input-border);
+  border-radius: 4px;
+  box-shadow: inset 0 0.0625em 0.125em rgba(10, 10, 10, 0.05);
+  display: inline-flex;
+  height: 2.5em;
+  justify-content: flex-start;
+  line-height: 1.5;
+  padding: calc(0.5em - 1px) calc(0.75em - 1px);
+  position: relative;
+  vertical-align: top;
+  background-color: var(--lukaisu-input-bg);
+  color: var(--lukaisu-input-fg);
+  max-width: 100%;
+  width: 100%;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=email]:focus,
+input[type=number]:focus,
+input[type=search]:focus,
+input[type=url]:focus,
+input[type=tel]:focus
+{
+  outline: none;
+  border-color: var(--lukaisu-input-focus-border);
+  box-shadow: 0 0 0 0.125em var(--lukaisu-input-focus-shadow);
+}
+
+input[type=text]:hover,
+input[type=password]:hover,
+input[type=email]:hover,
+input[type=number]:hover,
+input[type=search]:hover,
+input[type=url]:hover,
+input[type=tel]:hover
+{
+  border-color: var(--lukaisu-input-border-hover);
+}
+
+input[type=radio]
+{
+  display: inline;
+}
+
+/* Checkboxes - enhanced styling */
+input[type=checkbox]
+{
+  accent-color: var(--lukaisu-checkbox-accent);
+  width: 1.1em;
+  height: 1.1em;
+  cursor: pointer;
+}
+
+/* Textarea - apply Bulma .textarea styles */
+textarea
+{
+  font: 85% "Lucida Grande",Arial,STHeiti,"Arial Unicode MS",MingLiu,sans-serif;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid var(--lukaisu-input-border);
+  border-radius: 4px;
+  box-shadow: inset 0 0.0625em 0.125em rgba(10, 10, 10, 0.05);
+  padding: calc(0.5em - 1px) calc(0.75em - 1px);
+  background-color: var(--lukaisu-input-bg);
+  color: var(--lukaisu-input-fg);
+  max-width: 100%;
+  width: 100%;
+  resize: vertical;
+  min-height: 8em;
+  line-height: 1.5;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+textarea:focus
+{
+  outline: none;
+  border-color: var(--lukaisu-input-focus-border);
+  box-shadow: 0 0 0 0.125em var(--lukaisu-input-focus-shadow);
+}
+
+textarea:hover
+{
+  border-color: var(--lukaisu-input-border-hover);
+}
+
+/* Select - apply Bulma .select styles */
+select
+{
+  font: 85% "Lucida Grande",Arial,STHeiti,"Arial Unicode MS",MingLiu,sans-serif;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid var(--lukaisu-input-border);
+  border-radius: 4px;
+  box-shadow: inset 0 0.0625em 0.125em rgba(10, 10, 10, 0.05);
+  padding: calc(0.5em - 1px) calc(2.5em - 1px) calc(0.5em - 1px) calc(0.75em - 1px);
+  background-color: var(--lukaisu-input-bg);
+  color: var(--lukaisu-input-fg);
+  cursor: pointer;
+  height: 2.5em;
+  line-height: 1.5;
+  /* Custom dropdown arrow */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23485fc7' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75em center;
+  background-size: 12px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+select:focus
+{
+  outline: none;
+  border-color: var(--lukaisu-input-focus-border);
+  box-shadow: 0 0 0 0.125em var(--lukaisu-input-focus-shadow);
+}
+
+select:hover
+{
+  border-color: var(--lukaisu-input-border-hover);
+}
+
+select:disabled
+{
+  background-color: var(--lukaisu-input-disabled-bg);
+  color: var(--lukaisu-input-disabled-fg);
+  cursor: not-allowed;
+}
+
+/* Option elements inside selects - inherit dark background */
+option
+{
+  background-color: var(--lukaisu-input-bg);
+  color: var(--lukaisu-input-fg);
+}
+
+/* Buttons - apply Bulma .button styles */
+button,
+input[type=submit],
+input[type=button],
+input[type=reset]
+{
+  font: 85% "Lucida Grande",Arial,STHeiti,"Arial Unicode MS",MingLiu,sans-serif;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  align-items: center;
+  border: 1px solid var(--lukaisu-button-border);
+  border-radius: 4px;
+  box-shadow: none;
+  display: inline-flex;
+  height: 2.5em;
+  justify-content: center;
+  line-height: 1.5;
+  padding: calc(0.5em - 1px) 1em;
+  position: relative;
+  vertical-align: top;
+  background-color: var(--lukaisu-button-bg);
+  color: var(--lukaisu-button-fg);
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover,
+input[type=button]:hover,
+input[type=reset]:hover
+{
+  border-color: var(--lukaisu-input-border-hover);
+}
+
+button:focus,
+input[type=button]:focus,
+input[type=reset]:focus
+{
+  outline: none;
+  border-color: var(--lukaisu-input-focus-border);
+  box-shadow: 0 0 0 0.125em var(--lukaisu-input-focus-shadow);
+}
+
+button:active,
+input[type=button]:active,
+input[type=reset]:active
+{
+  border-color: #4a4a4a;
+}
+
+button:disabled,
+input[type=submit]:disabled,
+input[type=button]:disabled,
+input[type=reset]:disabled
+{
+  background-color: var(--lukaisu-input-disabled-bg);
+  border-color: var(--lukaisu-button-border);
+  color: var(--lukaisu-input-disabled-fg);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Submit buttons - Primary style (Bulma .is-primary) */
+input[type=submit]
+{
+  background-color: var(--lukaisu-submit-bg);
+  border-color: transparent;
+  color: var(--lukaisu-submit-fg);
+}
+
+input[type=submit]:hover
+{
+  background-color: var(--lukaisu-submit-bg-hover);
+  border-color: transparent;
+  color: var(--lukaisu-submit-fg);
+}
+
+input[type=submit]:focus
+{
+  border-color: transparent;
+  box-shadow: 0 0 0 0.125em var(--lukaisu-input-focus-shadow);
+}
+
+input[type=submit]:active
+{
+  background-color: #3a51bb;
+  border-color: transparent;
+  color: var(--lukaisu-submit-fg);
+}
+
+/* Loading state for buttons - Bulma-compatible .is-loading class */
+@keyframes spinAround {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+button.is-loading,
+input[type=submit].is-loading,
+input[type=button].is-loading,
+input[type=reset].is-loading
+{
+  color: transparent !important;
+  pointer-events: none;
+  position: relative;
+}
+
+button.is-loading::after,
+input[type=submit].is-loading::after,
+input[type=button].is-loading::after,
+input[type=reset].is-loading::after
+{
+  animation: spinAround 500ms infinite linear;
+  border: 2px solid var(--lukaisu-button-border);
+  border-radius: 9999px;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  content: "";
+  display: block;
+  height: 1em;
+  width: 1em;
+  position: absolute;
+  left: calc(50% - 0.5em);
+  top: calc(50% - 0.5em);
+}
+
+/* White spinner for submit buttons (they have dark background) */
+input[type=submit].is-loading::after
+{
+  border-color: white;
+  border-right-color: transparent;
+  border-top-color: transparent;
+}
+
+p
+{
+  margin: 5px 0 5px 0;
+  padding: 0;
+}
+
+h1
+{
+  color: var(--lukaisu-heading-color);
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--lukaisu-heading-border);
+}
+
+h2
+{
+  color: var(--lukaisu-heading-color);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem 0;
+  padding: 0;
+}
+
+h3
+{
+  color: var(--lukaisu-heading-color);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem 0;
+  padding: 0;
+}
+
+h4
+{
+  color: var(--lukaisu-heading-color);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0.75rem 0 0.5rem 0;
+  padding: 0;
+}
+
+span.status0
+{
+  border-bottom: solid 2px var(--lukaisu-status0);
+  color: var(--lukaisu-status-fg);
+}
+
+span.status1
+{
+  border-bottom: solid 2px var(--lukaisu-status1);
+  color: var(--lukaisu-status-fg);
+}
+
+span.status2
+{
+  border-bottom: solid 2px var(--lukaisu-status2);
+  color: var(--lukaisu-status-fg);
+}
+
+span.status3
+{
+  border-bottom: solid 2px var(--lukaisu-status3);
+  color: var(--lukaisu-status-fg);
+}
+
+span.status4
+{
+  border-bottom: solid 2px var(--lukaisu-status4);
+  color: var(--lukaisu-status-fg);
+}
+
+span.status5
+{
+  border-bottom: solid 2px var(--lukaisu-status5);
+  color: var(--lukaisu-status-fg);
+}
+
+span.status99
+{
+  border-bottom: solid 2px var(--lukaisu-status99);
+  color: var(--lukaisu-status-fg);
+}
+
+span.status98
+{
+  border-bottom: dashed 1px var(--lukaisu-status98);
+  color: var(--lukaisu-status-fg);
+}
+
+/* Words and multi-words hints */
+span.wsty, span.mwsty
+{
+  margin-right: 2px;
+  color: var(--lukaisu-wsty-fg);
+}
+
+/* Punctuation marks - stick to adjacent words */
+.punc
+{
+  /* Negative margin closes the gap created by word's margin-right */
+  margin-left: -2px;
+}
+
+/* Word groups - prevent line breaks between word and punctuation */
+.word-group
+{
+  /* Prevent line breaks within the group */
+  white-space: nowrap;
+  display: inline;
+}
+
+/* Inside word groups, restore normal margin for punctuation */
+.word-group .punc
+{
+  margin-left: -2px;
+}
+
+/* Remove margin from last element in word group */
+.word-group > span:last-child.wsty,
+.word-group > span:last-child.mwsty
+{
+  margin-right: 0;
+}
+
+/* Multi-words hint */
+span.mwsty
+{
+  font-size: 60%;
+  font-weight: bold;
+  vertical-align: top;
+}
+
+/* Multi-word mark */
+.mword
+{
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+/* Multi-word expression group wrapper - connected underline */
+.mw-group
+{
+  display: inline;
+  border-bottom: 2px solid;
+  padding-bottom: 1px;
+  cursor: pointer;
+}
+
+/* Status colors for multi-word groups */
+.mw-group.mw-status0 { border-color: var(--lukaisu-status0); }
+.mw-group.mw-status1 { border-color: var(--lukaisu-status1); }
+.mw-group.mw-status2 { border-color: var(--lukaisu-status2); }
+.mw-group.mw-status3 { border-color: var(--lukaisu-status3); }
+.mw-group.mw-status4 { border-color: var(--lukaisu-status4); }
+.mw-group.mw-status5 { border-color: var(--lukaisu-status5); }
+.mw-group.mw-status99 { border-color: var(--lukaisu-status99); }
+.mw-group.mw-status98 { border-color: var(--lukaisu-status98); border-style: dashed; }
+
+/* Remove individual word underlines inside multi-word group */
+.mw-group .wsty,
+.mw-group .word,
+.mw-group .mword
+{
+  border-bottom: none !important;
+}
+
+span.todosty
+{
+  background-color: var(--lukaisu-todo-bg);
+}
+
+span.doneoksty
+{
+  background-color: var(--lukaisu-doneok-bg);
+}
+
+span.donewrongsty
+{
+  background-color: var(--lukaisu-donewrong-bg);
+}
+
+span.status5stat
+{
+  background-color: var(--lukaisu-status5stat-bg);
+  color: var(--lukaisu-status5stat-fg);
+}
+
+table.tab1
+{
+  background-color: var(--lukaisu-table-bg);
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border-top: 1px solid var(--lukaisu-table-border);
+  border-left: 1px solid var(--lukaisu-table-border);
+  width: 95%;
+  max-width: 850px;
+}
+
+table.tab2
+{
+  background-color: var(--lukaisu-table-bg);
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border-top: 1px solid var(--lukaisu-table-border);
+  border-left: 1px solid var(--lukaisu-table-border);
+  width: 100%;
+}
+
+table.tab3
+{
+  background-color: var(--lukaisu-table-bg);
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border-top: 1px solid var(--lukaisu-table-border);
+  border-left: 1px solid var(--lukaisu-table-border);
+  width: auto;
+}
+
+td.td1
+{
+  border-bottom: 1px solid var(--lukaisu-table-border);
+  border-right: 1px solid var(--lukaisu-table-border);
+  vertical-align: top;
+}
+
+td.td1bot
+{
+  border-bottom: 1px solid var(--lukaisu-table-border);
+  border-right: 1px solid var(--lukaisu-table-border);
+  vertical-align: bottom;
+}
+
+th.th1
+{
+  border-bottom: 1px solid var(--lukaisu-table-border);
+  border-right: 1px solid var(--lukaisu-table-border);
+  background-color: var(--lukaisu-th-bg);
+  vertical-align: top;
+}
+
+th.clickable
+{
+  cursor: pointer;
+}
+
+.click
+{
+  cursor: pointer;
+  color: var(--lukaisu-click-color);
+}
+
+.clickedit
+{
+  cursor: pointer;
+}
+
+a
+{
+  text-decoration: none;
+}
+
+img
+{
+  border: 0pt none;
+}
+
+/* Warning message for invalid search */
+.warning-message
+{
+  color: red;
+  text-align: center;
+}
+
+#learnstatus
+{
+  color: var(--lukaisu-body-fg);
+  font-size: 120%;
+  font-weight: bold;
+}
+
+#iknowall
+{
+  background-color: #ADDFFF;
+  cursor: pointer;
+  color: var(--lukaisu-click-color);
+  padding: 5px;
+  border: 1px solid var(--lukaisu-footer-border);
+  text-align: center;
+}
+
+img.lukaisulogo
+{
+  margin-right: 15px;
+  float: left;
+  width: 48px;
+  height: 48px;
+}
+
+img.lukaisulogoright
+{
+  margin-left: 30px;
+  float: right;
+}
+
+/**
+* Floating menu in docs/info.html
+*/
+#floatdiv {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 5px;
+  z-index: 2;
+  font-size: 10pt;
+  text-align:center;
+  border: 1px var(--lukaisu-floatdiv-border) solid;
+}
+
+#floatdiv > * {
+  display: block;
+  width: 75px;
+}
+
+#printoptions
+{
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px dotted var(--lukaisu-table-border);
+  line-height: 1.8;
+  margin-top: 20px;
+}
+
+.width50px
+{
+  width: 50px;
+}
+
+.width99pc
+{
+  width: 99%;
+}
+
+.width45pc
+{
+  width: 45%;
+}
+
+/** Scale input field with responsive design */
+.respinput {
+  width: 90%;
+  max-width: 500px;
+  /* Override default full-width for form elements */
+  display: inline-flex;
+}
+
+.annterm
+{
+  font-weight: bold;
+  border-bottom: 2px solid var(--lukaisu-annterm-border);
+}
+
+.anntermruby
+{
+  font-weight: normal;
+  border-bottom: 2px solid var(--lukaisu-anntermruby-border);
+}
+
+.annrom
+{
+  color: var(--lukaisu-annrom-fg);
+  font-size: 60%;
+  font-style: italic;
+}
+
+.annromruby
+{
+  color: var(--lukaisu-annromruby-fg);
+  font-size: 100%;
+  font-style: italic;
+}
+
+.annromrubysolo
+{
+  color: var(--lukaisu-annromruby-fg);
+  font-size: 100%;
+  font-style: normal;
+}
+
+.anntrans
+{
+  color: var(--lukaisu-anntrans-fg);
+  font-size: 60%;
+  font-style: normal;
+}
+
+.anntransruby
+{
+  color: var(--lukaisu-anntrans-fg);
+  font-size: 100%;
+  font-style: normal;
+}
+
+.anntransruby2
+{
+  color: #006699;
+  font-size: 125%;
+  font-style: normal;
+}
+
+/**
+* General footer style.
+*/
+footer
+{
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  background-color: var(--lukaisu-footer-bg);
+  text-align: center;
+  height: 45px;
+  line-height: 30px;
+  border-top: 1px solid var(--lukaisu-footer-border);
+}
+
+/**
+* Footer for tests.
+*/
+#footer
+{
+  background: var(--lukaisu-footer-test-bg);
+}
+
+.borderl
+{
+  border-left: 1px solid var(--lukaisu-footer-border);
+  border-top: 1px solid var(--lukaisu-footer-border);
+  border-bottom: 1px solid var(--lukaisu-footer-border);
+}
+
+.borderr
+{
+  border-top: 1px solid var(--lukaisu-footer-border);
+  border-bottom: 1px solid var(--lukaisu-footer-border);
+  border-right: 1px solid var(--lukaisu-footer-border);
+}
+
+.uwordmarked
+{
+  font-weight: bold;
+  border-top: 3px solid red;
+  border-bottom: 3px solid red;
+  border-right: 3px solid red;
+  border-left: 3px solid red;
+}
+
+.kwordmarked
+{
+  font-weight: bold;
+  border-top: 3px solid black;
+  border-bottom: 3px solid black;
+  border-left: 3px solid black;
+  border-right: 3px solid black;
+}
+
+#termtags
+{
+  max-width: 340px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 2px;
+}
+
+#texttags
+{
+  max-width: 340px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 2px;
+}
+
+.editable_textarea
+{
+  display: inline;
+}
+
+.nowrap
+{
+  white-space: nowrap;
+  margin-left: 20pt;
+}
+
+.borderleft
+{
+  border-left: 1px solid var(--lukaisu-borderleft-border);
+  border-top: 1px solid var(--lukaisu-borderleft-border);
+  border-bottom: 1px solid var(--lukaisu-borderleft-border);
+  background-color: var(--lukaisu-borderleft-bg);
+}
+
+.bordermiddle
+{
+  border-top: 1px solid var(--lukaisu-borderleft-border);
+  border-bottom: 1px solid var(--lukaisu-borderleft-border);
+  background-color: var(--lukaisu-borderleft-bg);
+}
+
+.borderright
+{
+  border-right: 1px solid var(--lukaisu-borderleft-border);
+  border-top: 1px solid var(--lukaisu-borderleft-border);
+  border-bottom: 1px solid var(--lukaisu-borderleft-border);
+  background-color: var(--lukaisu-borderleft-bg);
+}
+
+.wizard
+{
+  margin: 20px 0 5px 0;
+}
+
+/**
+* Make any block resizable
+*/
+.resizable
+{
+  min-height: 30px;
+  min-width: 30px;
+  resize: both;
+  overflow: auto;
+  max-height: fit-content;
+  max-width: fit-content;
+}
+
+/**
+* Dropdown to navigate between pages.
+*/
+#quickmenu
+{
+  float: right;
+}
+
+/**
+* Formats a header with flexbox.
+*/
+.flex-header
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/**
+* Space evenly article content.
+*/
+.flex-spaced
+{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: center;
+}
+
+/**
+* Main page (index.php) navigation menu style - Bulma card integration
+*/
+.menu.card {
+  height: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.menu.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/**************************************************************
+Language Cards (language list page)
+***************************************************************/
+
+.language-cards {
+  margin-top: 1rem;
+}
+
+.language-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.language-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.language-card .card-header {
+  background: linear-gradient(135deg, #485fc7 0%, #3e56c4 100%);
+}
+
+.language-card .card-header-title {
+  color: white;
+  gap: 0.5rem;
+}
+
+.language-card .card-header-icon {
+  color: white;
+}
+
+.language-card .card-header-icon a {
+  color: white;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.language-card .card-header-icon a:hover {
+  opacity: 1;
+}
+
+.language-card .set-current-language-btn {
+  font-size: 0.7rem;
+  height: auto;
+  padding: 0.25em 0.5em;
+  gap: 0.25rem;
+  border-color: rgba(255, 255, 255, 0.7);
+  color: white;
+  background: transparent;
+}
+
+.language-card .set-current-language-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: white;
+  color: white;
+}
+
+.language-card .set-current-language-btn .icon {
+  margin: 0;
+}
+
+.language-card .set-current-language-btn.is-loading::after {
+  border-color: transparent transparent white white;
+}
+
+.language-card.is-current {
+  border: 2px solid #485fc7;
+  box-shadow: 0 4px 12px rgba(72, 95, 199, 0.3);
+}
+
+.language-card .card-content {
+  flex: 1;
+  padding: 1rem;
+}
+
+.language-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  background: var(--lukaisu-stat-item-bg);
+  border-radius: 4px;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--lukaisu-stat-label-fg);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--lukaisu-stat-value-fg);
+}
+
+.stat-value a {
+  color: #485fc7;
+}
+
+.stat-value a:hover {
+  text-decoration: underline;
+}
+
+.language-card .card-footer {
+  margin-top: auto;
+  position: relative;
+  background: var(--lukaisu-card-bg);
+}
+
+.language-card .card-footer-item {
+  gap: 0.35rem;
+  font-size: 0.875rem;
+}
+
+.export-template-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.language-card .card-footer-item.click {
+  cursor: pointer;
+  color: #f14668;
+}
+
+.language-card .card-footer-item.click:hover {
+  background-color: #fee;
+}
+
+/**************************************************************
+Text Cards (Active and Archived Texts)
+***************************************************************/
+
+.text-cards {
+  margin-top: 1rem;
+}
+
+.text-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.text-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.text-card .card-header {
+  background: linear-gradient(135deg, #3273dc 0%, #276cda 100%);
+  padding: 0;
+}
+
+.text-card.is-archived .card-header {
+  background: linear-gradient(135deg, #ffdd57 0%, #f0c850 100%);
+}
+
+.text-card .card-header-title {
+  color: white;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  overflow-wrap: break-word;
+}
+
+.text-card.is-archived .card-header-title {
+  color: #363636;
+}
+
+.text-card .checkbox-wrapper {
+  padding: 0.75rem 0.5rem 0.75rem 0.75rem;
+  cursor: pointer;
+}
+
+.text-card .checkbox-wrapper input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: white;
+}
+
+.text-card .card-icons {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 0.75rem 0.75rem 0;
+  align-items: center;
+}
+
+.text-card .card-icons span,
+.text-card .card-icons a {
+  color: rgba(255, 255, 255, 0.85);
+  transition: color 0.2s;
+}
+
+.text-card.is-archived .card-icons span,
+.text-card.is-archived .card-icons a {
+  color: rgba(54, 54, 54, 0.7);
+}
+
+.text-card .card-icons a:hover {
+  color: white;
+}
+
+.text-card.is-archived .card-icons a:hover {
+  color: #363636;
+}
+
+.text-card .card-content {
+  flex: 1;
+  padding: 1rem;
+}
+
+.text-card .text-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.text-card .tags-list {
+  font-size: 0.8rem;
+  color: var(--lukaisu-stat-label-fg);
+  font-style: italic;
+}
+
+.text-card .text-stats {
+  margin-top: 0.5rem;
+}
+
+.text-card .stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.text-card .stat-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem;
+  background: var(--lukaisu-stat-item-bg);
+  border-radius: 4px;
+  text-align: center;
+}
+
+.text-card .stat-label {
+  font-size: 0.65rem;
+  color: var(--lukaisu-stat-label-fg);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.text-card .stat-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--lukaisu-stat-value-fg);
+}
+
+.text-card .stat-value a {
+  color: #3273dc;
+}
+
+.text-card .stat-value a:hover {
+  text-decoration: underline;
+}
+
+.text-card .status-chart-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.text-card .status-chart-wrapper .barchart {
+  width: 100%;
+  max-width: 200px;
+}
+
+.text-card .text-status-chart {
+  width: 100% !important;
+  height: 24px !important;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.text-card .chart-data-store {
+  display: none !important;
+}
+
+.text-card .archive-badge {
+  margin-top: 0.5rem;
+}
+
+.text-card .card-footer {
+  margin-top: auto;
+  position: relative;
+  background: var(--lukaisu-card-bg);
+}
+
+.text-card .card-footer-item {
+  display: flex;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+}
+
+.text-card .card-footer-item.is-primary-action {
+  color: #3273dc;
+  font-weight: 600;
+}
+
+.text-card .card-footer-item.is-primary-action:hover {
+  background-color: #f0f6ff;
+}
+
+.text-card .card-footer-item.has-dropdown {
+  position: relative;
+}
+
+.text-card .dropdown-trigger-link {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  cursor: pointer;
+}
+
+.text-card .card-dropdown {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  min-width: 160px;
+  z-index: 20;
+  margin-bottom: 4px;
+  display: block; /* Override Bulma's .dropdown-menu display:none - Alpine x-show handles visibility */
+}
+
+.text-card .card-dropdown .dropdown-content {
+  background: var(--lukaisu-popover-bg);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--lukaisu-popover-border);
+  padding: 0.5rem 0;
+}
+
+.text-card .card-dropdown .dropdown-item {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  color: var(--lukaisu-heading-color);
+  font-size: 0.875rem;
+}
+
+.text-card .card-dropdown .dropdown-item:hover {
+  background-color: var(--lukaisu-ss-hover-bg);
+}
+
+.text-card .card-dropdown .dropdown-item.has-text-danger {
+  color: #f14668;
+}
+
+.text-card .card-dropdown .dropdown-item.has-text-danger:hover {
+  background-color: #fee;
+}
+
+.text-card .card-dropdown .dropdown-divider {
+  height: 1px;
+  margin: 0.5rem 0;
+  background-color: #ededed;
+  border: none;
+}
+
+/* Archived text cards specific styling */
+.archived-text-cards .text-card .card-content {
+  min-height: 80px;
+}
+
+/**************************************************************
+Inline Edit Component
+***************************************************************/
+
+.inline-edit-wrapper
+{
+  display: inline-block;
+}
+
+.inline-edit-textarea
+{
+  font: 85% "Lucida Grande",Arial,STHeiti,"Arial Unicode MS",MingLiu,sans-serif;
+  border: 1px solid #C6C6C6;
+  padding: 3px;
+  resize: vertical;
+}
+
+.inline-edit-buttons
+{
+  margin-top: 4px;
+  display: flex;
+  gap: 4px;
+}
+
+.inline-edit-buttons button
+{
+  font-size: 85%;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+.inline-edit-buttons img
+{
+  vertical-align: middle;
+}
+
+.inline-edit-active
+{
+  background: transparent !important;
+}
+
+/**************************************************************
+Feed Wizard UI (RSS feed import interface)
+***************************************************************/
+
+#lukaisu_header
+{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  background: var(--lukaisu-panel-bg);
+  overflow: auto;
+  text-align: center;
+  padding: 10px;
+}
+
+#lukaisu_header img[title=Settings],
+#lukaisu_header li
+{
+  cursor: pointer;
+}
+
+#lukaisu_container
+{
+  max-height: 150px;
+  overflow: auto;
+}
+
+#settings
+{
+  display: none;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 180px;
+  background: var(--lukaisu-panel-bg);
+  overflow: auto;
+  text-align: center;
+  padding: 10px;
+  z-index: 100;
+}
+
+#settings .settings-content
+{
+  margin-left: 150px;
+  text-align: left;
+}
+
+#settings .settings-ok
+{
+  position: relative;
+  left: 150px;
+}
+
+#adv
+{
+  display: none;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 180px;
+  background: var(--lukaisu-panel-bg);
+  overflow: auto;
+  text-align: center;
+  padding: 10px;
+  z-index: 200;
+}
+
+/* Feed wizard step 3 config (hidden data element) */
+#wizard-step3-config
+{
+  display: none;
+}
+
+/* Feed wizard selection list and table */
+#lukaisu_sel,
+#lukaisu_container .tab2
+{
+  margin-left: 77px;
+}
+
+/* Feed wizard controls table */
+.wizard-controls
+{
+  width: 100%;
+}
+
+.wizard-controls .feed-selector
+{
+  width: 250px;
+  max-width: 200px;
+}
+
+.wizard-controls .actions-cell
+{
+  width: 270px;
+  text-align: right;
+}
+
+.wizard-controls .spacer-cell
+{
+  width: 63px;
+}
+
+/* Feed wizard min/max button */
+.wizard-minmax
+{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+/* Feed wizard step 4 config (hidden data element) */
+#wizard-step4-config
+{
+  display: none;
+}
+
+/* Feed form input fields */
+.feed-form-input
+{
+  width: 95%;
+}
+
+/* Feed form options table */
+.feed-options-table
+{
+  width: 100%;
+}
+
+.feed-options-table .option-label
+{
+  width: 35%;
+}
+
+/* Feed browse page styles */
+.feeds-filter-cell
+{
+  width: 30%;
+}
+
+.feeds-filter-cell-wide
+{
+  width: 70%;
+}
+
+.feeds-date-col
+{
+  min-width: 90px;
+}
+
+.valign-middle
+{
+  vertical-align: middle;
+}
+
+/* Small icon sizing */
+.icon-small
+{
+  height: 20px;
+}
+
+/* Feed wizard text selection styles */
+.lukaisu_selected_text
+{
+  background-color: var(--lukaisu-body-bg);
+  color: #FFAAAA !important;
+}
+
+.lukaisu_marked_text
+{
+  background-color: rgb(111, 111, 111) !important;
+  color: rgb(170, 170, 170) !important;
+}
+
+.lukaisu_highlighted_text
+{
+  border-style: dashed !important;
+}
+
+.delete_selection
+{
+  cursor: crosshair;
+}
+
+#lukaisu_last ~ *
+{
+  color: var(--lukaisu-body-fg);
+  position: static !important;
+  cursor: pointer;
+  background-color: grey;
+}
+
+#lukaisu_last ~ * *
+{
+  color: var(--lukaisu-body-fg);
+  position: static !important;
+  cursor: pointer;
+}
+
+.lukaisu_filtered_text
+{
+  background-color: var(--lukaisu-body-bg) !important;
+  color: #DDDDDD !important;
+  cursor: default !important;
+}
+
+/**************************************************************
+Bulk Translate Form
+***************************************************************/
+
+.dict
+{
+  cursor: pointer;
+}
+
+.dict1:hover,
+.dict2:hover,
+.dict3:hover
+{
+  opacity: 1;
+  color: red;
+}
+
+input[name="WoTranslation"]
+{
+  border: 1px solid red;
+}
+
+.del_trans
+{
+  cursor: pointer;
+  float: right;
+}
+
+.del_trans:after
+{
+  /* Using inline SVG for brush icon (Lucide equivalent of broom.png) */
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08'%3E%3C/path%3E%3Cpath d='M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z'%3E%3C/path%3E%3C/svg%3E");
+  opacity: 0.2;
+}
+
+.del_trans:hover:after
+{
+  opacity: 1;
+}
+
+/**************************************************************
+Test page styles
+***************************************************************/
+
+/* Test container wrapper */
+.test-container
+{
+  width: 95%;
+  height: 100%;
+}
+
+/* Test left frames column (dynamic width set via JS) */
+#frames-l
+{
+  /* Width set dynamically based on user setting */
+  display: block;
+}
+
+/* Test right frames panel - desktop */
+.test-frames-right
+{
+  position: fixed;
+  top: 2%;
+  right: 0;
+  height: 90%;
+}
+
+/* Test right frames panel - mobile (hidden off-screen) */
+.test-frames-right-mobile
+{
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  height: 100%;
+}
+
+/* Mobile frames inner container */
+.test-frames-mobile-inner
+{
+  margin-left: 50%;
+  height: 99%;
+}
+
+/* Test iframes half height */
+.test-iframe
+{
+  height: 50%;
+  width: 100%;
+}
+
+/* Table test auto width */
+.table-test
+{
+  width: auto;
+}
+
+/* Test header word count */
+.test-word-count
+{
+  margin: 5px;
+}
+
+/* Test footer stats spans */
+.test-footer-stat
+{
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+/* Table test sentence cell color */
+.test-sentence-cell
+{
+  color: var(--lukaisu-body-fg);
+}
+
+/**************************************************************
+Home page styles - Bulma integration
+***************************************************************/
+
+/* Welcome hero section - simple clean styling */
+.hero.is-primary {
+  background: linear-gradient(135deg, #485fc7 0%, #3e56c4 100%) !important;
+  color: white !important;
+}
+
+.hero.is-primary .title {
+  color: white !important;
+}
+
+/* Last text info box - using Bulma box */
+.home-last-text
+{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.home-last-text .buttons {
+  justify-content: center;
+}
+
+/* WordPress logout - styled as Bulma card */
+.menu-logout {
+  width: 100%;
+}
+
+
+/* Fix icon-text alignment in card headers - prevent overlapping */
+.card-header-title .icon-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.card-header-title .icon-text .icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-header-title .icon-text .icon svg {
+  vertical-align: middle;
+}
+
+/* Fix Bulma label contrast - ensure readable text */
+.label {
+  color: var(--lukaisu-label-fg) !important;
+}
+
+/* Accessibility: Fix .is-static button contrast (WCAG 2.1 AA requires 4.5:1)
+   Default Bulma #69748c on #f3f4f6 = 4.26:1, needs darker text */
+.button.is-static {
+  color: #4a5568 !important;
+}
+
+/* Accessibility: Fix status link contrast in stat cards
+   Default #3273dc on #f5f5f5 = 4.16:1, use darker blue for 4.5:1+ */
+.stat-value a.status4,
+.stat-value a.status3,
+.stat-value a.status2,
+.stat-value a.status1 {
+  color: #2456a5 !important;
+}
+
+/* Fix select/dropdown background - use theme variables */
+.select select,
+select {
+  background-color: var(--lukaisu-input-bg) !important;
+  color: var(--lukaisu-input-fg) !important;
+}
+
+/* Remove custom dropdown arrow for selects inside Bulma .select wrapper
+   (Bulma adds its own arrow via ::after on the wrapper) */
+.select select {
+  background-image: none !important;
+}
+
+/* Fix Bulma notification colors in light mode */
+.notification.is-danger.is-light {
+  background-color: #feecf0;
+  color: #cc0f35;
+}
+
+.notification.is-warning.is-light {
+  background-color: #fffaeb;
+  color: #946c00;
+}
+
+.notification.is-info.is-light {
+  background-color: #eff5fb;
+  color: #296fa8;
+}
+
+/* Footer styling */
+.footer {
+  background-color: transparent !important;
+  padding: 1rem 1.5rem !important;
+  position: static !important;
+  border-top: 1px solid var(--lukaisu-footer-border, #333);
+  margin-top: auto;
+}
+
+/* Footer license image inline */
+.footer-license-icon
+{
+  display: inline;
+}
+
+/* Footer license link */
+.footer-license-link
+{
+  vertical-align: top;
+}
+
+/**************************************************************
+Word Show View Styles
+***************************************************************/
+
+/* Term label column width */
+.word-show-label
+{
+  width: 30px;
+}
+
+/* Word show value cells with larger text */
+.word-show-value
+{
+  font-size: 120%;
+}
+
+/* Term cell top-right corner radius inheritance */
+.word-show-term
+{
+  font-size: 120%;
+  border-top-right-radius: inherit;
+}
+
+/* Annotation highlight color */
+.word-show-highlight
+{
+  color: red;
+}
+
+/**************************************************************
+Language View Styles
+***************************************************************/
+
+/* Voice API help code block */
+.voice-api-code
+{
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+/* Wizard zone border */
+.wizard-zone-border
+{
+  border: 1px solid black;
+}
+
+/* Wizard button margin */
+.wizard-btn
+{
+  margin: 5px;
+}
+
+/* Wizard popup button larger text */
+.wizard-popup-btn
+{
+  font-size: 1.1em;
+}
+
+/* Current language row highlight */
+.language-current-row
+{
+  background-color: #8884;
+  font-weight: bold;
+}
+
+/* Last column in language table (remove top-right radius) */
+.language-last-col
+{
+  border-top-right-radius: 0;
+}
+
+/**************************************************************
+Language Form View Styles
+***************************************************************/
+
+/* Hidden option for future use */
+.language-option-hidden
+{
+  display: none;
+}
+
+/* Hidden form wrapper sections */
+.language-form-hidden
+{
+  display: none;
+}
+
+/* Transparent horizontal rule separator */
+.language-form-separator
+{
+  color: transparent;
+}
+
+/**************************************************************
+Text Statistics Styles
+***************************************************************/
+
+/* Word count badge with padding */
+.word-count-badge
+{
+  padding: 0 5px;
+  margin: 0 5px;
+}
+
+/* Clickable icon for bulk translate */
+.bulk-translate-icon
+{
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+/**************************************************************
+Dictionary and Sentence Lookup Styles
+***************************************************************/
+
+/* Hidden element for auto-initialization */
+.dict-auto-init
+{
+  display: none;
+}
+
+/* Example sentences loading indicator */
+#exsent-waiting
+{
+  display: none;
+}
+
+/* Example sentences container (initially hidden) */
+#exsent-sentences
+{
+  display: none;
+}
+
+/**************************************************************
+Statistics Page Styles
+***************************************************************/
+
+/* Alternating row colors for statistics tables */
+.stats-table tbody tr:nth-child(even)
+{
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.stats-table tbody tr:hover
+{
+  background-color: rgba(0, 0, 0, 0.07);
+}
+
+/* Today column highlight in frequency table */
+.today-col
+{
+  background-color: rgba(255, 235, 59, 0.15) !important;
+}
+
+/* Chart container styling */
+.stats-chart-container
+{
+  max-width: 900px;
+  margin: 20px 0;
+  padding: 15px;
+  background: var(--lukaisu-stats-chart-bg);
+  border: 1px solid var(--lukaisu-stats-chart-border);
+  border-radius: 4px;
+}
+
+.stats-chart-container h3
+{
+  margin-top: 0;
+  color: var(--lukaisu-heading-color);
+  font-size: 1.1em;
+}
+
+/**************************************************************
+Navigation Bar Styles (Alpine.js + Bulma)
+***************************************************************/
+
+/* Honeypot field wrapper: visually removed and taken out of the a11y tree,
+   but still submitted. A real user never sees or fills it; bots that auto-fill
+   every field trip it and are rejected server-side. Avoid display:none, which
+   some bots skip. */
+.lukaisu-hp {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Device safe areas (notch / status / camera bar): pad the navbar so the
+   brand + burger sit below the status bar on edge-to-edge phones and in the
+   Android app shell, instead of being hidden under the camera bar. The
+   navbar's own background fills the inset, so the bar simply extends up behind
+   the status bar. Grow min-height too: with box-sizing: border-box, padding
+   alone would compress the bar's contents rather than push them down. Falls
+   back to 0 where there are no insets (desktop, non-notched), so nothing else
+   changes. Requires viewport-fit=cover (set in PageLayoutHelper head meta). */
+.navbar {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  min-height: calc(var(--bulma-navbar-height, 3.25rem) + env(safe-area-inset-top, 0px));
+}
+
+/* Main navbar styling */
+.navbar.is-light {
+  background-color: var(--lukaisu-navbar-bg);
+  color: var(--lukaisu-body-fg);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar.is-light .navbar-item,
+.navbar.is-light .navbar-link,
+.navbar.is-light .navbar-brand .navbar-item {
+  color: var(--lukaisu-body-fg);
+}
+
+.navbar.is-light .navbar-item:hover,
+.navbar.is-light .navbar-link:hover {
+  background-color: rgba(128, 128, 128, 0.15);
+  color: var(--lukaisu-body-fg);
+}
+
+/* Navbar brand - logo and title */
+.navbar-brand .navbar-item img {
+  max-height: 28px;
+}
+
+/* Navbar items with icons */
+.navbar-item svg,
+.navbar-link svg {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+
+/* Dropdown animation */
+.navbar-item.has-dropdown .navbar-dropdown {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+  background-color: var(--lukaisu-navbar-bg);
+}
+
+.navbar-item.has-dropdown.is-active .navbar-dropdown {
+  display: block;
+  opacity: 1;
+}
+
+.navbar-dropdown .navbar-item {
+  color: var(--lukaisu-body-fg);
+}
+
+/* Mobile menu — left off-canvas drawer.
+   Bulma's default mobile menu is a full-width dropdown from the top, which
+   reads awkwardly on phones and in the Android app shell. Render it instead as
+   a left-sliding drawer with a dimmed overlay (a native-feeling side menu).
+   The drawer is always laid out and hidden via transform so it can animate;
+   the burger toggles `.is-active`, and the hardware Back button closes it
+   (history handling in navbar.ts). */
+@media screen and (max-width: 1023px) {
+  .navbar-menu {
+    display: block;
+    position: fixed;
+    /* Start below the (safe-area-padded) navbar so the drawer doesn't slide
+       under the status/camera bar. */
+    top: calc(var(--bulma-navbar-height, 3.25rem) + env(safe-area-inset-top, 0px));
+    left: 0;
+    bottom: 0;
+    width: 82%;
+    max-width: 320px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background-color: var(--lukaisu-navbar-bg);
+    box-shadow: 2px 0 16px rgba(0, 0, 0, 0.2);
+    padding: 0.5rem 0;
+    /* Keep drawer items clear of a side notch (landscape) and the bottom
+       gesture bar. */
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 40;
+  }
+
+  .navbar-menu.is-active {
+    transform: translateX(0);
+  }
+
+  .navbar-overlay {
+    position: fixed;
+    top: calc(var(--bulma-navbar-height, 3.25rem) + env(safe-area-inset-top, 0px));
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease;
+    z-index: 39;
+  }
+
+  .navbar-overlay.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .navbar-item.has-dropdown .navbar-dropdown {
+    position: static;
+    box-shadow: none;
+    padding-left: 1rem;
+  }
+
+  .navbar-item.has-dropdown.is-active .navbar-dropdown {
+    display: block;
+  }
+
+  .navbar-divider {
+    display: none;
+  }
+}
+
+/* The overlay only exists for the mobile drawer; never show it on desktop. */
+@media screen and (min-width: 1024px) {
+  .navbar-overlay {
+    display: none;
+  }
+}
+
+/* Desktop navbar layout and dropdown positioning */
+@media screen and (min-width: 1024px) {
+  .navbar-menu {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+    align-items: stretch;
+  }
+
+  .navbar-start {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    margin-inline-end: auto;
+  }
+
+  .navbar-end {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-end;
+    margin-inline-start: auto;
+  }
+
+  .navbar-item.has-dropdown:hover .navbar-dropdown,
+  .navbar-item.has-dropdown.is-active .navbar-dropdown {
+    display: block;
+    opacity: 1;
+  }
+
+  .navbar-dropdown.is-right {
+    right: 0;
+    left: auto;
+  }
+}
+
+/* Navbar split-button groups */
+.navbar .buttons.has-addons {
+  flex-wrap: nowrap;
+}
+
+.navbar .buttons.has-addons .button.is-active {
+  background-color: var(--bulma-primary, #485fc7);
+  border-color: var(--bulma-primary, #485fc7);
+  color: #fff;
+}
+
+.navbar .buttons.has-addons .button.is-active:hover {
+  background-color: var(--bulma-primary-dark, #3a51bb);
+  border-color: var(--bulma-primary-dark, #3a51bb);
+}
+
+/**************************************************************
+Action Card Styles (Alpine.js + Bulma)
+***************************************************************/
+
+/* Action card base styling */
+.action-card {
+  margin-bottom: 1rem;
+}
+
+.action-card .card-header {
+  cursor: pointer;
+  user-select: none;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  transition: background 0.2s ease;
+}
+
+.action-card .card-header:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.action-card .card-header-title {
+  color: white;
+  font-weight: 600;
+}
+
+.action-card .card-header-icon {
+  color: white;
+}
+
+/* Chevron rotation for collapsed state */
+.action-card .card-header-icon .icon {
+  transition: transform 0.3s ease;
+}
+
+.action-card .card-header-icon .icon.is-rotated {
+  transform: rotate(-90deg);
+}
+
+/* Card content styling */
+.action-card .card-content {
+  padding: 1rem;
+}
+
+/* Action buttons styling */
+.action-card .buttons {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.action-card .button {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.action-card .button .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.25rem;
+}
+
+.action-card .button .icon svg,
+.action-card .button .icon img {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+}
+
+/* Color variants for different page types */
+.action-card.action-card-texts .card-header {
+  background: linear-gradient(135deg, #48c78e 0%, #3ec487 100%);
+}
+
+.action-card.action-card-texts .card-header:hover {
+  background: linear-gradient(135deg, #3ec487 0%, #48c78e 100%);
+}
+
+.action-card.action-card-terms .card-header {
+  background: linear-gradient(135deg, #b86bff 0%, #a855f7 100%);
+}
+
+.action-card.action-card-terms .card-header:hover {
+  background: linear-gradient(135deg, #a855f7 0%, #b86bff 100%);
+}
+
+.action-card.action-card-admin .card-header {
+  background: linear-gradient(135deg, #f14668 0%, #e63a56 100%);
+}
+
+.action-card.action-card-admin .card-header:hover {
+  background: linear-gradient(135deg, #e63a56 0%, #f14668 100%);
+}
+
+.action-card.action-card-feeds .card-header {
+  background: linear-gradient(135deg, #ffdd57 0%, #ffcd00 100%);
+}
+
+.action-card.action-card-feeds .card-header:hover {
+  background: linear-gradient(135deg, #ffcd00 0%, #ffdd57 100%);
+}
+
+.action-card.action-card-feeds .card-header-title,
+.action-card.action-card-feeds .card-header-icon {
+  color: #363636;
+}
+
+/**************************************************************
+Additional styles for printing
+***************************************************************/
+
+/**************************************************************
+Audio Player (Alpine.js + Bulma)
+***************************************************************/
+
+/* Audio player container */
+.audio-player-container {
+  background-color: var(--lukaisu-audio-bg);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+}
+
+/* Hide audio element - controlled via Alpine */
+.audio-player-container audio {
+  display: none;
+}
+
+/* Main player layout - horizontal flexbox */
+.audio-player {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Play/Pause/Stop controls */
+.audio-player-controls {
+  display: flex;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+/* Progress section - flexible width */
+.audio-player-progress {
+  flex: 1;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 8px;
+  background-color: var(--lukaisu-progress-track-bg);
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: height 0.15s ease;
+}
+
+.progress-bar-container:hover {
+  height: 10px;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(135deg, #485fc7 0%, #3273dc 100%);
+  border-radius: 4px;
+  transition: width 0.1s linear;
+  pointer-events: none;
+}
+
+.time-display {
+  display: flex;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--lukaisu-stat-label-fg);
+  justify-content: center;
+}
+
+/* Volume section */
+.audio-player-volume {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.volume-bar-container {
+  width: 60px;
+  height: 6px;
+  background-color: var(--lukaisu-progress-track-bg);
+  border-radius: 3px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.volume-bar-container:hover {
+  height: 8px;
+}
+
+.volume-bar {
+  height: 100%;
+  background: linear-gradient(135deg, #48c78e 0%, #3ec487 100%);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+/* Skip controls */
+.audio-player-skip {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+/* Speed controls */
+.audio-player-speed {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  flex-shrink: 0;
+}
+
+/* Repeat button */
+.audio-player-repeat {
+  flex-shrink: 0;
+}
+
+/* Button icon alignment fixes */
+.audio-player .button svg {
+  width: 1em;
+  height: 1em;
+}
+
+/* Dropdown styling for skip seconds */
+.audio-player .dropdown-menu {
+  min-width: auto;
+}
+
+.audio-player .dropdown-item {
+  padding: 0.25rem 0.75rem;
+}
+
+.audio-player .dropdown-item.is-active {
+  background-color: #485fc7;
+  color: white;
+}
+
+/* Responsive: Stack controls on small screens */
+@media screen and (max-width: 600px) {
+  .audio-player {
+    justify-content: center;
+  }
+
+  .audio-player-progress {
+    order: -1;
+    width: 100%;
+    flex-basis: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .audio-player-volume {
+    display: none;
+  }
+}
+
+/* Hide elements with x-show="false" properly */
+.audio-player [x-show="false"] {
+  display: none !important;
+}
+
+/**************************************************************
+Horizontal Form Fields (Bulma)
+***************************************************************/
+
+/* Fix horizontal form layout - give label a fixed width instead of flex-grow */
+@media print, screen and (min-width: 769px) {
+  .field.is-horizontal > .field-label {
+    flex-basis: 200px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-inline-end: 1rem;
+  }
+
+  .field.is-horizontal > .field-body {
+    flex-basis: auto;
+    flex-grow: 1;
+  }
+
+  /* Ensure selects in horizontal forms expand properly */
+  .field.is-horizontal .field-body .select.is-fullwidth,
+  .field.is-horizontal .field-body .select.is-fullwidth select {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/**************************************************************
+Settings Page - Collapsible Sections
+***************************************************************/
+
+.settings-section {
+  transition: box-shadow 0.2s ease;
+}
+
+.settings-section:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.settings-section .card-header {
+  background-color: var(--lukaisu-settings-header-bg);
+  border-bottom: 1px solid var(--lukaisu-settings-header-border);
+}
+
+.settings-section .card-header:hover {
+  background-color: var(--lukaisu-settings-header-hover-bg);
+}
+
+.settings-section .card-header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.settings-section .card-header-title svg {
+  width: 1.25em;
+  height: 1.25em;
+}
+
+/* Chevron rotation animation */
+.settings-section .card-header-icon .icon i,
+.settings-section .card-header-icon .icon svg {
+  transition: transform 0.3s ease;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.transition-transform {
+  transition: transform 0.3s ease;
+}
+
+/* Card content padding */
+.settings-section .card-content {
+  padding: 1.25rem;
+}
+
+/* ==========================================================================
+   Word Popover Styles
+   Non-blocking popover for word information display
+   ========================================================================== */
+
+.word-popover {
+  position: absolute;
+  z-index: 1000;
+  min-width: 280px;
+  max-width: 350px;
+  background: var(--lukaisu-popover-bg);
+  border: 1px solid var(--lukaisu-popover-border);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.word-popover__content {
+  padding: 0.75rem 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Arrow indicator */
+.word-popover__arrow {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--lukaisu-popover-bg);
+  border: 1px solid var(--lukaisu-popover-border);
+  transform: rotate(45deg);
+}
+
+.word-popover__arrow--below {
+  top: -7px;
+  left: 20px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.word-popover__arrow--above {
+  bottom: -7px;
+  left: 20px;
+  border-left: none;
+  border-top: none;
+}
+
+/* Compact button sizing for popover */
+.word-popover .buttons.are-small .button {
+  font-size: 0.7rem;
+  padding: 0.25em 0.5em;
+  height: auto;
+}
+
+/* Translation and romanization text */
+.word-popover__translation {
+  color: #4a4a4a;
+}
+
+.word-popover__romanization {
+  color: #7a7a7a;
+}
+
+/* Actions row separator */
+.word-popover__actions {
+  border-top: 1px solid #f0f0f0;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+/* Transition animations */
+.popover-enter {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.popover-enter-start {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.word-popover--above .popover-enter-start {
+  transform: translateY(4px);
+}
+
+.popover-enter-end {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.popover-leave {
+  transition: opacity 0.1s ease;
+}
+
+.popover-leave-start {
+  opacity: 1;
+}
+
+.popover-leave-end {
+  opacity: 0;
+}
+
+/* Mobile responsive - show as bottom drawer */
+@media screen and (max-width: 768px) {
+  .word-popover {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto !important;
+    max-width: 100%;
+    min-width: 100%;
+    border-radius: 12px 12px 0 0;
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+
+  .word-popover__arrow {
+    display: none;
+  }
+
+  .word-popover__content {
+    padding: 1rem 1.25rem;
+  }
+}
+
+/* Reading toolbar overflow guard (mobile / narrow WebViews).
+   The reader header is a `.level.is-mobile`, which Bulma keeps as a single
+   non-wrapping row even on phones. Its right-hand control group then overflows
+   the viewport horizontally. In a WebView that horizontal overflow expands the
+   *layout* viewport beyond the visible (visual) viewport, which (a) zooms the
+   page out and (b) makes the `position: fixed` word-popover bottom-drawer
+   anchor to the off-screen layout bottom instead of the visible bottom — so the
+   popover renders below the fold and word lookup appears to do nothing.
+   Letting the toolbar wrap keeps everything within the viewport. */
+@media screen and (max-width: 768px) {
+  .reading-page .level.is-mobile {
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+  }
+
+  .reading-page .level.is-mobile > .level-left,
+  .reading-page .level.is-mobile > .level-right {
+    max-width: 100%;
+  }
+
+  /* Belt-and-suspenders: never let the reading page itself drive horizontal
+     overflow (which would re-expand the layout viewport). */
+  .reading-page {
+    overflow-x: clip;
+  }
+}
+
+/* Dark theme overrides for word popover */
+@media (prefers-color-scheme: dark) {
+  .word-popover__translation {
+    color: #dbdbdb;
+  }
+
+  .word-popover__romanization {
+    color: #aaa;
+  }
+
+  .word-popover__actions {
+    border-top-color: #404040;
+  }
+}
+
+:root[data-theme="dark"] .word-popover__translation {
+  color: #dbdbdb;
+}
+
+:root[data-theme="dark"] .word-popover__romanization {
+  color: #aaa;
+}
+
+:root[data-theme="dark"] .word-popover__actions {
+  border-top-color: #404040;
+}
+
+@media print
+{
+  .noprint
+  {
+    display: none;
+  }
+
+  #print
+  {
+    font-size: 75%;
+  }
+
+  /* Hide navbar and action cards when printing */
+  .navbar,
+  .action-card {
+    display: none;
+  }
+
+  /* Hide audio player when printing */
+  .audio-player-container {
+    display: none;
+  }
+
+  /* Hide word popover when printing */
+  .word-popover {
+    display: none;
+  }
+}
+
+/**************************************************************
+Searchable Select Component (Alpine.js)
+***************************************************************/
+
+.searchable-select {
+  position: relative;
+  width: 100%;
+}
+
+.searchable-select__trigger {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  background-color: var(--lukaisu-ss-trigger-bg);
+  border: 1px solid var(--lukaisu-input-border);
+  border-radius: 4px;
+  padding: calc(0.5em - 1px) calc(0.75em - 1px);
+  cursor: pointer;
+  min-height: 2.5em;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  font: inherit;
+}
+
+.searchable-select__trigger:hover {
+  border-color: var(--lukaisu-input-border-hover);
+}
+
+.searchable-select__trigger:focus {
+  outline: none;
+  border-color: var(--lukaisu-input-focus-border);
+  box-shadow: 0 0 0 0.125em var(--lukaisu-input-focus-shadow);
+}
+
+.searchable-select__trigger:focus-visible {
+  outline: 2px solid var(--lukaisu-input-focus-border);
+  outline-offset: 2px;
+}
+
+.searchable-select__trigger .icon {
+  flex-shrink: 0;
+  margin-left: 0.5em;
+}
+
+.searchable-select__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  margin-top: 4px;
+  background-color: var(--lukaisu-ss-dropdown-bg);
+  border: 1px solid var(--lukaisu-popover-border);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.searchable-select__search {
+  padding: 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
+  flex-shrink: 0;
+}
+
+.searchable-select__search .input {
+  width: 100%;
+}
+
+.searchable-select__options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  max-height: 240px;
+}
+
+.searchable-select__options li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.searchable-select__options li:hover,
+.searchable-select__options li.is-highlighted {
+  background-color: var(--lukaisu-ss-hover-bg);
+}
+
+.searchable-select__options li.is-selected {
+  background-color: var(--lukaisu-ss-selected-bg);
+  color: var(--lukaisu-ss-selected-fg);
+}
+
+.searchable-select__options li.is-selected.is-highlighted {
+  background-color: var(--lukaisu-ss-selected-hover-bg);
+}
+
+.searchable-select__empty {
+  padding: 0.75rem;
+  color: var(--lukaisu-input-disabled-fg);
+  text-align: center;
+  font-style: italic;
+  cursor: default;
+}
+
+.searchable-select__empty:hover {
+  background-color: transparent;
+}
+
+/* Size variants (Bulma compatible) */
+.searchable-select.is-medium .searchable-select__trigger {
+  font-size: 1.25rem;
+  min-height: 3em;
+}
+
+.searchable-select.is-small .searchable-select__trigger {
+  font-size: 0.875rem;
+  min-height: 2em;
+}
+
+/* Dropdown transition animations */
+.dropdown-enter {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.dropdown-enter-start {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.dropdown-enter-end {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dropdown-leave {
+  transition: opacity 0.1s ease;
+}
+
+.dropdown-leave-start {
+  opacity: 1;
+}
+
+.dropdown-leave-end {
+  opacity: 0;
+}
+
+/* Mobile responsive */
+@media screen and (max-width: 768px) {
+  .searchable-select__dropdown {
+    max-height: 250px;
+  }
+
+  .searchable-select__options {
+    max-height: 190px;
+  }
+}

@@ -1,0 +1,305 @@
+/**
+ * HTML5 Audio Player Styles
+ *
+ * @license unlicense
+ * @since 3.0.0
+ */
+
+/* Player container */
+.lukaisu-audio-player {
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 13px;
+  color: #666;
+  background-color: #eee;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 400px;
+  margin: 5px auto;
+}
+
+/* Hide the native audio element */
+.lukaisu-audio-player audio {
+  display: none;
+}
+
+/* Control buttons */
+.lukaisu-audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.lukaisu-audio-controls button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background-color: #0d88c1;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.lukaisu-audio-controls button:hover {
+  background-color: #0a6a9a;
+}
+
+.lukaisu-audio-controls button.hide {
+  display: none;
+}
+
+/* Play/Pause icons using CSS */
+.lukaisu-audio-play::before {
+  content: '';
+  border-style: solid;
+  border-width: 6px 0 6px 10px;
+  border-color: transparent transparent transparent white;
+  margin-left: 2px;
+}
+
+.lukaisu-audio-pause::before {
+  content: '';
+  width: 3px;
+  height: 12px;
+  background: white;
+  box-shadow: 5px 0 0 white;
+}
+
+.lukaisu-audio-stop::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background: white;
+}
+
+/* Progress section */
+.lukaisu-audio-progress-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lukaisu-audio-progress-container {
+  width: 100%;
+  height: 12px;
+  background-color: #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.lukaisu-audio-progress-bar {
+  height: 100%;
+  background: linear-gradient(to bottom, #4db8e8 0%, #0d88c1 100%);
+  width: 0%;
+  transition: width 0.1s linear;
+  border-radius: 6px;
+}
+
+.lukaisu-audio-time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #888;
+}
+
+/* Volume section */
+.lukaisu-audio-volume-section {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.lukaisu-audio-volume-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.lukaisu-audio-volume-btn img {
+  width: 16px;
+  height: 16px;
+}
+
+.lukaisu-audio-volume-btn.hide {
+  display: none;
+}
+
+.lukaisu-audio-volume-container {
+  width: 60px;
+  height: 8px;
+  background-color: #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.lukaisu-audio-volume-bar {
+  height: 100%;
+  background: linear-gradient(to bottom, #4db8e8 0%, #0d88c1 100%);
+  width: 100%;
+  border-radius: 4px;
+}
+
+/* Audio player wrapper table (for compatibility with existing layout) */
+.lukaisu-audio-wrapper {
+  margin: 5px auto;
+}
+
+.lukaisu-audio-wrapper td {
+  vertical-align: middle;
+}
+
+.lukaisu-audio-wrapper .borderleft {
+  padding-left: 10px;
+}
+
+.lukaisu-audio-wrapper .borderright {
+  padding-right: 10px;
+}
+
+.lukaisu-audio-wrapper .bordermiddle {
+  padding: 0 5px;
+}
+
+/* Repeat button styling */
+.lukaisu-audio-wrapper #do-single,
+.lukaisu-audio-wrapper #do-repeat {
+  cursor: pointer;
+}
+
+.lukaisu-audio-wrapper #do-single img,
+.lukaisu-audio-wrapper #do-repeat img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Playback controls */
+.lukaisu-audio-wrapper #backbutt,
+.lukaisu-audio-wrapper #forwbutt {
+  cursor: pointer;
+  color: #666;
+  font-weight: bold;
+}
+
+.lukaisu-audio-wrapper #backbutt:hover,
+.lukaisu-audio-wrapper #forwbutt:hover {
+  color: #0d88c1;
+}
+
+.lukaisu-audio-wrapper #slower,
+.lukaisu-audio-wrapper #faster,
+.lukaisu-audio-wrapper #stdspeed {
+  cursor: pointer;
+}
+
+.lukaisu-audio-wrapper select {
+  padding: 2px 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: white;
+}
+
+/* Native audio element styling (fallback/alternative) */
+.lukaisu-native-audio {
+  width: 100%;
+  max-width: 400px;
+  margin: 5px auto;
+  display: block;
+}
+
+/* =============================================================================
+   Media Selection Styles
+   ============================================================================= */
+
+/* Media select error message */
+#mediaSelectErrorMessage {
+  display: none;
+}
+
+/* Media select loading indicator */
+#mediaSelectLoadingImg {
+  float: right;
+  display: none;
+}
+
+/* Media directory select dropdown */
+select[data-action="media-dir-select"] {
+  display: none;
+  width: 200px;
+}
+
+/* Refresh media selection button */
+[data-action="refresh-media-select"] {
+  margin-left: 16px;
+}
+
+/* =============================================================================
+   Video Player Styles
+   ============================================================================= */
+
+/* Online video iframe (YouTube, Vimeo, Dailymotion) */
+.lukaisu-video-iframe {
+  width: 100%;
+  height: 30%;
+}
+
+/* Local video player */
+.lukaisu-local-video {
+  width: 100%;
+  height: 300px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =============================================================================
+   Audio Player Additional Styles
+   ============================================================================= */
+
+/* Repeat button colors */
+.lukaisu-audio-wrapper #do-single {
+  color: #09F;
+  font-weight: bold;
+}
+
+.lukaisu-audio-wrapper #do-repeat {
+  color: grey;
+  font-weight: bold;
+}
+
+/* Repeat button icons */
+.lukaisu-audio-wrapper #do-single img,
+.lukaisu-audio-wrapper #do-repeat img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Speed control button margins */
+.lukaisu-audio-wrapper #slower img,
+.lukaisu-audio-wrapper #stdspeed img,
+.lukaisu-audio-wrapper #faster img {
+  margin-top: 3px;
+}
+
+/* Left padding for first cell */
+.lukaisu-audio-wrapper .borderleft {
+  padding-left: 10px;
+}
+
+/* Right padding for last cell */
+.lukaisu-audio-wrapper .borderright {
+  padding-right: 10px;
+}

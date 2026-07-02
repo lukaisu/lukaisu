@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Check a text</title>
+  <!-- Navbar + i18n only. The server-rendered check form (Modules/Text/Views/
+       check_form.php) does a native POST to /text/check; this drives the on-device
+       tokenizer directly so the parse preview works offline. -->
+  <meta name="lukaisu-modules" content="" />
+  <style>[x-cloak]{display:none !important}</style>
+</head>
+<body>
+  <div id="navbar-root" data-navbar-root data-current-page="text-check"></div>
+  <section class="section">
+    <div class="container" style="max-width: 48rem;">
+      <h1 class="title is-4">Check a text</h1>
+      <p class="subtitle is-6 has-text-grey">
+        Preview how a text will be split into sentences and words for a language —
+        without saving anything. Words you already know are highlighted.
+      </p>
+
+      <form id="text-check-form" novalidate>
+        <div class="box">
+          <div class="field">
+            <label class="label" for="tc-language">Language</label>
+            <div class="control">
+              <div class="select is-fullwidth">
+                <select id="tc-language" required></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="tc-text">Text</label>
+            <div class="control">
+              <textarea id="tc-text" class="textarea" rows="12" required
+                        placeholder="Paste the text to check…"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <p id="tc-error" class="help is-danger" style="display:none"></p>
+
+        <div class="field is-grouped is-grouped-right">
+          <div class="control">
+            <a class="button is-light" href="/">Back</a>
+          </div>
+          <div class="control">
+            <button id="tc-submit" class="button is-primary" type="submit">Check</button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Parse-preview results, rendered on-device after Check. -->
+      <div id="tc-results" class="content mt-5" style="display:none"></div>
+    </div>
+  </section>
+  <script type="module" src="./text-check.ts"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Lukaisu — Local dictionaries</title>
+  <!-- Navbar + i18n only — a purpose-built api-client page (no feature module).
+       Server-enhanced (Job B, surface 3): local dictionaries live on the server,
+       so the page is gated. Offline (local-first) dictionaries.ts reveals the
+       notice below and removes #dicts-app; connected it manages the language's
+       dictionaries and one-click imports from the bundled curated registry. -->
+  <meta name="lukaisu-modules" content="" />
+  <style>[x-cloak]{display:none !important}[hidden]{display:none !important}</style>
+</head>
+<body>
+  <div id="navbar-root" data-navbar-root data-current-page="languages"></div>
+  <section class="section pt-4">
+    <div class="container" style="max-width: 52rem;">
+      <h1 class="title is-4">Local dictionaries</h1>
+
+      <!-- No-server placeholder. dictionaries.ts un-hides this (and drops
+           #dicts-app) when local-first; hidden in server-backed / same-origin. -->
+      <div id="dicts-offline" class="notification is-info is-light" hidden>
+        <h2 class="title is-5">
+          <span class="icon"><i data-lucide="book-text"></i></span>
+          Local dictionaries need a connected server
+        </h2>
+        <p class="block">
+          Imported dictionaries are stored and searched on a Lukaisu Server, so
+          this page lights up once you connect one. Offline, the reader still
+          looks words up with your configured online dictionaries.
+        </p>
+        <button id="dicts-connect" type="button" class="button is-primary">
+          <span class="icon"><i data-lucide="server"></i></span>
+          <span>Connect a server</span>
+        </button>
+      </div>
+
+      <div id="dicts-app">
+        <div id="dicts-loading" class="has-text-centered py-6">
+          <span class="icon is-large"><i data-lucide="loader-2" class="animate-spin"></i></span>
+          <p>Loading dictionaries…</p>
+        </div>
+
+        <div id="dicts-main" hidden>
+          <!-- Language picker -->
+          <div class="field">
+            <label class="label" for="dicts-lang">Language</label>
+            <div class="control">
+              <div class="select is-fullwidth">
+                <select id="dicts-lang"></select>
+              </div>
+            </div>
+          </div>
+
+          <div id="dicts-error" class="notification is-danger is-light" style="display:none">
+            <span id="dicts-error-msg"></span>
+          </div>
+
+          <!-- Existing dictionaries -->
+          <h2 class="title is-5 mt-5">Your dictionaries</h2>
+          <div id="dicts-empty" class="notification is-light" hidden>
+            No local dictionaries for this language yet. Import one below.
+          </div>
+          <div class="table-container">
+            <table id="dicts-table" class="table is-fullwidth is-hoverable" hidden>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Format</th>
+                  <th class="has-text-right">Entries</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="dicts-tbody"></tbody>
+            </table>
+          </div>
+
+          <!-- Curated import -->
+          <h2 class="title is-5 mt-5">Add from the curated list</h2>
+          <p class="content is-small has-text-grey">
+            One-click import of a tested, freely-licensed dictionary. The server
+            downloads and parses it.
+          </p>
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <div class="select is-fullwidth">
+                <select id="dicts-curated-select"></select>
+              </div>
+            </div>
+            <div class="control">
+              <button id="dicts-curated-import" type="button" class="button is-primary">
+                <span class="icon"><i data-lucide="download"></i></span>
+                <span>Import</span>
+              </button>
+            </div>
+          </div>
+          <p id="dicts-curated-status" class="help"></p>
+
+          <!-- File import lives on the server's web UI (multipart upload). -->
+          <h2 class="title is-5 mt-5">Import a file</h2>
+          <p class="content is-small">
+            Have a CSV, JSON or StarDict file? Upload it on the server:
+            <a id="dicts-file-link" href="#">open the server's import page →</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script type="module" src="./dictionaries.ts"></script>
+</body>
+</html>

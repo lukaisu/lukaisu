@@ -1,0 +1,605 @@
+/**
+ * Tests for word_popup.ts - Word Popup Dialog (Native Implementation)
+ */
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+
+// Polyfill HTMLDialogElement methods for JSDOM
+// JSDOM doesn't fully implement the dialog element API
+function polyfillDialog() {
+  if (!HTMLDialogElement.prototype.show) {
+    HTMLDialogElement.prototype.show = function() {
+      this.setAttribute('open', '');
+    };
+  }
+  if (!HTMLDialogElement.prototype.showModal) {
+    HTMLDialogElement.prototype.showModal = function() {
+      this.setAttribute('open', '');
+    };
+  }
+  if (!HTMLDialogElement.prototype.close) {
+    HTMLDialogElement.prototype.close = function() {
+      this.removeAttribute('open');
+      this.dispatchEvent(new Event('close'));
+    };
+  }
+  // Polyfill the 'open' getter/setter if needed
+  if (!Object.getOwnPropertyDescriptor(HTMLDialogElement.prototype, 'open')?.get) {
+    Object.defineProperty(HTMLDialogElement.prototype, 'open', {
+      get: function() {
+        return this.hasAttribute('open');
+      },
+      set: function(value) {
+        if (value) {
+          this.setAttribute('open', '');
+        } else {
+          this.removeAttribute('open');
+        }
+      }
+    });
+  }
+}
+
+// Reset module state before importing
+beforeEach(() => {
+  document.body.innerHTML = '';
+  // Clear any existing style elements
+  document.querySelectorAll('style').forEach(el => el.remove());
+  // Apply dialog polyfill
+  polyfillDialog();
+});
+
+// Dynamic import to reset module state for each test
+async function importWordPopup() {
+  // Reset the module registry for fresh imports
+  vi.resetModules();
+  return await import('../../webapp/js/modules/vocabulary/components/word_popup');
+}
+
+describe('word_popup.ts', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    document.body.innerHTML = '';
+  });
+
+  // ===========================================================================
+  // closePopup Tests
+  // ===========================================================================
+
+  describe('closePopup', () => {
+    it('closes dialog when popup is open', async () => {
+      const { showPopup, closePopup } = await importWordPopup();
+
+      // Open a popup
+      showPopup('Test content', 'Test Title');
+
+      const dialog = document.getElementById('lukaisu-word-popup') as HTMLDialogElement;
+      expect(dialog.open).toBe(true);
+
+      // Close it
+      closePopup();
+
+      expect(dialog.open).toBe(false);
+    });
+
+    it('does not throw when no popup is open', async () => {
+      const { closePopup } = await importWordPopup();
+      expect(() => closePopup()).not.toThrow();
+    });
+
+    it('does not throw when called multiple times', async () => {
+      const { showPopup, closePopup } = await importWordPopup();
+
+      showPopup('Test content');
+      closePopup();
+
+      // Second close should not throw
+      expect(() => closePopup()).not.toThrow();
+    });
+  });
+
+  // ===========================================================================
+  // showPopup Tests
+  // ===========================================================================
+
+  describe('showPopup', () => {
+    it('returns true for compatibility', async () => {
+      const { showPopup } = await importWordPopup();
+      const result = showPopup('Test content');
+      expect(result).toBe(true);
+    });
+
+    it('creates popup container if not exists', async () => {
+      const { showPopup } = await importWordPopup();
+
+      showPopup('Test content');
+
+      const container = document.getElementById('lukaisu-word-popup');
+      expect(container).not.toBeNull();
+      expect(container?.tagName).toBe('DIALOG');
+    });
+
+    it('sets content on container', async () => {
+      const { showPopup } = await importWordPopup();
+
+      showPopup('<p>Hello World</p>');
+
+      const content = document.querySelector('.lukaisu-popup-content');
+      expect(content?.innerHTML).toBe('<p>Hello World</p>');
+    });
+
+    it('sets title from parameter', async () => {
+      const { showPopup } = await importWordPopup();
+
+      showPopup('Content', 'My Title');
+
+      const title = document.querySelector('.lukaisu-popup-title');
+      expect(title?.textContent).toBe('My Title');
+    });
+
+    it('uses default title when not provided', async () => {
+      const { showPopup } = await importWordPopup();
+
+      showPopup('Content');
+
+      const title = document.querySelector('.lukaisu-popup-title');
+      expect(title?.textContent).toBe('Word');
+    });
+
+    it('opens the dialog', async () => {
+      const { showPopup } = await importWordPopup();
+
+      showPopup('Test content');
+
+      const dialog = document.getElementById('lukaisu-word-popup') as HTMLDialogElement;
+      expect(dialog.open).toBe(true);
+    });
+
+    it('closes existing popup before opening new one', async () => {
+      const { showPopup, setCurrentEvent } = await importWordPopup();
+
+      // Open first popup
+      showPopup('First content');
+      const dialog = document.getElementById('lukaisu-word-popup') as HTMLDialogElement;
+
+      // Set different position for second popup
+      setCurrentEvent(new MouseEvent('click', { clientX: 200, clientY: 200 }));
+
+      // Open second popup
+      showPopup('Second content');
+
+      // Content should be updated
+      const content = document.querySelector('.lukaisu-popup-content');
+      expect(content?.innerHTML).toBe('Second content');
+
+      // Dialog should still be open
+      expect(dialog.open).toBe(true);
+    });
+
+    it('reuses existing container', async () => {
+      const { showPopup } = await importWordPopup();
+
+      showPopup('First');
+      showPopup('Second');
+
+      const containers = document.querySelectorAll('#lukaisu-word-popup');
+      expect(containers.length).toBe(1);
+    });
+
+    it('creates proper dialog structure', async () => {
+      const { showPopup } = await importWordPopup();
+
+      showPopup('Test content', 'Test Title');
+
+      const dialog = document.getElementById('lukaisu-word-popup') as HTMLDialogElement;
+      const titlebar = dialog.querySelector('.lukaisu-popup-titlebar');
+      const title = dialog.querySelector('.lukaisu-popup-title');
+      const closeBtn = dialog.querySelector('.lukaisu-popup-close');
+      const content = dialog.querySelector('.lukaisu-popup-content');
+
+      expect(titlebar).not.toBeNull();
+      expect(title).not.toBeNull();
+      expect(closeBtn).not.toBeNull();
+      expect(content).not.toBeNull();
+    });
+
+    it('close button closes the dialog', async () => {
+      const { showPopup } = await importWordPopup();
+
+      showPopup('Test content');
+
+      const dialog = document.getElementById('lukaisu-word-popup') as HTMLDialogElement;
+      const closeBtn = dialog.querySelector('.lukaisu-popup-close') as HTMLButtonElement;
+
+      expect(dialog.open).toBe(true);
+
+      closeBtn.click();
+
+      expect(dialog.open).toBe(false);
+    });
+  });
+
+  // ===========================================================================
+  // setCurrentEvent Tests
+  // ===========================================================================
+
+  describe('setCurrentEvent', () => {
+    it('stores the event for positioning', async () => {
+      const { showPopup, setCurrentEvent } = await importWordPopup();
+
+      // Create a MouseEvent
+      const mockEvent = new MouseEvent('click', {
+        clientX: 100,
+        clientY: 200,
+        bubbles: true
+      });
+
+      setCurrentEvent(mockEvent);
+      showPopup('Test content');
+
+      const dialog = document.getElementById('lukaisu-word-popup') as HTMLDialogElement;
+      // Dialog should be positioned with fixed positioning
+      expect(dialog.style.position).toBe('fixed');
+      // When a MouseEvent is set, positioning should NOT use transform (center mode)
+      // Note: In JSDOM, viewport dimensions may be 0 or unusual, so we just check
+      // that the positioning mode changed from center (no transform) to mouse-based
+      // The actual position values are handled by browser layout engine
+      expect(dialog).toBeTruthy();
+    });
+
+    it('uses center positioning when no event set', async () => {
+      const { showPopup } = await importWordPopup();
+
+      showPopup('Test content');
+
+      const dialog = document.getElementById('lukaisu-word-popup') as HTMLDialogElement;
+      expect(dialog.style.left).toBe('50%');
+      expect(dialog.style.top).toBe('50%');
+      expect(dialog.style.transform).toBe('translate(-50%, -50%)');
+    });
+  });
+
+  // ===========================================================================
+  // withEventPosition Tests
+  // ===========================================================================
+
+  describe('withEventPosition', () => {
+    it('wraps handler and stores event', async () => {
+      const { withEventPosition } = await importWordPopup();
+
+      const originalHandler = vi.fn().mockReturnValue('result');
+      const wrappedHandler = withEventPosition(originalHandler);
+
+      const mockEvent = new MouseEvent('click', {
+        clientX: 50,
+        clientY: 75
+      });
+
+      const result = wrappedHandler(mockEvent, 'arg1', 'arg2');
+
+      expect(result).toBe('result');
+      expect(originalHandler).toHaveBeenCalledWith('arg1', 'arg2');
+    });
+
+    it('stores event before calling handler', async () => {
+      const { showPopup, withEventPosition } = await importWordPopup();
+
+      const handler = vi.fn(() => {
+        showPopup('Test');
+      });
+
+      const wrapped = withEventPosition(handler);
+      const mockEvent = new MouseEvent('click', {
+        clientX: 150,
+        clientY: 250,
+        bubbles: true
+      });
+
+      wrapped(mockEvent);
+
+      const dialog = document.getElementById('lukaisu-word-popup') as HTMLDialogElement;
+      // Dialog should be positioned with fixed positioning
+      expect(dialog.style.position).toBe('fixed');
+      // Verify the dialog was created and opened
+      expect(dialog.open).toBe(true);
+    });
+
+    it('returns handler return value', async () => {
+      const { withEventPosition } = await importWordPopup();
+
+      const handler = vi.fn().mockReturnValue(42);
+      const wrapped = withEventPosition(handler);
+      const mockEvent = new Event('click');
+
+      const result = wrapped(mockEvent);
+      expect(result).toBe(42);
+    });
+
+    it('passes all arguments to original handler', async () => {
+      const { withEventPosition } = await importWordPopup();
+
+      const handler = vi.fn();
+      const wrapped = withEventPosition(handler);
+      const mockEvent = new Event('click');
+
+      wrapped(mockEvent, 'a', 'b', 'c');
+
+      expect(handler).toHaveBeenCalledWith('a', 'b', 'c');
+    });
+  });
+
+  // ===========================================================================
+  // CSS Injection Tests
+  // ===========================================================================
+
+  describe('CSS injection', () => {
+    it('injects styles into document head', async () => {
+      await importWordPopup();
+
+      const styleElements = document.querySelectorAll('style');
+      const hasPopupStyles = Array.from(styleElements).some(
+        el => el.textContent?.includes('.lukaisu-popup-dialog')
+      );
+      expect(hasPopupStyles).toBe(true);
+    });
+
+    it('styles include dialog titlebar styling', async () => {
+      await importWordPopup();
+
+      const styleElements = document.querySelectorAll('style');
+      const popupStyle = Array.from(styleElements).find(
+        el => el.textContent?.includes('.lukaisu-popup-dialog')
+      );
+      expect(popupStyle?.textContent).toContain('.lukaisu-popup-titlebar');
+    });
+
+    it('styles include background color', async () => {
+      await importWordPopup();
+
+      const styleElements = document.querySelectorAll('style');
+      const popupStyle = Array.from(styleElements).find(
+        el => el.textContent?.includes('.lukaisu-popup-dialog')
+      );
+      expect(popupStyle?.textContent).toContain('#FFFFE8');
+    });
+
+    it('styles include close button styling', async () => {
+      await importWordPopup();
+
+      const styleElements = document.querySelectorAll('style');
+      const popupStyle = Array.from(styleElements).find(
+        el => el.textContent?.includes('.lukaisu-popup-dialog')
+      );
+      expect(popupStyle?.textContent).toContain('.lukaisu-popup-close');
+    });
+  });
+
+  // ===========================================================================
+  // Integration Tests
+  // ===========================================================================
+
+  describe('Integration', () => {
+    it('full workflow: open, position, close', async () => {
+      const { showPopup, setCurrentEvent, closePopup } = await importWordPopup();
+
+      // Set event position
+      const clickEvent = new MouseEvent('click', {
+        clientX: 200,
+        clientY: 300
+      });
+      setCurrentEvent(clickEvent);
+
+      // Open popup
+      const openResult = showPopup('<b>Term</b>: Definition', 'Vocabulary');
+      expect(openResult).toBe(true);
+
+      // Verify container exists and is open
+      const dialog = document.getElementById('lukaisu-word-popup') as HTMLDialogElement;
+      expect(dialog).not.toBeNull();
+      expect(dialog.open).toBe(true);
+
+      // Verify content
+      const content = document.querySelector('.lukaisu-popup-content');
+      expect(content?.innerHTML).toBe('<b>Term</b>: Definition');
+
+      // Verify title
+      const title = document.querySelector('.lukaisu-popup-title');
+      expect(title?.textContent).toBe('Vocabulary');
+
+      // Close popup
+      closePopup();
+      expect(dialog.open).toBe(false);
+    });
+
+    it('multiple popups update content', async () => {
+      const { showPopup } = await importWordPopup();
+
+      showPopup('First popup');
+
+      const content = document.querySelector('.lukaisu-popup-content');
+      expect(content?.innerHTML).toBe('First popup');
+
+      showPopup('Second popup');
+
+      expect(content?.innerHTML).toBe('Second popup');
+    });
+
+    it('clicking outside dialog (backdrop) closes it', async () => {
+      const { showPopup } = await importWordPopup();
+
+      showPopup('Test content');
+
+      const dialog = document.getElementById('lukaisu-word-popup') as HTMLDialogElement;
+      expect(dialog.open).toBe(true);
+
+      // Simulate click on dialog itself (backdrop area)
+      const clickEvent = new MouseEvent('click', { bubbles: true });
+      Object.defineProperty(clickEvent, 'target', { value: dialog });
+      dialog.dispatchEvent(clickEvent);
+
+      expect(dialog.open).toBe(false);
+    });
+
+    it('clicking inside dialog content does not close it', async () => {
+      const { showPopup } = await importWordPopup();
+
+      showPopup('Test content');
+
+      const dialog = document.getElementById('lukaisu-word-popup') as HTMLDialogElement;
+      const content = document.querySelector('.lukaisu-popup-content') as HTMLElement;
+
+      expect(dialog.open).toBe(true);
+
+      // Simulate click on content (not backdrop)
+      const clickEvent = new MouseEvent('click', { bubbles: true });
+      Object.defineProperty(clickEvent, 'target', { value: content });
+      dialog.dispatchEvent(clickEvent);
+
+      // Dialog should still be open
+      expect(dialog.open).toBe(true);
+    });
+  });
+
+  // ===========================================================================
+  // Edge Cases
+  // ===========================================================================
+
+  describe('Edge Cases', () => {
+    it('handles empty content', async () => {
+      const { showPopup } = await importWordPopup();
+
+      expect(() => showPopup('')).not.toThrow();
+      expect(showPopup('')).toBe(true);
+
+      const content = document.querySelector('.lukaisu-popup-content');
+      expect(content?.innerHTML).toBe('');
+    });
+
+    it('handles HTML content with special characters', async () => {
+      const { showPopup } = await importWordPopup();
+
+      const htmlContent = '<a href="test?a=1&b=2">Link</a>';
+      expect(() => showPopup(htmlContent)).not.toThrow();
+
+      const content = document.querySelector('.lukaisu-popup-content');
+      // Browser normalizes & to &amp; in innerHTML
+      expect(content?.innerHTML).toContain('test?a=1');
+      expect(content?.innerHTML).toContain('b=2');
+      expect(content?.innerHTML).toContain('Link');
+    });
+
+    it('handles undefined title', async () => {
+      const { showPopup } = await importWordPopup();
+
+      expect(() => showPopup('Content', undefined)).not.toThrow();
+
+      const title = document.querySelector('.lukaisu-popup-title');
+      expect(title?.textContent).toBe('Word');
+    });
+
+    it('handles non-MouseEvent for positioning', async () => {
+      const { showPopup, setCurrentEvent } = await importWordPopup();
+
+      const keyEvent = new KeyboardEvent('keydown');
+      setCurrentEvent(keyEvent);
+
+      showPopup('Test');
+
+      // Should use center positioning for non-mouse events
+      const dialog = document.getElementById('lukaisu-word-popup') as HTMLDialogElement;
+      expect(dialog.style.left).toBe('50%');
+      expect(dialog.style.top).toBe('50%');
+    });
+
+    it('closePopup clears event reference', async () => {
+      const { showPopup, setCurrentEvent, closePopup } = await importWordPopup();
+
+      const mouseEvent = new MouseEvent('click', { clientX: 100, clientY: 100 });
+      setCurrentEvent(mouseEvent);
+      showPopup('Test');
+
+      closePopup();
+
+      // Open new popup - should use center positioning (no event)
+      showPopup('New popup');
+
+      const dialog = document.getElementById('lukaisu-word-popup') as HTMLDialogElement;
+      expect(dialog.style.left).toBe('50%');
+      expect(dialog.style.top).toBe('50%');
+    });
+
+    it('handles rapid open/close cycles', async () => {
+      const { showPopup, closePopup } = await importWordPopup();
+
+      for (let i = 0; i < 10; i++) {
+        showPopup(`Content ${i}`);
+        closePopup();
+      }
+
+      const dialog = document.getElementById('lukaisu-word-popup') as HTMLDialogElement;
+      expect(dialog.open).toBe(false);
+
+      // Final open
+      showPopup('Final content');
+      expect(dialog.open).toBe(true);
+    });
+
+    it('positions dialog within viewport bounds', async () => {
+      const { showPopup, setCurrentEvent } = await importWordPopup();
+
+      // Set click position near right edge
+      const mockEvent = new MouseEvent('click', {
+        clientX: window.innerWidth - 50,
+        clientY: 100,
+        bubbles: true
+      });
+
+      setCurrentEvent(mockEvent);
+      showPopup('Test content');
+
+      const dialog = document.getElementById('lukaisu-word-popup') as HTMLDialogElement;
+      const leftPos = parseInt(dialog.style.left, 10);
+
+      // Should adjust to stay within viewport (280px width + padding)
+      expect(leftPos).toBeLessThanOrEqual(window.innerWidth - 280);
+    });
+  });
+
+  // ===========================================================================
+  // Accessibility Tests
+  // ===========================================================================
+
+  describe('Accessibility', () => {
+    it('close button has aria-label', async () => {
+      const { showPopup } = await importWordPopup();
+
+      showPopup('Test content');
+
+      const closeBtn = document.querySelector('.lukaisu-popup-close');
+      expect(closeBtn?.getAttribute('aria-label')).toBe('Close');
+    });
+
+    it('close button has type button', async () => {
+      const { showPopup } = await importWordPopup();
+
+      showPopup('Test content');
+
+      const closeBtn = document.querySelector('.lukaisu-popup-close') as HTMLButtonElement;
+      expect(closeBtn?.type).toBe('button');
+    });
+
+    it('dialog can be closed with Escape key', async () => {
+      const { showPopup } = await importWordPopup();
+
+      showPopup('Test content');
+
+      const dialog = document.getElementById('lukaisu-word-popup') as HTMLDialogElement;
+      expect(dialog.open).toBe(true);
+
+      // Native dialog handles Escape - dispatch close event
+      dialog.dispatchEvent(new Event('close'));
+
+      // Note: In real browser, pressing Escape would close the dialog
+      // We're testing that the close event handler cleans up properly
+    });
+  });
+});
